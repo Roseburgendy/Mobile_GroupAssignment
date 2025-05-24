@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../src/widgets/custom_bottom_nav_bar.dart';
 import '../box_ui.dart';
 import '../src/shared/styles.dart';
 
@@ -14,7 +15,8 @@ class _HomePageState extends State<HomePage> {
   double _currentWeight = 60.2;
   double _initialWeight = 68;
   double _goalWeight = 55;
-  double _waterIntake = 0; // 当前饮水总量
+  double _waterIntake = 0;
+  int _selectedIndex = 0; //导航栏序号
 
   //编辑饮水量弹窗
   void _showAddWaterDialog() async {
@@ -533,55 +535,15 @@ class _HomePageState extends State<HomePage> {
       ),
 
       // 底部导航栏
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 40, 120, 43),
-        currentIndex: 0,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: const Color.fromARGB(255, 200, 200, 200),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icon/homepage_icon_home_active.svg',
-              height: 24,
-              color: Colors.white,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icon/icon_chart.svg',
-              height: 24,
-              color: Colors.white,
-            ),
-            label: 'Chart',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icon/icon_exercise.svg',
-              height: 24,
-              color: Colors.white,
-            ),
-            label: 'Exercise',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icon/icon_pet.svg',
-              height: 24,
-              color: Colors.white,
-            ),
-            label: 'Pet',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/icon/icon_profile.svg',
-              height: 24,
-              color: Colors.white,
-            ),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+            // TODO: 这里添加你页面切换的逻辑
+            // 例如：_pageController.jumpToPage(index); 或 Navigator.push...
+          });
+        },
       ),
     );
   }
