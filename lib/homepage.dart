@@ -124,6 +124,37 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //确认是否清除饮水记录弹窗
+  void _showClearConfirmDialog() async {
+    bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Clear Water Intake?'),
+          content: const Text(
+            'This will reset your recorded intake. Are you sure?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      setState(() {
+        _waterIntake = 0;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -359,33 +390,60 @@ class _HomePageState extends State<HomePage> {
                                     ),
 
                                     const SizedBox(height: 8),
-                                    // 右下角按钮（加号）
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      //按钮事件
-                                      child: ElevatedButton.icon(
-                                        onPressed: _showAddWaterDialog,
-                                        icon: SvgPicture.asset(
-                                          'assets/icon/homepage_icon_add.svg',
-                                          height: 16,
-                                        ),
-                                        label: const Text(''), // 文字为空，仅显示图标
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.yellow, // 背景色
-                                          foregroundColor: Colors.black, // 图标颜色
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 8,
+                                    // 左右两个按钮：Clear 和 +
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // 左下角 Clear 按钮
+                                        ElevatedButton(
+                                          onPressed: _showClearConfirmDialog,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.yellow,
+                                            foregroundColor: Colors.black,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 8,
+                                            ),
+                                            minimumSize: const Size(40, 36),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            elevation: 2,
                                           ),
-                                          minimumSize: const Size(40, 36),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              20,
+                                          child: const Text(
+                                            'Clean',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          elevation: 2,
                                         ),
-                                      ),
+                                        // 右下角加号按钮
+                                        ElevatedButton.icon(
+                                          onPressed: _showAddWaterDialog,
+                                          icon: SvgPicture.asset(
+                                            'assets/icon/homepage_icon_add.svg',
+                                            height: 16,
+                                          ),
+                                          label: const Text(''),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.yellow,
+                                            foregroundColor: Colors.black,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 8,
+                                            ),
+                                            minimumSize: const Size(40, 36),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            elevation: 2,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
