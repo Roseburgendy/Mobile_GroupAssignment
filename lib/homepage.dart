@@ -168,11 +168,26 @@ class _HomePageState extends State<HomePage> {
               children: [
                 // 顶部绿色区域
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Color.fromARGB(255, 40, 120, 43),
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(30),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 0, 41, 7),
+                      width: 2,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(
+                          255,
+                          0,
+                          41,
+                          7,
+                        ).withOpacity(0.8),
+                        blurRadius: 0,
+                        spreadRadius: 0,
+                        offset: Offset(1, 1),
+                      ),
+                    ],
                   ),
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -184,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Image.asset(
                             'assets/image/homepage_logo_ruleyou.png',
-                            height: 30,
+                            height: 60,
                           ),
                           SvgPicture.asset(
                             'assets/icon/homepage_icon_sun.svg',
@@ -203,15 +218,15 @@ class _HomePageState extends State<HomePage> {
                           alignment: Alignment.center,
                           children: [
                             SizedBox(
-                              width: 130,
-                              height: 130,
+                              width: 140,
+                              height: 140,
                               child: CircularProgressIndicator(
                                 value: ((_initialWeight - _currentWeight) /
                                         (_initialWeight - _goalWeight == 0
                                             ? 1
                                             : _initialWeight - _goalWeight))
                                     .clamp(0.0, 1.0),
-                                strokeWidth: 10,
+                                strokeWidth: 25,
                                 backgroundColor: Colors.white.withOpacity(0.3),
                                 valueColor: const AlwaysStoppedAnimation<Color>(
                                   Colors.yellowAccent,
@@ -272,7 +287,25 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             color: Colors.yellow[100],
                             borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: const Color.fromARGB(255, 0, 41, 7),
+                              width: 2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color.fromARGB(
+                                  255,
+                                  0,
+                                  41,
+                                  7,
+                                ).withOpacity(0.8),
+                                blurRadius: 0,
+                                spreadRadius: 0,
+                                offset: Offset(1, 1),
+                              ),
+                            ],
                           ),
+
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,13 +326,9 @@ class _HomePageState extends State<HomePage> {
                                     height: 20,
                                   ),
                                   const SizedBox(width: 8),
-                                  const Text(
+                                  BoxText.Caption(
                                     'Activity calories: 100 kcal',
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                    ),
+                                    color: Colors.green,
                                   ),
                                 ],
                               ),
@@ -311,13 +340,9 @@ class _HomePageState extends State<HomePage> {
                                     height: 20,
                                   ),
                                   const SizedBox(width: 8),
-                                  const Text(
+                                  BoxText.Caption(
                                     'Activity hours: 2 hours',
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                    ),
+                                    color: Colors.green,
                                   ),
                                 ],
                               ),
@@ -360,6 +385,23 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                   color: Colors.yellow[100],
                                   borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: const Color.fromARGB(255, 0, 41, 7),
+                                    width: 2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color.fromARGB(
+                                        255,
+                                        0,
+                                        41,
+                                        7,
+                                      ).withOpacity(0.8),
+                                      blurRadius: 0,
+                                      spreadRadius: 0,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
                                 ),
                                 padding: const EdgeInsets.fromLTRB(
                                   16,
@@ -458,6 +500,23 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                   color: Colors.yellow[100],
                                   borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: const Color.fromARGB(255, 0, 41, 7),
+                                    width: 2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color.fromARGB(
+                                        255,
+                                        0,
+                                        41,
+                                        7,
+                                      ).withOpacity(0.8),
+                                      blurRadius: 1,
+                                      spreadRadius: 1,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
                                 ),
                                 padding: const EdgeInsets.fromLTRB(
                                   16,

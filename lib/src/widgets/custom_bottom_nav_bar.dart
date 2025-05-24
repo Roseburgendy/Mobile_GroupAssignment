@@ -38,6 +38,7 @@ class CustomBottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(items.length, (index) {
           final isActive = index == currentIndex;
+
           return GestureDetector(
             onTap: () => onTap(index),
             child: Column(
@@ -45,14 +46,31 @@ class CustomBottomNavBar extends StatelessWidget {
               children: [
                 if (isActive)
                   Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
+                    padding: const EdgeInsets.all(12), // 比原来的8更大
+                    decoration: BoxDecoration(
                       color: activeBgCircle,
                       shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 0, 41, 7), // 描边颜色
+                        width: 2,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(
+                            255,
+                            0,
+                            41,
+                            7,
+                          ).withOpacity(0.8),
+                          blurRadius: 0,
+                          spreadRadius: 0,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
                     ),
                     child: SvgPicture.asset(
                       items[index].iconPath,
-                      height: 24,
+                      height: 28, // 图标略微放大
                       color: activeColor,
                     ),
                   )
