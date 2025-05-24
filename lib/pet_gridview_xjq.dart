@@ -36,13 +36,14 @@ class PetGridView extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Colors.white,
-            border: Border.all(color: Colors.grey.shade300),
+            color: const Color.fromARGB(255, 226, 241, 213),
+            border: Border.all(color: Colors.black, width: 2),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
-                blurRadius: 4,
-                offset: Offset(2, 2),
+                color: Colors.black,
+                blurRadius: 0,
+                offset: Offset(2, 3),
+                spreadRadius: 0,
               ),
             ],
           ),
@@ -57,22 +58,27 @@ class PetGridView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 6),
+
               Text(
                 pet.name,
                 style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Montserrat',
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(pet.iconPath, height: 14), // 控制图标大小
-                  const SizedBox(width: 4), // 图标和文字之间的间距
+                  SvgPicture.asset(pet.iconPath, height: 22), // 控制图标大小
+                  const SizedBox(width: 15), // 图标和文字之间的间距
                   Text(
                     pet.level,
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: const Color.fromARGB(255, 96, 96, 96),
+                    ),
                   ),
                 ],
               ),

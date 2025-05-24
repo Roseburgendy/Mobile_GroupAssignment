@@ -112,7 +112,8 @@ class _PetPageState extends State<PetPage> {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected ? Colors.green : Colors.transparent,
-          foregroundColor: isSelected ? Colors.white : Colors.black,
+          foregroundColor:
+              isSelected ? Colors.white : const Color.fromARGB(255, 17, 55, 7),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side:
@@ -127,8 +128,8 @@ class _PetPageState extends State<PetPage> {
           label,
           style: TextStyle(
             fontFamily: 'Montserrat',
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -144,7 +145,7 @@ class _PetProfile extends StatelessWidget {
       children: [
         //Hector image
         Center(child: Image.asset('assets/image_xjq/Hector.png', height: 150)),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
 
         //Hector name
         const Text(
@@ -152,13 +153,13 @@ class _PetProfile extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Color(0xFF001428),
-            fontSize: 20,
+            fontSize: 25,
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w700,
             height: 1.70,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
 
         //Progress bar
         Padding(
@@ -191,7 +192,7 @@ class _PetProfile extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 13),
 
         // Progress text
         const Text(
@@ -200,7 +201,7 @@ class _PetProfile extends StatelessWidget {
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w500,
             fontSize: 16,
-            color: Colors.grey,
+            color: Color.fromARGB(255, 85, 85, 85),
           ),
         ),
         const SizedBox(height: 20),
