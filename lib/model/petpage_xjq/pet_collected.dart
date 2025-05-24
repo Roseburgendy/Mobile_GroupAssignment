@@ -19,45 +19,45 @@ class CollectedPetModel {
     collectedPets.add(
       CollectedPetModel(
         name: "Ms.Becky",
-        picturePath: "assets/image_xjq/Ms.Becky.jpg",
+        picturePath: "assets/image_xjq/Ms.Becky.png",
         level: "5/5",
-        iconPath: "assets/icons_xjq/collect_completed.svg",
+        iconPath: "assets/icons_xjq/collected_icon.svg",
       ),
     );
 
     collectedPets.add(
       CollectedPetModel(
         name: "Gui Gui",
-        picturePath: "assets/image_xjq/Gui Gui.jpg",
+        picturePath: "assets/image_xjq/Gui Gui.png",
         level: "3/3",
-        iconPath: "assets/icons_xjq/collect_completed.svg",
+        iconPath: "assets/icons_xjq/collected_icon.svg",
       ),
     );
 
     collectedPets.add(
       CollectedPetModel(
         name: "\"Im Banana\"",
-        picturePath: "assets/image_xjq/Im Banana.jpg",
+        picturePath: "assets/image_xjq/Im Banana.png",
         level: "3/3",
-        iconPath: "assets/icons_xjq/collect_completed.svg",
+        iconPath: "assets/icons_xjq/collected_icon.svg",
       ),
     );
 
     collectedPets.add(
       CollectedPetModel(
         name: "Mr.Naruhodo",
-        picturePath: "assets/image_xjq/Mr.Naruhodo.jpg",
+        picturePath: "assets/image_xjq/Mr.Naruhodo.png",
         level: "2/2",
-        iconPath: "assets/icons_xjq/collect_completed.svg",
+        iconPath: "assets/icons_xjq/collected_icon.svg",
       ),
     );
 
     collectedPets.add(
       CollectedPetModel(
         name: "Godfather",
-        picturePath: "assets/image_xjq/Godfather.jpg",
+        picturePath: "assets/image_xjq/Godfather.png",
         level: "5/5",
-        iconPath: "assets/icons_xjq/collect_completed.svg",
+        iconPath: "assets/icons_xjq/collected_icon.svg",
       ),
     );
 

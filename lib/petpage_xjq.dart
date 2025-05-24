@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:assignment1/model/petpage_xjq/pet_collected.dart';
+import 'package:assignment1/model/petpage_xjq/pet_uncollected.dart';
+import 'package:assignment1/pet_gridview_xjq.dart';
 
 class PetPage extends StatefulWidget {
   const PetPage({Key? key}) : super(key: key);
@@ -10,7 +13,38 @@ class PetPage extends StatefulWidget {
 class _PetPageState extends State<PetPage> {
   int selectedIndex = 0; // 0 = Collected, 1 = To Collect
 
+  late List<PetCardData> collectedPets;
+  late List<PetCardData> uncollectedPets;
+
   @override
+  void initState() {
+    super.initState();
+    // 数据初始化
+    collectedPets =
+        CollectedPetModel.getCollectedPets()
+            .map(
+              (pet) => PetCardData(
+                name: pet.name,
+                picturePath: pet.picturePath,
+                level: pet.level,
+                iconPath: pet.iconPath,
+              ),
+            )
+            .toList();
+
+    uncollectedPets =
+        UncollectedPetModel.getUncollectedPet()
+            .map(
+              (pet) => PetCardData(
+                name: pet.name,
+                picturePath: pet.picturePath,
+                level: pet.level,
+                iconPath: pet.iconPath,
+              ),
+            )
+            .toList();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -42,11 +76,9 @@ class _PetPageState extends State<PetPage> {
           Expanded(
             child: IndexedStack(
               index: selectedIndex,
-              children: const [
-                Center(
-                  child: Text("Collected pets here"),
-                ), // 替换成你的 collected 列表
-                Center(child: Text("To collect pets here")), // 替换成你的待收集列表
+              children: [
+                PetGridView(pets: collectedPets),
+                PetGridView(pets: uncollectedPets),
               ],
             ),
           ),
@@ -89,7 +121,7 @@ class _PetPageState extends State<PetPage> {
                     : BorderSide.none,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          elevation: 0, // 关闭默认阴影，避免与自定义冲突
+          elevation: 0, // 关闭默认阴影
         ),
         child: Text(
           label,
@@ -129,27 +161,32 @@ class _PetProfile extends StatelessWidget {
         const SizedBox(height: 20),
 
         //Progress bar
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black,
-                offset: Offset(3, 3),
-                blurRadius: 0,
-                spreadRadius: 1,
-              ),
-            ],
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Container(
-              height: 16,
-              child: LinearProgressIndicator(
-                value: 3 / 5,
-                minHeight: 16,
-                backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(3, 3),
+                  blurRadius: 0,
+                  spreadRadius: 1,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                height: 16,
+                child: LinearProgressIndicator(
+                  value: 3 / 5,
+                  minHeight: 16,
+                  backgroundColor: Colors.grey[300],
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.orangeAccent,
+                  ),
+                ),
               ),
             ),
           ),
