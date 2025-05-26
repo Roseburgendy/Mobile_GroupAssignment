@@ -279,8 +279,8 @@ class _HomePageState extends State<HomePage> {
                 // 中间内容区域
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ListView(
                       children: [
                         // Daily Exercise 卡片
                         Container(
