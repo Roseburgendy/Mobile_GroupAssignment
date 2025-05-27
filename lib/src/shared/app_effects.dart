@@ -37,4 +37,6 @@ abstract class AppEffectStyles {
     spreadRadius: 0,
   );
 
+
+
 }
