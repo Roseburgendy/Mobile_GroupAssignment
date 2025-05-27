@@ -2,10 +2,10 @@
 class Assets {
   Assets._();
 
-  static const String achievementPageAchievementAnimal Lover = 'assets/image/Achievement_Page/Achievement_Animal Lover.png';
+  static const String achievementPageAchievementAnimalLover = 'assets/image/Achievement_Page/Achievement_Animal Lover.png';
   static const String achievementPageAchievementDrinker = 'assets/image/Achievement_Page/Achievement_Drinker.png';
   static const String achievementPageAchievementEnergetic = 'assets/image/Achievement_Page/Achievement_Energetic.png';
-  static const String achievementPageAchievementNew Start = 'assets/image/Achievement_Page/Achievement_New Start.png';
+  static const String achievementPageAchievementNewStart = 'assets/image/Achievement_Page/Achievement_New Start.png';
   static const String fontsMontserratBold = 'assets/fonts/Montserrat-Bold.ttf';
   static const String fontsMontserratMedium = 'assets/fonts/Montserrat-Medium.ttf';
   static const String fontsMontserratRegular = 'assets/fonts/Montserrat-Regular.ttf';
