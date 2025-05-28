@@ -79,7 +79,7 @@ const TextStyle myButtonStyle = TextStyle(
 );
 
 //Overline
-const TextStyle OverlineStyle = TextStyle(
+TextStyle OverlineStyle = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 12,
     fontWeight: FontWeight.w600

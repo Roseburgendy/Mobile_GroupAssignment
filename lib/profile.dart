@@ -1,3 +1,4 @@
+import 'package:assignment1/EditProfilePage.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/widgets/achievement_item.dart';
 import 'package:assignment1/src/widgets/setting_item.dart';
@@ -5,6 +6,9 @@ import 'package:assignment1/src/widgets/box_button.dart';
 import "package:flutter/material.dart";
 import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Profile extends StatefulWidget
 {
@@ -15,9 +19,13 @@ class Profile extends StatefulWidget
 }
 class _ProfileState extends State<Profile>
 {
+
     Widget build(BuildContext context)
     {
         return Scaffold(
+            //appBar: AppBar(
+            //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            //),
             body: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 children: [
@@ -29,9 +37,18 @@ class _ProfileState extends State<Profile>
         // TODO: implement build
     }
 }
-
-class Info extends StatelessWidget
+class Info extends StatefulWidget
 {
+    const Info({super.key});
+
+    @override
+    State<Info> createState() => _InfoState();
+}
+
+class _InfoState extends State<Info>
+{
+    String profileName = "Duolingo";
+    String profileBio = "I love exercise!";
     @override
     Widget build(BuildContext context)
     {
@@ -71,13 +88,17 @@ class Info extends StatelessWidget
                                                     ),
                                                     child: Column(
                                                         children: [
-                                                            SizedBox(height: 90
-                                                            ),
-                                                            BoxText.Title("Duolingo"),
+                                                            SizedBox(height: 90),
+                                                            BoxText.Title(profileName),
                                                             SizedBox(height: 5),
-                                                            BoxText.Body("Bio: I love exercise!"),
+                                                            Container(
+                                                              alignment: Alignment.center,
+                                                              padding:EdgeInsets.symmetric(horizontal: 20),
+                                                              child: Center(
+                                                                  child: BoxText.Body("Bio: $profileBio"),
+                                                              ),
+                                                            ),
                                                             Row(
-
                                                             )
                                                         ]
                                                     )
@@ -108,27 +129,46 @@ class Info extends StatelessWidget
                                                     )
                                                 )
                                             ),
-                                          /// Edit Button
-                                          Positioned(
-                                              top: 110,
-                                              right: 50,
-                                              child: BoxButton(
-                                                  icon: Icon(Icons.edit_rounded, size: 20, color: AppColors.black100),
-                                                  iconRight: true,
-                                                  style: ButtonStyleType.secondary,
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(builder: (context) => ProfileEditPage()),
-                                                    );
-                                                  }
-                                              )
-                                          ),
+
+                                            /// Edit Button
+                                            Positioned(
+                                                top: 110,
+                                                right: 50,
+                                                child: BoxButton(
+                                                    icon: Icon(Icons.edit_rounded, size: 20, color: AppColors.black100),
+                                                    iconRight: true,
+                                                    style: ButtonStyleType.secondary,
+                                                    onTap: () 
+                                                    async
+                                                    {
+                                                        final result = await Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => EditProfilePage(
+                                                                    name: profileName, // original name
+                                                                    bio: profileBio // original bio
+                                                                )
+                                                            )
+                                                        );
+
+                                                        if (result != null && result is Map<String, String>)
+                                                        {
+                                                            setState(()
+                                                                {
+                                                                    profileName = result['name']!;
+                                                                    profileBio = result['bio']!;
+                                                                }
+                                                            );
+                                                        }
+                                                    }
+
+                                                )
+                                            )
                                         ]
                                     );
                                 }
                             )
-                        ),
+                        )
 
                     ])
             )
@@ -279,19 +319,23 @@ class MedalsPage extends StatelessWidget
                     children: [
                         AchievementItem(
                             imagePath: 'assets/image/Achievement_Page/Achievement_Animal Lover.png',
-                            text: 'Animal Lover'
+                            text: 'Animal Lover',
+                            description: 'Own 5 pets in your pet house.'
                         ),
                         AchievementItem(
                             imagePath: 'assets/image/Achievement_Page/Achievement_Drinker.png',
-                            text: 'Drinker'
+                            text: 'Drinker',
+                            description: 'Be an active drinker(drink 1000ml water) for 7 day streak'
                         ),
                         AchievementItem(
                             imagePath: 'assets/image/Achievement_Page/Achievement_Energetic.png',
-                            text: 'Energetic'
+                            text: 'Energetic',
+                            description: 'Workout more than 30 minutes a day for 7 day streak '
                         ),
                         AchievementItem(
                             imagePath: 'assets/image/Achievement_Page/Achievement_New Start.png',
-                            text: 'New Start'
+                            text: 'New Start',
+                            description: '"This is the begining!"'
                         )
                     ]
                 )
@@ -301,67 +345,41 @@ class MedalsPage extends StatelessWidget
 }
 class SettingsPage extends StatelessWidget
 {
-  @override
-  Widget build(BuildContext context)
-  {
-    return Column(
-        children: [
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 30,horizontal: 10),
-              child: Column(
-                 spacing: 20,
-                children: [
-                  SettingsItem(
-                    text: 'Password Settings',
-                    bgColor: AppColors.secondarySolid50,
-                    textColor: AppColors.black100,
-                  ),
-                  SettingsItem(
-                    text: 'Notification Settings',
-                    bgColor: AppColors.secondarySolid50,
-                    textColor: AppColors.black100,
-                  ),
-                  SettingsItem(
-                    text: 'Privacy Settings',
-                    bgColor: AppColors.secondarySolid50,
-                    textColor: AppColors.black100,
-                  ),
-                  SettingsItem(
-                    text: 'Log out',
-                    bgColor: AppColors.communicationSolidError,
-                    textColor: AppColors.white100,
-                  ),
-                ]
-              )
-          )
-        ]
-    );
-  }
+    @override
+    Widget build(BuildContext context)
+    {
+        return Column(
+            children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                    child: Column(
+                        spacing: 20,
+                        children: [
+                            SettingsItem(
+                                text: 'Password Settings',
+                                bgColor: AppColors.secondarySolid50,
+                                textColor: AppColors.black100
+                            ),
+                            SettingsItem(
+                                text: 'Notification Settings',
+                                bgColor: AppColors.secondarySolid50,
+                                textColor: AppColors.black100
+                            ),
+                            SettingsItem(
+                                text: 'Privacy Settings',
+                                bgColor: AppColors.secondarySolid50,
+                                textColor: AppColors.black100
+                            ),
+                            SettingsItem(
+                                text: 'Log out',
+                                bgColor: AppColors.communicationSolidError,
+                                textColor: AppColors.white100
+                            )
+                        ]
+                    )
+                )
+            ]
+        );
+    }
 }
 
-class ProfileEditPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            double innerHeight = constraints.maxHeight;
-            double innerWidth = constraints.maxWidth;
-
-            return Stack(
-              fit: StackFit.expand,
-              children: [
-
-
-
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
