@@ -1,3 +1,4 @@
+import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment1/model/petpage_xjq/pet_collected.dart';
 import 'package:assignment1/model/petpage_xjq/pet_uncollected.dart';
@@ -50,7 +51,7 @@ class _PetPageState extends State<PetPage> {
       appBar: AppBar(
         title: const Text(
           "Pet House",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: Headline4Style,
         ),
         centerTitle: true,
       ),

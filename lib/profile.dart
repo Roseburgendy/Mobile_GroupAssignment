@@ -1,5 +1,6 @@
 import 'package:assignment1/EditProfilePage.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
+import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/src/widgets/achievement_item.dart';
 import 'package:assignment1/src/widgets/setting_item.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
@@ -7,8 +8,6 @@ import "package:flutter/material.dart";
 import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
 
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class Profile extends StatefulWidget
 {
@@ -23,9 +22,13 @@ class _ProfileState extends State<Profile>
     Widget build(BuildContext context)
     {
         return Scaffold(
-            //appBar: AppBar(
-            //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            //),
+            appBar: AppBar(
+              title: const Text(
+                "My Profile",
+                style: Headline4Style,
+              ),
+              centerTitle: true,
+            ),
             body: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 children: [
@@ -57,13 +60,13 @@ class _InfoState extends State<Info>
         return Container(
             child:
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical:0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         SizedBox(height: 22),
                         Container(
-                            height: 250,
+                            height: 300,
                             child: LayoutBuilder(
                                 builder: (context, constraints)
                                 {
@@ -74,6 +77,7 @@ class _InfoState extends State<Info>
                                         children: [
                                             /// Bios
                                             Positioned(
+                                              top: 110,
                                                 bottom: 0,
                                                 left: 0,
                                                 right: 0,
@@ -129,7 +133,6 @@ class _InfoState extends State<Info>
                                                     )
                                                 )
                                             ),
-
                                             /// Edit Button
                                             Positioned(
                                                 top: 110,
@@ -243,7 +246,7 @@ class _TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin
                             )
                         ),
                         indicatorSize: TabBarIndicatorSize.tab,
-                        indicatorPadding: EdgeInsets.only(top: -5),
+                        indicatorPadding: EdgeInsets.only(top: -10),
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.grey,
                         /// TABS

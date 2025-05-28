@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../src/shared/styles.dart';
 import '../src/widgets/calendar_title.dart';
 import '../src/widgets/weekday_hearder.dart';
 import '../src/widgets/calendar.dart';
@@ -25,20 +26,21 @@ class _MyLogScreenState extends State<MyLogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "My Log",
+          style: Headline4Style,
+        ),
+        centerTitle: true,
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Calendar Section
-              Center(
-                child: const CalendarTitle(
-                  title: 'My Log',
-                  centerAlign: true,
-                  width: 327,
-                ),
-              ),
+
               const SizedBox(height: 2),
               
               const CalendarTitle(
@@ -79,14 +81,7 @@ class _MyLogScreenState extends State<MyLogScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
+
     );
   }
 }
