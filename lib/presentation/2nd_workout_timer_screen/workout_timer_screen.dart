@@ -160,14 +160,17 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 ),
               ],
             ),
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.workoutStartScreen,
-                    (route) => false,
-                arguments: {'fromTimer': true}, // 👈 传参
-              );
-            },
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/', // 回到 MainPage
+                      (route) => false,
+                  arguments: {
+                    'initialIndex': 2,
+                    'fromTimer': true,
+                  },
+                );
+              }
           ),
         ],
       ),

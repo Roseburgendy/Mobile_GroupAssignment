@@ -11,6 +11,7 @@ import 'package:assignment1/homepage.dart';
 import 'package:assignment1/presentation/1st_workout_start_screen/workout_start_screen.dart';
 import 'package:sizer/sizer.dart'; // 🔁 别忘了导入 Sizer
 import 'package:flutter_svg/svg.dart';
+import 'package:assignment1/routes/app_routes.dart';
 
 void main() {
   runApp(
@@ -19,6 +20,7 @@ void main() {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: MainPage(),
+          routes: AppRoutes.routes,
         );
       }
     )
@@ -45,6 +47,18 @@ class _MainPageState extends State<MainPage> {
 
   //State class
   int _page = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (args != null && args.containsKey('initialIndex')) {
+      setState(() {
+        _page = args['initialIndex'];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -44,11 +44,12 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
 
   Widget _buildBackButton(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamedAndRemoveUntil(
+        onTap: () {
+          Navigator.pushNamedAndRemoveUntil(
           context,
-          AppRoutes.workoutStartScreen,
-              (route) => false,
+            '/', // ⬅️ 回到 MainPage
+            (route) => false,
+          arguments: {'initialIndex': 2}, // ⬅️ 回到 WorkoutStartScreen
         );
       },
       child: Container(

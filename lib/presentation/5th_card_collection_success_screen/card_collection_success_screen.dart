@@ -14,7 +14,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
           body: SafeArea(
             child: Stack(
               children: [
-                // 返回按钮
+                // ✅ 顶部返回按钮（跳转回 MainPage 并激活 WorkoutStartScreen）
                 Positioned(
                   top: 6.h,
                   left: 4.h,
@@ -22,8 +22,9 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        AppRoutes.workoutStartScreen,
+                        '/', // MainPage 的路由名
                             (route) => false,
+                        arguments: {'initialIndex': 2}, // 激活 Workout tab
                       );
                     },
                     child: Container(
@@ -45,7 +46,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                   ),
                 ),
 
-                // 滚动内容卡片
+                // 内容卡片部分
                 Positioned.fill(
                   top: 60.h,
                   child: SingleChildScrollView(
@@ -53,7 +54,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                       top: 48.h,
                       left: 12.h,
                       right: 12.h,
-                      bottom: 40.h, // 原来 100.h，这里略微缩小留底边距
+                      bottom: 40.h,
                     ),
                     child: Center(
                       child: _buildMainCard(context),
@@ -101,11 +102,8 @@ class CardCollectionSuccessScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           Text('Collected: 1/5', style: TextStyleHelper.instance.title16),
           SizedBox(height: 32.h),
-
-          // 返回按钮
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
             },
             child: Container(
               width: 220.h,
