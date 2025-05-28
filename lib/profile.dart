@@ -1,11 +1,10 @@
-import 'package:assignment1/generated/assets.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/widgets/achievement_item.dart';
+import 'package:assignment1/src/widgets/setting_item.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
 import "package:flutter/material.dart";
 import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
-import '../src/widgets/custom_bottom_nav_bar.dart';
 
 class Profile extends StatefulWidget
 {
@@ -20,8 +19,9 @@ class _ProfileState extends State<Profile>
     {
         return Scaffold(
             body: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 children: [
+                    Info(),
                     TabMenu()
                 ]
             )
@@ -30,6 +30,113 @@ class _ProfileState extends State<Profile>
     }
 }
 
+class Info extends StatelessWidget
+{
+    @override
+    Widget build(BuildContext context)
+    {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+        return Container(
+            child:
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        SizedBox(height: 22),
+                        Container(
+                            height: 250,
+                            child: LayoutBuilder(
+                                builder: (context, constraints)
+                                {
+                                    double innerHeight = constraints.maxHeight;
+                                    double innerWidth = constraints.maxWidth;
+                                    return Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                            /// Bios
+                                            Positioned(
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: Container(
+                                                    height: innerHeight * 0.72,
+                                                    width: innerWidth,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(color: AppColors.black100, width: 2),
+                                                        boxShadow: [AppEffectStyles.cardShadowEffect],
+                                                        borderRadius: BorderRadius.circular(30),
+                                                        color: Colors.white
+                                                    ),
+                                                    child: Column(
+                                                        children: [
+                                                            SizedBox(height: 90
+                                                            ),
+                                                            BoxText.Title("Duolingo"),
+                                                            SizedBox(height: 5),
+                                                            BoxText.Body("Bio: I love exercise!"),
+                                                            Row(
+
+                                                            )
+                                                        ]
+                                                    )
+                                                )
+                                            ),
+                                            /// Profile Photo
+                                            Positioned(
+                                                top: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: Center(
+                                                    child: Container(
+                                                        padding: EdgeInsets.all(10),
+                                                        child: Image.asset('assets/image/profile.png',
+                                                            width: innerWidth * 0.45,
+                                                            fit: BoxFit.fitWidth
+                                                        ),
+                                                        decoration: ShapeDecoration(
+                                                            color: AppColors.primarySolid60,
+                                                            shape: OvalBorder(
+                                                                side: BorderSide(
+                                                                    width: 1,
+                                                                    color: AppColors.black100
+                                                                )
+                                                            ),
+                                                            shadows: [AppEffectStyles.itemShadowEffect]
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                          /// Edit Button
+                                          Positioned(
+                                              top: 110,
+                                              right: 50,
+                                              child: BoxButton(
+                                                  icon: Icon(Icons.edit_rounded, size: 20, color: AppColors.black100),
+                                                  iconRight: true,
+                                                  style: ButtonStyleType.secondary,
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(builder: (context) => ProfileEditPage()),
+                                                    );
+                                                  }
+                                              )
+                                          ),
+                                        ]
+                                    );
+                                }
+                            )
+                        ),
+
+                    ])
+            )
+
+        );
+
+    }
+}
 class TabMenu extends StatefulWidget
 {
     @override
@@ -65,7 +172,7 @@ class _TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin
     @override
     Widget build(BuildContext context)
     {
-      /// Change color of tab & bg
+        /// Change color of tab & bg
         Color backgroundColor =
             _tabController.index == 1 ? AppColors.secondarySolid10 : AppColors.primarySolid10;
 
@@ -150,7 +257,7 @@ class _TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin
                         controller: _tabController,
                         children: [
                             MedalsPage(),
-                            Center(child: Text("Settings Page"))
+                            SettingsPage()
                         ]
                     )
                 )
@@ -191,4 +298,70 @@ class MedalsPage extends StatelessWidget
             ]
         );
     }
+}
+class SettingsPage extends StatelessWidget
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return Column(
+        children: [
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 30,horizontal: 10),
+              child: Column(
+                 spacing: 20,
+                children: [
+                  SettingsItem(
+                    text: 'Password Settings',
+                    bgColor: AppColors.secondarySolid50,
+                    textColor: AppColors.black100,
+                  ),
+                  SettingsItem(
+                    text: 'Notification Settings',
+                    bgColor: AppColors.secondarySolid50,
+                    textColor: AppColors.black100,
+                  ),
+                  SettingsItem(
+                    text: 'Privacy Settings',
+                    bgColor: AppColors.secondarySolid50,
+                    textColor: AppColors.black100,
+                  ),
+                  SettingsItem(
+                    text: 'Log out',
+                    bgColor: AppColors.communicationSolidError,
+                    textColor: AppColors.white100,
+                  ),
+                ]
+              )
+          )
+        ]
+    );
+  }
+}
+
+class ProfileEditPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+
+    return Scaffold(
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double innerHeight = constraints.maxHeight;
+            double innerWidth = constraints.maxWidth;
+
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+
+
+
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
 }

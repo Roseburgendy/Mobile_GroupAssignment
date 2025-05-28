@@ -23,6 +23,7 @@ class Assets {
   static const String iconIconPet = 'assets/icon/icon_pet.svg';
   static const String iconIconProfile = 'assets/icon/icon_profile.svg';
   static const String imageHomepageLogoRuleyou = 'assets/image/homepage_logo_ruleyou.png';
+  static const String imageProfile = 'assets/image/profile.png';
   static const String imageWater100 = 'assets/image/water_100.png';
   static const String imageWater1000 = 'assets/image/water_1000.png';
   static const String imageWater300 = 'assets/image/water_300.png';

@@ -64,6 +64,7 @@ flutter:
     - assets/image/
     - assets/icon/
     - assets/image/Achievement_Page/
+    - assets/image/profile.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
