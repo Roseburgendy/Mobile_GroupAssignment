@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import '../presentation/workout_start_screen/workout_start_screen.dart';
-
+import '../presentation/workout_timer_screen/workout_timer_screen.dart';
+import '../presentation/workout_completion_screen/workout_completion_screen.dart';
 
 class AppRoutes {
-  // ✅ 你自己的页面路由
+  // 🟢 页面路径常量
   static const String workoutStartScreen = '/workout_start_screen';
+  static const String workoutTimerScreen = '/workout_timer_screen';
+  static const String workoutCompletionScreen = '/workout_completion_screen';
 
-  // ✅ 主导航页面（组员负责）
-  static const String appNavigationScreen = '/app_navigation_screen';
+  // 🟡 交接给主项目时再决定初始页面，这里可暂保留一个
+  static const String initialRoute = workoutStartScreen;
 
-  // ✅ 设置主项目初始页面（交接时用）
-  static const String initialRoute = appNavigationScreen;
-
-  // ✅ 所有路由注册表
+  // 🔵 所有页面的路由表
   static Map<String, WidgetBuilder> get routes => {
     workoutStartScreen: (context) => const WorkoutStartScreen(),
+    workoutTimerScreen: (context) => const WorkoutTimerScreen(),
+    workoutCompletionScreen: (context) => const WorkoutCompletionScreen(),
   };
 }

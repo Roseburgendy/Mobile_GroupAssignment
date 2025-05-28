@@ -29,7 +29,7 @@ class WorkoutStartScreen extends StatelessWidget {
                       _buildMainWorkoutCard(),
                       Positioned(
                         top: 420.h - 65.h,
-                        child: _buildGoButton(),
+                        child: _buildGoButton(context),
                       ),
                     ],
                   ),
@@ -126,27 +126,33 @@ class WorkoutStartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGoButton() {
-    return Container(
-      width: 130.h,
-      height: 130.h,
-      decoration: BoxDecoration(
-        color: appTheme.colorFF009D,
-        borderRadius: BorderRadius.circular(65.h),
-        border: Border.all(color: appTheme.colorFF0014, width: 2.h),
-        boxShadow: [
-          BoxShadow(
-            color: appTheme.colorFF0014,
-            offset: Offset(1.h, 2.h),
-            blurRadius: 0,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text('GO', style: TextStyleHelper.instance.display48SemiBold),
+  Widget _buildGoButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, AppRoutes.workoutTimerScreen);
+      },
+      child: Container(
+        width: 130.h,
+        height: 130.h,
+        decoration: BoxDecoration(
+          color: appTheme.colorFF009D,
+          borderRadius: BorderRadius.circular(65.h),
+          border: Border.all(color: appTheme.colorFF0014, width: 2.h),
+          boxShadow: [
+            BoxShadow(
+              color: appTheme.colorFF0014,
+              offset: Offset(1.h, 2.h),
+              blurRadius: 0,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text('GO', style: TextStyleHelper.instance.display48SemiBold),
+        ),
       ),
     );
   }
+
 
   Widget _buildBottomNavigationBar() {
     return Container(

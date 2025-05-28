@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'core/app_export.dart';
-import 'presentation/workout_start_screen/workout_start_screen.dart'; // 👈 引入你的页面
+import 'core/app_export.dart'; // 保留原有结构（使用 ThemeHelper、StyleHelper 等）
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -23,12 +22,9 @@ class MyApp extends StatelessWidget {
           title: 'lizijing_s_application',
           debugShowCheckedModeBanner: false,
 
-          /// ✅ 临时调试页面：直接进入 WorkoutStartScreen
-          home: const WorkoutStartScreen(),
-
-          /// ❌ 注释掉主项目用的路由配置（等组内对接时再恢复）
-          // initialRoute: AppRoutes.initialRoute,
-          // routes: AppRoutes.routes,
+          /// ✅ 使用路由方式统一管理所有页面
+          initialRoute: AppRoutes.initialRoute,
+          routes: AppRoutes.routes,
 
           builder: (context, child) {
             return MediaQuery(
