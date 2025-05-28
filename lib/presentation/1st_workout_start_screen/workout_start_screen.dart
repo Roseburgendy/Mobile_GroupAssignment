@@ -1,9 +1,40 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_image_view.dart';
 
-class WorkoutStartScreen extends StatelessWidget {
+class WorkoutStartScreen extends StatefulWidget {
   const WorkoutStartScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WorkoutStartScreen> createState() => _WorkoutStartScreenState();
+}
+
+class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
+  bool _hasHandledRedirect = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (!_hasHandledRedirect && args?['fromCompletion'] == true) {
+      _hasHandledRedirect = true;
+      Future.microtask(_triggerRandomRedirect);
+    }
+  }
+
+  void _triggerRandomRedirect() {
+    final isA = Random().nextBool();
+    Navigator.pushNamed(
+      context,
+      isA
+          ? AppRoutes.cardCollectionSuccessScreen
+          : AppRoutes.workoutEmptyStateScreen,
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {

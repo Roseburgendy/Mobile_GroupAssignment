@@ -18,7 +18,8 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
 
     // 设置20秒后自动跳转
     Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, AppRoutes.workoutCompletionScreen);
+      Navigator.pushReplacementNamed(
+          context, AppRoutes.workoutCompletionScreen);
     });
   }
 
@@ -118,6 +119,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // 左侧 Pause 按钮（不变）
           CustomControlButton(
             height: 60.h,
             width: 60.h,
@@ -139,6 +141,8 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
               // Pause action
             },
           ),
+
+          // 右侧 Close 按钮（已修改）
           CustomControlButton(
             height: 60.h,
             width: 60.h,
@@ -161,6 +165,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 context,
                 AppRoutes.workoutStartScreen,
                     (route) => false,
+                arguments: {'fromTimer': true}, // 👈 传参
               );
             },
           ),

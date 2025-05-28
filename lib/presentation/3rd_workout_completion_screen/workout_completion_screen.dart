@@ -29,6 +29,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 140.h),
                           _buildMainCard(),
+                          SizedBox(height: 60.h), // 👈 卡片底部留白
                         ],
                       ),
                       _buildAvatarCircle(),
@@ -54,6 +55,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
             context,
             AppRoutes.workoutStartScreen,
                 (route) => false,
+            arguments: {'fromCompletion': true},
           );
         },
         child: Container(
