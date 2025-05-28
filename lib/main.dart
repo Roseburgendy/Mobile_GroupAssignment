@@ -8,15 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:assignment1/demo_workout.dart';
 import 'package:assignment1/demo_pet.dart';
 import 'package:assignment1/homepage.dart';
-
+import 'package:assignment1/presentation/1st_workout_start_screen/workout_start_screen.dart';
+import 'package:sizer/sizer.dart'; // 🔁 别忘了导入 Sizer
 import 'package:flutter_svg/svg.dart';
 
 void main() {
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainPage(),
-    ),
+    Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: MainPage(),
+        );
+      }
+    )
+
   );
 }
 
@@ -32,7 +38,7 @@ class _MainPageState extends State<MainPage> {
   final screens= [
     HomePage(),
     MyLogScreen(),
-    DemoWorkout(),
+    WorkoutStartScreen(),
     PetPage(),
     Profile()
   ];
