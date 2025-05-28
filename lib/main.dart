@@ -1,41 +1,116 @@
+import 'package:assignment1/example_view.dart';
+import 'package:assignment1/petpage_xjq.dart';
+import 'package:assignment1/profile.dart';
+import 'package:assignment1/screens/MyLog.dart';
+import 'package:assignment1/src/widgets/custom_bottom_nav_bar.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'core/app_export.dart'; // 保留原有结构（使用 ThemeHelper、StyleHelper 等）
-
-var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
+import 'package:assignment1/demo_workout.dart';
+import 'package:assignment1/demo_pet.dart';
+import 'package:assignment1/homepage.dart';
+import 'package:assignment1/presentation/1st_workout_start_screen/workout_start_screen.dart';
+import 'package:sizer/sizer.dart'; // 🔁 别忘了导入 Sizer
+import 'package:flutter_svg/svg.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(const MyApp());
+  runApp(
+    Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: MainPage(),
+        );
+      }
+    )
+
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+
+  final screens= [
+    HomePage(),
+    MyLogScreen(),
+    WorkoutStartScreen(),
+    PetPage(),
+    Profile()
+  ];
+
+  //State class
+  int _page = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          title: 'lizijing_s_application',
-          debugShowCheckedModeBanner: false,
+    final List<_NavItemData> navItems = const [
+      _NavItemData('assets/icon/homepage_icon_home_active.svg', 'Home'),
+      _NavItemData('assets/icon/icon_chart.svg', 'Chart'),
+      _NavItemData('assets/icon/icon_exercise.svg', 'Exercise'),
+      _NavItemData('assets/icon/icon_pet.svg', 'Pet'),
+      _NavItemData('assets/icon/icon_profile.svg', 'Profile'),
+    ];
+    return Scaffold(
+      body: IndexedStack(
+        index: _page,
+        children: screens,
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        /// bg color
+        backgroundColor: Colors.transparent,
+        /// app bar color
+        color: CustomBottomNavBar.greenBg,
+        height: 70,
 
-          /// ✅ 使用路由方式统一管理所有页面
-          initialRoute: AppRoutes.initialRoute,
-          routes: AppRoutes.routes,
+        /// Animation
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 300),
 
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.linear(1.0),
-              ),
-              child: child!,
-            );
-          },
-        );
-      },
+        /// list of icon widgets
+        items: navItems.map((item) {
+          int index = navItems.indexOf(item);
+          final isActive = index == _page ;
+
+          return Container(
+            padding: const EdgeInsets.all(8),
+            decoration: isActive
+                ? BoxDecoration(
+              shape: BoxShape.circle,
+              color: CustomBottomNavBar.activeBgCircle,
+              border: Border.all(color: Colors.black, width: 2),
+            ) : null,
+
+            child: SvgPicture.asset(
+              item.iconPath,
+              color: isActive
+                  ? CustomBottomNavBar.activeColor
+                  : CustomBottomNavBar.inactiveColor,
+              // Active icon is slightly larger
+              height: isActive ? 30 : 24,
+            ),
+          );
+        }).toList(),
+
+
+        /// Handle tap event
+        onTap: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
+      ),
     );
   }
+}
+
+class _NavItemData {
+  final String iconPath;
+  final String label;
+
+  const _NavItemData(this.iconPath, this.label);
 }
