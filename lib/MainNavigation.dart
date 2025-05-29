@@ -1,6 +1,7 @@
 import 'package:assignment1/petpage_xjq.dart';
 import 'package:assignment1/presentation/1st_workout_start_screen/workout_start_screen.dart';
 import 'package:assignment1/profile.dart';
+import 'package:assignment1/routes/app_routes.dart';
 import 'package:assignment1/screens/MyLog.dart';
 import 'package:assignment1/src/widgets/custom_bottom_nav_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -19,12 +20,12 @@ class MainNavigationBar extends StatefulWidget {
 
 class _MainNavigationBarState extends State<MainNavigationBar> {
 
-  final screens= [
-    HomePage(),
-    MyLogScreen(),
-    WorkoutStartScreen(),
-    PetPage(),
-    Profile()
+  final List<String> screenRoutes = [
+    AppRoutes.home,
+    AppRoutes.myLog,
+    AppRoutes.workout,
+    AppRoutes.pet,
+    AppRoutes.profile,
   ];
 
   //State class
@@ -54,7 +55,10 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
     return Scaffold(
       body: IndexedStack(
         index: _page,
-        children: screens,
+        children: screenRoutes
+            .map((route) => AppRoutes.routes[route]!(context))
+            .toList(),
+
       ),
       bottomNavigationBar: CurvedNavigationBar(
         /// bg color
@@ -87,7 +91,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
                   ? CustomBottomNavBar.activeColor
                   : CustomBottomNavBar.inactiveColor,
               // Active icon is slightly larger
-              height: isActive ? 30 : 28,
+              height: isActive ? 35 : 30,
             ),
           );
         }).toList(),

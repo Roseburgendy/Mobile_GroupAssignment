@@ -1,3 +1,4 @@
+import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,15 +12,10 @@ class CustomBottomNavBar extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  static const Color greenBg = Color.fromARGB(255, 40, 120, 43);
-  static const Color activeColor = Colors.orange;
-  static const Color inactiveColor = Color.fromARGB(255, 200, 200, 200);
-  static const Color activeBgCircle = Color.fromARGB(
-    255,
-    255,
-    255,
-    180,
-  ); // 浅黄色背景
+  static const Color greenBg = AppColors.primarySolid60;
+  static const Color activeColor = AppColors.secondarySolid90;
+  static const Color inactiveColor = AppColors.white100;
+  static const Color activeBgCircle = AppColors.secondarySolid20; // 浅黄色背景
 
   final List<_NavItemData> items = const [
     _NavItemData('assets/icon/homepage_icon_home_active.svg', 'Home'),

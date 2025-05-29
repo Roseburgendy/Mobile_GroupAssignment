@@ -388,18 +388,19 @@ class _HomePageState extends State<HomePage>
                                                             alignment: Alignment.centerRight,
                                                             child:
                                                             BoxButton(
-                                                                title: "Start",
-                                                                style: ButtonStyleType.secondary,
-                                                                iconRight: true,
-                                                                icon: Icon(Icons.arrow_right_alt_rounded, size: 30, color: AppColors.black100),
-                                                                onTap: () => {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(builder: (context) => WorkoutStartScreen())
-                                                                  )
+                                                              title: "Start",
+                                                              style: ButtonStyleType.secondary,
+                                                              iconRight: true,
+                                                              icon: Icon(Icons.arrow_right_alt_rounded, size: 30, color: AppColors.black100),
+                                                              onTap: () {
+                                                                Navigator.pushReplacementNamed(
+                                                                  context,
+                                                                  '/main_navigation',
+                                                                  arguments: {'initialIndex': 2}, // index 2 是 WorkoutStartScreen
+                                                                );
+                                                              },
+                                                            ),
 
-                                                                }
-                                                            )    
 
                                                         )
                                                     ]
