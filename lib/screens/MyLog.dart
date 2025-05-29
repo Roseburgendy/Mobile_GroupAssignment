@@ -41,16 +41,16 @@ class _MyLogScreenState extends State<MyLogScreen> {
             children: [
               // Calendar Section
 
-              const SizedBox(height: 2),
+              const SizedBox(height: 10),
               
               const CalendarTitle(
                 title: 'My Calendar',
                 width: 327,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               
               const WeekdayHeaderRow(),
-              const SizedBox(height: 8),
+              const SizedBox(height: 24),
 
               CalendarDateButtons(
                 daysInMonth: 31,

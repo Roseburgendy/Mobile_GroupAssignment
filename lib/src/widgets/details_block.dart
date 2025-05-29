@@ -20,7 +20,7 @@ class FitnessStatsContainer extends StatelessWidget {
       children: [
         // Daily Exercise Container
         Container(
-          width: 319,
+          width: 350,
           height: 173,
           padding: const EdgeInsets.all(12.76),
           decoration: ShapeDecoration(

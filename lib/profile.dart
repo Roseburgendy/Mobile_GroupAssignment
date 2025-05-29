@@ -1,4 +1,5 @@
 import 'package:assignment1/EditProfilePage.dart';
+import 'package:assignment1/screens/login.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/src/widgets/achievement_item.dart';
@@ -7,7 +8,6 @@ import 'package:assignment1/src/widgets/box_button.dart';
 import "package:flutter/material.dart";
 import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
-
 
 class Profile extends StatefulWidget
 {
@@ -23,11 +23,11 @@ class _ProfileState extends State<Profile>
     {
         return Scaffold(
             appBar: AppBar(
-              title: const Text(
-                "My Profile",
-                style: Headline4Style,
-              ),
-              centerTitle: true,
+                title: const Text(
+                    "My Profile",
+                    style: Headline4Style
+                ),
+                centerTitle: true
             ),
             body: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -50,136 +50,129 @@ class Info extends StatefulWidget
 
 class _InfoState extends State<Info>
 {
-    String profileName = "Duolingo";
+    String profileName = "MIMI";
     String profileBio = "I love exercise!";
+
     @override
     Widget build(BuildContext context)
     {
         double width = MediaQuery.of(context).size.width;
-        double height = MediaQuery.of(context).size.height;
-        return Container(
-            child:
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical:0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+
+        return Column(
+
+            children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                        SizedBox(height: 22),
+                        SizedBox(width: 80),
                         Container(
-                            height: 300,
-                            child: LayoutBuilder(
-                                builder: (context, constraints)
+                            margin: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.all(10),
+                            decoration: ShapeDecoration(
+                                color: AppColors.primarySolid60,
+                                shape: OvalBorder(
+                                    side: BorderSide(width: 1, color: AppColors.black100)
+                                ),
+                                shadows: [AppEffectStyles.itemShadowEffect]
+                            ),
+                            child: Image.asset(
+                                'assets/image/profile.png',
+                                width: width * 0.4,
+                                fit: BoxFit.fitWidth
+                            )
+                        ),
+                        SizedBox(width: 10),
+
+                        Container(
+                            child: BoxButton(
+                                icon: Icon(Icons.edit_rounded, size: 20, color: AppColors.black100),
+                                iconRight: true,
+                                style: ButtonStyleType.secondary,
+                                onTap: () async
                                 {
-                                    double innerHeight = constraints.maxHeight;
-                                    double innerWidth = constraints.maxWidth;
-                                    return Stack(
-                                        fit: StackFit.expand,
-                                        children: [
-                                            /// Bios
-                                            Positioned(
-                                              top: 110,
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: Container(
-                                                    height: innerHeight * 0.72,
-                                                    width: innerWidth,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(color: AppColors.black100, width: 2),
-                                                        boxShadow: [AppEffectStyles.cardShadowEffect],
-                                                        borderRadius: BorderRadius.circular(30),
-                                                        color: Colors.white
-                                                    ),
-                                                    child: Column(
-                                                        children: [
-                                                            SizedBox(height: 90),
-                                                            BoxText.Title(profileName),
-                                                            SizedBox(height: 5),
-                                                            Container(
-                                                              alignment: Alignment.center,
-                                                              padding:EdgeInsets.symmetric(horizontal: 20),
-                                                              child: Center(
-                                                                  child: BoxText.Body("Bio: $profileBio"),
-                                                              ),
-                                                            ),
-                                                            Row(
-                                                            )
-                                                        ]
-                                                    )
-                                                )
-                                            ),
-                                            /// Profile Photo
-                                            Positioned(
-                                                top: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: Center(
-                                                    child: Container(
-                                                        padding: EdgeInsets.all(10),
-                                                        child: Image.asset('assets/image/profile.png',
-                                                            width: innerWidth * 0.45,
-                                                            fit: BoxFit.fitWidth
-                                                        ),
-                                                        decoration: ShapeDecoration(
-                                                            color: AppColors.primarySolid60,
-                                                            shape: OvalBorder(
-                                                                side: BorderSide(
-                                                                    width: 1,
-                                                                    color: AppColors.black100
-                                                                )
-                                                            ),
-                                                            shadows: [AppEffectStyles.itemShadowEffect]
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                            /// Edit Button
-                                            Positioned(
-                                                top: 110,
-                                                right: 50,
-                                                child: BoxButton(
-                                                    icon: Icon(Icons.edit_rounded, size: 20, color: AppColors.black100),
-                                                    iconRight: true,
-                                                    style: ButtonStyleType.secondary,
-                                                    onTap: () 
-                                                    async
-                                                    {
-                                                        final result = await Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) => EditProfilePage(
-                                                                    name: profileName, // original name
-                                                                    bio: profileBio // original bio
-                                                                )
-                                                            )
-                                                        );
-
-                                                        if (result != null && result is Map<String, String>)
-                                                        {
-                                                            setState(()
-                                                                {
-                                                                    profileName = result['name']!;
-                                                                    profileBio = result['bio']!;
-                                                                }
-                                                            );
-                                                        }
-                                                    }
-
-                                                )
+                                    final result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditProfilePage(
+                                                name: profileName,
+                                                bio: profileBio
                                             )
-                                        ]
+                                        )
                                     );
+                                    if (result != null && result is Map<String, String>)
+                                    {
+                                        setState(()
+                                            {
+                                                profileName = result['name']!;
+                                                profileBio = result['bio']!;
+                                            }
+                                        );
+                                    }
                                 }
                             )
                         )
 
-                    ])
-            )
+                    ]
+                // Edit Button
+                ),
 
+                SizedBox(height: 20),
+
+                // Profile Card
+                Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: AppColors.black100, width: 2),
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [AppEffectStyles.cardShadowEffect]
+                    ),
+                    child: Column(
+                        children: [
+                            Column(
+                                children: [
+                                    // Name
+                                    BoxText.Headline4(profileName),
+                                    SizedBox(height: 5),
+                                    // Bio
+                                    BoxText.Subtitle("Bio: $profileBio", color: AppColors.black60),
+                                    SizedBox(height: 20)
+                                ]
+                            ),
+
+                            SizedBox(height: 5),
+                            // Progress Bar
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                    LinearProgressIndicator(
+                                        value: 0.8,
+                                        minHeight: 16,
+                                        backgroundColor: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(10),
+                                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.secondarySolid60)
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                            Text('LV 6', style: OverlineStyle),
+                                            Text('LV 7', style: OverlineStyle)
+                                        ]
+                                    )
+                                ]
+                            )
+                        ]
+                    )
+
+                )
+
+            ]
         );
-
     }
 }
+
 class TabMenu extends StatefulWidget
 {
     @override
@@ -246,40 +239,34 @@ class _TabMenuState extends State<TabMenu> with SingleTickerProviderStateMixin
                             )
                         ),
                         indicatorSize: TabBarIndicatorSize.tab,
-                        indicatorPadding: EdgeInsets.only(top: -10),
+                        indicatorPadding: EdgeInsets.only(top: -8),
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.grey,
                         /// TABS
                         tabs: [
                             Tab(
-                                child: Column(
+                                child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                         Icon(Icons.emoji_events_outlined),
+                                        SizedBox(width: 5),
                                         Text(
                                             "Medals",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Montserrat'
-                                            )
+                                            style: TitleStyle
                                         )
                                     ]
                                 )
                             ),
                             Tab(
-                                child: Column(
+                                child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                         Icon(Icons.settings_outlined),
-                                        Text(
-                                            "Settings",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Montserrat'
-                                            )
-                                        )
+                                      SizedBox(width: 5),
+                                      Text(
+                                          "Settings",
+                                          style: TitleStyle
+                                      )
                                     ]
                                 )
                             )
@@ -376,7 +363,14 @@ class SettingsPage extends StatelessWidget
                             SettingsItem(
                                 text: 'Log out',
                                 bgColor: AppColors.communicationSolidError,
-                                textColor: AppColors.white100
+                                textColor: AppColors.white100,
+                                onTap: ()
+                                {
+                                    LoginScreen();
+                                    Navigator.push(context, 
+                                        MaterialPageRoute(builder: (context) => LoginScreen())
+                                    );
+                                }
                             )
                         ]
                     )

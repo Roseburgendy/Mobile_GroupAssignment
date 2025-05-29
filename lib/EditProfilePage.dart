@@ -1,4 +1,5 @@
 import 'package:assignment1/src/shared/app_colors.dart';
+import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
 import "package:flutter/material.dart";
 import 'package:assignment1/box_ui.dart';
@@ -189,15 +190,10 @@ class _EditProfilePageState extends State<EditProfilePage>
                     )
                         : null,
                     contentPadding: EdgeInsets.only(bottom: 3),
-                    label: BoxText.Overline(labelText, color: AppColors.black60),
+                    label: BoxText.Subtitle(labelText, color: AppColors.black60),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     hintText: "",
-                    hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.black100,
-                        fontFamily: 'Montserrat'
-                    )
+                    hintStyle: Headline4Style
                 )
             )
         )
