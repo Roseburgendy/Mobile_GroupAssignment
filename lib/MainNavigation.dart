@@ -73,7 +73,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
           final isActive = index == _page ;
 
           return Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(15),
             decoration: isActive
                 ? BoxDecoration(
               shape: BoxShape.circle,
@@ -87,7 +87,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
                   ? CustomBottomNavBar.activeColor
                   : CustomBottomNavBar.inactiveColor,
               // Active icon is slightly larger
-              height: isActive ? 30 : 24,
+              height: isActive ? 30 : 28,
             ),
           );
         }).toList(),

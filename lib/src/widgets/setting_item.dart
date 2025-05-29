@@ -34,7 +34,7 @@ class _SettingItemState extends State<SettingsItem>
             onTap: widget.onTap,
             child:
             Container(
-                width: 298,
+                width: 350,
                 padding: const EdgeInsets.all(20),
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(

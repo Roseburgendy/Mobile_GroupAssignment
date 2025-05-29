@@ -89,27 +89,32 @@ class _InfoState extends State<Info>
                                 icon: Icon(Icons.edit_rounded, size: 20, color: AppColors.black100),
                                 iconRight: true,
                                 style: ButtonStyleType.secondary,
-                                onTap: () async
-                                {
-                                    final result = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => EditProfilePage(
-                                                name: profileName,
-                                                bio: profileBio
-                                            )
-                                        )
-                                    );
-                                    if (result != null && result is Map<String, String>)
-                                    {
-                                        setState(()
-                                            {
-                                                profileName = result['name']!;
-                                                profileBio = result['bio']!;
-                                            }
-                                        );
-                                    }
+                                onTap: () async {
+                                  final result = await Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) =>
+                                          EditProfilePage(name: profileName, bio: profileBio),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                        const begin = Offset(1.0, 0.0);
+                                        const end = Offset.zero;
+                                        const curve = Curves.ease;
+
+                                        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                        return SlideTransition(position: animation.drive(tween), child: child);
+                                      },
+                                      transitionDuration: Duration(milliseconds: 300),
+                                    ),
+                                  );
+
+                                  if (result != null && result is Map<String, String>) {
+                                    setState(() {
+                                      profileName = result['name']!;
+                                      profileBio = result['bio']!;
+                                    });
+                                  }
                                 }
+
                             )
                         )
 
@@ -304,7 +309,7 @@ class MedalsPage extends StatelessWidget
         return Column(
             children: [
                 Wrap(
-                    spacing: 10,
+                    spacing: 20,
                     runSpacing: 10,
                     children: [
                         AchievementItem(
@@ -341,7 +346,7 @@ class SettingsPage extends StatelessWidget
         return Column(
             children: [
                 Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 8),
                     child: Column(
                         spacing: 20,
                         children: [

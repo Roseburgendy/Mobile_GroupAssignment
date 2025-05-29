@@ -157,45 +157,43 @@ class _EditProfilePageState extends State<EditProfilePage>
       String labelText, TextEditingController controller, bool isPasswordTextField)
   {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 35.0),
+        padding: const EdgeInsets.only(bottom: 30.0),
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
             decoration: BoxDecoration(
                 color: AppColors.secondarySolid20,
-                borderRadius: BorderRadius.circular(16.64),
+                borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: Colors.black, width: 1.5),
                 boxShadow: [AppEffectStyles.buttonShadowEffect]
             ),
             child:
             TextField(
-                controller: controller,
-                obscureText: isPasswordTextField ? showPassword : false,
-                decoration:
-                InputDecoration(
-                  //border: OutlineInputBorder(),
-                    suffixIcon: isPasswordTextField
-                        ? IconButton(
-                        onPressed: ()
-                        {
-                          setState(()
-                          {
-                            showPassword = !showPassword;
-                          }
-                          );
-                        },
-                        icon: Icon(
-                            Icons.remove_red_eye,
-                            color: Colors.grey
-                        )
-                    )
-                        : null,
-                    contentPadding: EdgeInsets.only(bottom: 3),
-                    label: BoxText.Subtitle(labelText, color: AppColors.black60),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "",
-                    hintStyle: Headline4Style
-                )
+              controller: controller,
+              obscureText: isPasswordTextField ? showPassword : false,
+              style: const TextStyle(  // 这里是控制输入文字的大小
+                  fontSize: 20,
+                  fontFamily: "Montserrat",
+                  color: AppColors.black100,
+                  fontWeight: FontWeight.w600
+              ),
+              decoration: InputDecoration(
+                labelText: labelText, // 使用 labelText 而非 label（Widget）
+                labelStyle: TextStyle( // 控制 label 的样式
+                  fontSize: 18,
+                  fontFamily: "Montserrat",
+                  color: AppColors.black60,
+                  fontWeight: FontWeight.w500
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                hintText: '',
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+                border: InputBorder.none,
+              ),
             )
+
         )
     );
   }

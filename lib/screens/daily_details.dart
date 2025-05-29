@@ -76,14 +76,11 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFEFDFA),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 32),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: screenHeight),
+        child: Container(
+          padding: const EdgeInsets.only(bottom: 10),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   decoration: ShapeDecoration(
@@ -165,7 +162,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32.0),
                         child: Row(
@@ -212,7 +209,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 30),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -224,7 +221,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 48),
+                const SizedBox(height: 50),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -246,7 +243,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                 ),
               ],
             ),
-          ),
+
         ),
       ),
     );

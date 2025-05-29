@@ -4,88 +4,102 @@ import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 import 'box_button.dart';
 
-class AchievementItem extends StatelessWidget
-{
-    final String imagePath;
-    final String text;
-    final String description;
+class AchievementItem extends StatelessWidget {
+  final String imagePath;
+  final String text;
+  final String description;
 
-    const AchievementItem({
-        Key? key,
-        required this.imagePath,
-        required this.text,
-        required this.description
-    }) : super(key: key);
+  const AchievementItem({
+    Key? key,
+    required this.imagePath,
+    required this.text,
+    required this.description,
+  }) : super(key: key);
 
-    @override
-    Widget build(BuildContext context)
-    {
-        return GestureDetector(
-            onTap: ()
-            {
-                showDialog(
-                    context: context,
-                    builder: (context) => AchievementDialog(
-                        imagePath: imagePath,
-                        title: text,
-                        description: description
-                    )
-                );
-            },
-            child: SizedBox(
-                width: 135,
-                height: 150,
-                child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                        Positioned(
-                            top: 60,
-                            child: Container(
-                                width: 119,
-                                height: 89,
-                                decoration: BoxDecoration(
-                                    color: AppColors.secondarySolid50,
-                                    borderRadius: BorderRadius.circular(24),
-                                    border: Border.all(width: 2, color: Colors.black),
-                                    boxShadow: [AppEffectStyles.itemShadowEffect]
-                                ),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                        Padding(
-                                            padding: const EdgeInsets.only(bottom: 12),
-                                            child: Text(
-                                                '"$text"',
-                                                textAlign: TextAlign.center,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: OverlineStyle
-                                            )
-                                        )
-                                    ]
-                                )
-                            )
-                        ),
-                        Positioned(
-                            top: 30,
-                            child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(
-                                        image: AssetImage(imagePath),
-                                        fit: BoxFit.contain
-                                    )
-                                )
-                            )
-                        )
-                    ]
-                )
-            )
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        showGeneralDialog(
+          context: context,
+          barrierDismissible: true,
+          barrierLabel: 'Achievement Dialog',
+          transitionDuration: const Duration(milliseconds: 300),
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return Center(
+              child: AchievementDialog(
+                imagePath: imagePath,
+                title: text,
+                description: description,
+              ),
+            );
+          },
+          transitionBuilder: (context, animation, secondaryAnimation, child) {
+            return ScaleTransition(
+              scale: CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOutBack,
+              ),
+              child: child,
+            );
+          },
         );
-    }
+      },
 
+      child: SizedBox(
+        width: 160,
+        height: 180,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Positioned(
+              top: 70,
+              child: Container(
+                width: 160,
+                height: 110,
+                decoration: BoxDecoration(
+                  color: AppColors.secondarySolid50,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(width: 2, color: Colors.black),
+                  boxShadow: [AppEffectStyles.itemShadowEffect],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                      child: Text(
+                        '"$text"',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: SubtitleStyle,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 20,
+              child: Container(
+                width: 110,
+                height: 110,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: DecorationImage(
+                    image: AssetImage(imagePath),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
 class AchievementDialog extends StatelessWidget
 {
     final String imagePath;
@@ -111,7 +125,7 @@ class AchievementDialog extends StatelessWidget
                     // card
                     Container(
                         margin: EdgeInsets.only(top: 60),
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 40),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                         decoration: BoxDecoration(
                             color: AppColors.secondarySolid50,
                             borderRadius: BorderRadius.circular(28),
@@ -122,9 +136,9 @@ class AchievementDialog extends StatelessWidget
                             mainAxisSize: MainAxisSize.min,
                             children: [
                                 SizedBox(height: 10),
-                                Text("Medals", style: OverlineStyle),
+                                Text("Medals", style: SubtitleStyle),
                                 SizedBox(height: 2),
-                                Text(title, style: TitleStyle),
+                                Text(title, style: Headline4Style),
                                 SizedBox(height: 8),
                                 Text(description,
                                     textAlign: TextAlign.center,
@@ -135,11 +149,11 @@ class AchievementDialog extends StatelessWidget
                     ),
                     // Medal badge
                     Positioned(
-                        top: 0,
+                        top: -40,
                         child: Image.asset(
                             imagePath,
-                            width: 100,
-                            height: 100,
+                            width: 140,
+                            height: 140,
                             fit: BoxFit.contain
                         )
                     ),

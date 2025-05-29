@@ -70,10 +70,10 @@ flutter:
     - assets/icon/
     - assets/image_xjq/
     - assets/icons_xjq/
-    - assets/image/Achievement_Page/
     - assets_lzj/
     - assets_lzj/images/
-    - assets/image/login_banner.png
+    - assets/image/
+    - assets/image/Achievement_Page/
 
   # To add assets to your application, add an assets section, like this:
 
