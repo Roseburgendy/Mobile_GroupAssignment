@@ -19,7 +19,7 @@ class AppRoutes {
   static const String cardCollectionSuccessScreen = '/5th_card_collection_success_screen';
   static const String mainNavigation = '/main_navigation';
   // 🟡 交接给主项目时再决定初始页面，这里可暂保留一个
-  static const String initialRoute = home;
+  //static const String initialRoute = home;
   static const String home = '/home';
   static const String myLog = '/log';
   static const String workout = '/workout';

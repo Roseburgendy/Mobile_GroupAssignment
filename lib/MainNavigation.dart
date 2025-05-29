@@ -30,17 +30,23 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
 
   //State class
   int _page = 0;
+  bool _hasInitialized = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_hasInitialized) {
+      return;
+    }
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     if (args != null && args.containsKey('initialIndex')) {
-      setState(() {
-        _page = args['initialIndex'];
-      });
+     setState(() {
+       _page = args['initialIndex'];
+     });
     }
+    _hasInitialized = true;
+
   }
 
   @override
@@ -61,6 +67,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
 
       ),
       bottomNavigationBar: CurvedNavigationBar(
+        index: _page,
         /// bg color
         backgroundColor: Colors.transparent,
         /// app bar color

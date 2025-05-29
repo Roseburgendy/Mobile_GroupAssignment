@@ -16,10 +16,12 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
   void initState() {
     super.initState();
 
-    // 设置20秒后自动跳转
+    // 设置5秒后自动跳转
     Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(
-          context, AppRoutes.workoutCompletionScreen);
+      if(mounted){
+        Navigator.pushReplacementNamed(
+            context, AppRoutes.workoutCompletionScreen);
+      }
     });
   }
 

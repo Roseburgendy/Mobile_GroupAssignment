@@ -20,7 +20,7 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
     super.didChangeDependencies();
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
-    if (!_hasHandledRedirect && args?['fromCompletion'] == true) {
+    if (!_hasHandledRedirect && (args?['fromCompletion'] ?? false)) {
       _hasHandledRedirect = true;
       Future.microtask(_triggerRandomRedirect);
     }
