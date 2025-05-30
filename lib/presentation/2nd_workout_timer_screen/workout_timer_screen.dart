@@ -39,7 +39,6 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                   padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
                   decoration: BoxDecoration(
                     color: appTheme.colorFFFEFD,
-                    border: Border.all(color: appTheme.blackCustom, width: 3.h),
                   ),
                   child: Column(
                     children: [

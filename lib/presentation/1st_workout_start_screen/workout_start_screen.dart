@@ -1,8 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../src/shared/app_colors.dart';
-import '../../src/widgets/box_text.dart';
 import '../../widgets/custom_image_view.dart';
 
 class WorkoutStartScreen extends StatefulWidget {

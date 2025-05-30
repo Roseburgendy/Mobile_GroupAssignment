@@ -20,7 +20,6 @@ class WorkoutCompletionScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(vertical: 20.h),
                   decoration: BoxDecoration(
                     color: appTheme.colorFFFEFD,
-                    border: Border.all(color: appTheme.blackCustom, width: 3.h),
                   ),
                   child: Stack(
                     clipBehavior: Clip.none,
@@ -29,7 +28,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 140.h),
                           _buildMainCard(),
-                          SizedBox(height: 60.h), // 👈 卡片底部留白
+                          SizedBox(height: 140.h), // 👈 卡片底部留白
                         ],
                       ),
                       _buildAvatarCircle(),
