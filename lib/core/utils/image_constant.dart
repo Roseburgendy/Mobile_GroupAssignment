@@ -18,4 +18,7 @@ class ImageConstant {
   static String imgTennisball = '${_basePath}img_tennisball.svg';
   static String imgTriangle = '${_basePath}img_triangle.svg';
   static String imgVolleyball = '${_basePath}img_volleyball.svg';
+  static String imgBasketball = '${_basePath}Basketball.png';
+  static String imgHiking = '${_basePath}hiking.png';
+  static String imgSoccerBall = '${_basePath}SoccerBall.png';
 }

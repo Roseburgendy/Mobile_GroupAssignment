@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_image_view.dart';
 
+class NavItem {
+  final String imagePath;
+  NavItem({required this.imagePath});
+}
+
 class WorkoutStartScreen extends StatefulWidget {
-  const WorkoutStartScreen({Key? key}) : super(key: key);
+  const WorkoutStartScreen({super.key});
 
   @override
   State<WorkoutStartScreen> createState() => _WorkoutStartScreenState();
@@ -12,6 +17,29 @@ class WorkoutStartScreen extends StatefulWidget {
 
 class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
   bool _hasHandledRedirect = false;
+
+  late PageController _pageController;
+  int _selectedIndex = 3;
+
+  final List<NavItem> _navItems = [
+    NavItem(imagePath: ImageConstant.imgVolleyball),
+    NavItem(imagePath: ImageConstant.imgBike),
+    NavItem(imagePath: ImageConstant.imgBaseball),
+    NavItem(imagePath: ImageConstant.imgRun),
+    NavItem(imagePath: ImageConstant.imgTennisball),
+    NavItem(imagePath: ImageConstant.imgBasketball),
+    NavItem(imagePath: ImageConstant.imgHiking),
+    NavItem(imagePath: ImageConstant.imgSoccerBall),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(
+      viewportFraction: 0.25,
+    );
+  }
+
 
   @override
   void didChangeDependencies() {
@@ -22,6 +50,12 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
       _hasHandledRedirect = true;
       Future.microtask(_triggerRandomRedirect);
     }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _triggerRandomRedirect() {
@@ -39,7 +73,6 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
     return Sizer(
       builder: (context, ori, _) {
         return Scaffold(
-
           backgroundColor: appTheme.colorFFFEFD,
           body: SafeArea(
             child: SingleChildScrollView(
@@ -90,7 +123,7 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
           ),
         ),
         Positioned(
-          bottom: -65.h / 6, // 让按钮一半插入底部
+          bottom: -65.h / 6,
           child: _buildGoButton(context),
         ),
       ],
@@ -124,20 +157,33 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
     );
   }
 
+
   Widget _buildNavigationWithIndicator() {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.center,
-      children: [
-        _buildBottomNavigationBar(),
-        Positioned(
-          bottom: -16.h,
-          child: Transform.rotate(
-            angle: pi,
-            child: _buildSelectionIndicator(),
+    final double navBarWidth = 364.h;
+    final double indicatorWidth = 31.h;
+    final double itemSlotWidth = navBarWidth / _navItems.length;
+    final double _ = (_selectedIndex * itemSlotWidth) + (itemSlotWidth / 2) - (indicatorWidth / 2);
+
+    return Container(
+      width: navBarWidth,
+      height: 95.h,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          _buildBottomNavigationBar(),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            bottom: -16.h,
+            left: 170.h,
+            child: Transform.rotate(
+              angle: pi,
+              child: _buildSelectionIndicator(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -157,38 +203,33 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
           ),
         ],
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CustomImageView(
-              imagePath: ImageConstant.imgVolleyball,
-              height: 42.h,
-              width: 42.h,
+      child: PageView.builder(
+        controller: _pageController,
+        itemCount: _navItems.length,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        itemBuilder: (context, index) {
+          final item = _navItems[index];
+          return GestureDetector(
+            onTap: (){
+              _pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: Center(
+              child: CustomImageView(
+                imagePath: item.imagePath,
+                height: 42.h,
+                width: 42.h,
+              ),
             ),
-            CustomImageView(
-              imagePath: ImageConstant.imgBike,
-              height: 42.h,
-              width: 42.h,
-            ),
-            CustomImageView(
-              imagePath: ImageConstant.imgBaseball,
-              height: 42.h,
-              width: 42.h,
-            ),
-            CustomImageView(
-              imagePath: ImageConstant.imgRun,
-              height: 42.h,
-              width: 42.h,
-            ),
-            CustomImageView(
-              imagePath: ImageConstant.imgTennisball,
-              height: 42.h,
-              width: 42.h,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

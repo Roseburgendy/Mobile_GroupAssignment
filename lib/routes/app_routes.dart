@@ -19,22 +19,16 @@ class AppRoutes {
   static const String cardCollectionSuccessScreen = '/5th_card_collection_success_screen';
   static const String mainNavigation = '/main_navigation';
   // 🟡 交接给主项目时再决定初始页面，这里可暂保留一个
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
   //static const String initialRoute = home;
   static const String home = '/home';
   static const String myLog = '/log';
   static const String workout = '/workout';
   static const String pet = '/pet';
   static const String profile = '/profile';
-<<<<<<< Updated upstream
-=======
 
   //static const String initialRoute = workoutStartScreen;
 
->>>>>>> Stashed changes
 
   // 🔵 所有页面的路由表
   static Map<String, WidgetBuilder> get routes => {
