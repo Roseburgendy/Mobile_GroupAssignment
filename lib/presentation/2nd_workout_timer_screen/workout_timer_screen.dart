@@ -46,7 +46,12 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
         });
         if (mounted) {
           Navigator.pushReplacementNamed(
-              context, AppRoutes.workoutCompletionScreen);
+            context,
+            AppRoutes.workoutCompletionScreen,
+            arguments: {
+              'duration': _duration.inSeconds,
+            },
+          );
         }
       }
     });
