@@ -41,6 +41,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   sizer: ^3.0.5
   shared_preferences: ^2.5.3
+  flutter_lints: ^5.0.0
+  audioplayers: ^6.5.0
 
 
 
@@ -53,7 +55,6 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -74,6 +75,7 @@ flutter:
     - assets_lzj/images/
     - assets/image/
     - assets/image/Achievement_Page/
+    - assets/sound/
 
   # To add assets to your application, add an assets section, like this:
 

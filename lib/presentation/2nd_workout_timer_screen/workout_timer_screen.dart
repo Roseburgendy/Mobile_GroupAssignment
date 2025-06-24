@@ -1,28 +1,108 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../core1/app_export.dart';
 import '../../widgets1/custom_control_button.dart';
 import '../../widgets1/custom_image_view.dart';
 
 class WorkoutTimerScreen extends StatefulWidget {
-  const WorkoutTimerScreen({Key? key}) : super(key: key);
+  const WorkoutTimerScreen({super.key});
 
   @override
   State<WorkoutTimerScreen> createState() => _WorkoutTimerScreenState();
 }
 
 class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
-  @override
-  void initState() {
-    super.initState();
+  Timer? _timer;
+  Duration _duration = const Duration(minutes: 5);
+  Duration _remaining = const Duration(minutes: 5);
+  bool _isRunning = false;
+  AudioPlayer audioPlayer = AudioPlayer();
 
-    // 设置5秒后自动跳转
-    Timer(const Duration(seconds: 5), () {
-      if(mounted){
-        Navigator.pushReplacementNamed(
-            context, AppRoutes.workoutCompletionScreen);
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    setState(() {
+      _isRunning = true;
+    });
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remaining.inSeconds > 0) {
+        setState(() {
+          _remaining = _remaining - const Duration(seconds: 1);
+        });
+      } else {
+        _timer?.cancel();
+        setState(() {
+          playSoundEffect();
+          _isRunning = false;
+        });
+        if (mounted) {
+          Navigator.pushReplacementNamed(
+              context, AppRoutes.workoutCompletionScreen);
+        }
       }
     });
+  }
+
+  void _pauseTimer() {
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+      setState(() {
+        _isRunning = false;
+      });
+    }
+  }
+
+  void _resumeTimer() {
+    if (!_isRunning && _remaining.inSeconds > 0) {
+      _startTimer();
+    }
+  }
+
+  void _showTimePicker() {
+    if (_isRunning) return;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return SizedBox(
+          height: 300,
+          child: CupertinoTimerPicker(
+            mode: CupertinoTimerPickerMode.ms,
+            initialTimerDuration: _duration,
+            onTimerDurationChanged: (Duration newDuration) {
+              setState(() {
+                _duration = newDuration;
+                _remaining = newDuration;
+              });
+            },
+          ),
+        );
+      },
+    ).whenComplete(() {
+      if (_remaining.inSeconds > 0) {
+        _startTimer();
+      }
+    });
+  }
+
+  void playSoundEffect() async {
+    await audioPlayer.play(AssetSource('sound/Ring01.wav'));
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
   @override
@@ -94,21 +174,24 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
   }
 
   Widget _buildTimerCircle() {
-    return Container(
-      width: 165.h,
-      height: 165.h,
-      decoration: BoxDecoration(
-        color: appTheme.colorFFFFF8,
-        borderRadius: BorderRadius.circular(82.h),
-        border: Border.all(color: appTheme.colorFF009D, width: 6.h),
-        boxShadow: [
-          BoxShadow(color: appTheme.colorFF0014, offset: Offset(1.h, 2.h)),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          '5:00',
-          style: TextStyleHelper.instance.display48SemiBoldMontserrat,
+    return GestureDetector(
+      onTap: _showTimePicker,
+      child: Container(
+        width: 165.h,
+        height: 165.h,
+        decoration: BoxDecoration(
+          color: appTheme.colorFFFFF8,
+          borderRadius: BorderRadius.circular(82.h),
+          border: Border.all(color: appTheme.colorFF009D, width: 6.h),
+          boxShadow: [
+            BoxShadow(color: appTheme.colorFF0014, offset: Offset(1.h, 2.h)),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            _formatDuration(_remaining),
+            style: TextStyleHelper.instance.display48SemiBoldMontserrat,
+          ),
         ),
       ),
     );
@@ -120,7 +203,7 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // 左侧 Pause 按钮（不变）
+          // Left Pause/Play Button
           CustomControlButton(
             height: 60.h,
             width: 60.h,
@@ -139,11 +222,14 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
               ],
             ),
             onTap: () {
-              // Pause action
+              if (_isRunning) {
+                _pauseTimer();
+              } else {
+                _resumeTimer();
+              }
             },
           ),
 
-          // 右侧 Close 按钮（已修改）
           CustomControlButton(
             height: 60.h,
             width: 60.h,
@@ -161,17 +247,18 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                 ),
               ],
             ),
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/', // 回到 MainPage
-                      (route) => false,
-                  arguments: {
-                    'initialIndex': 2,
-                    'fromTimer': true,
-                  },
-                );
-              }
+            onTap: () {
+              _timer?.cancel();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/',
+                (route) => false,
+                arguments: {
+                  'initialIndex': 2,
+                  'fromTimer': true,
+                },
+              );
+            },
           ),
         ],
       ),
