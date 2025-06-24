@@ -3,10 +3,13 @@ import '../../core2/app_export.dart';
 import '../../widgets2/custom_image_view.dart';
 
 class WorkoutCompletionScreen extends StatelessWidget {
+
   const WorkoutCompletionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map?;
+    final int durationInSeconds = args?['duration'] ?? 300;
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
@@ -27,7 +30,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
                       Column(
                         children: [
                           SizedBox(height: 140.h),
-                          _buildMainCard(),
+                          _buildMainCard(durationInSeconds),
                           SizedBox(height: 140.h), // 👈 卡片底部留白
                         ],
                       ),
@@ -42,6 +45,14 @@ class WorkoutCompletionScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _formatDuration(int seconds) {
+    final duration = Duration(seconds: seconds);
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String minutes = twoDigits(duration.inMinutes.remainder(60));
+    String secs = twoDigits(duration.inSeconds.remainder(60));
+    return "$minutes:$secs";
   }
 
   Widget _buildCloseButton(BuildContext context) {
@@ -116,7 +127,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMainCard() {
+  Widget _buildMainCard(int durationInSeconds) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.h),
       decoration: BoxDecoration(
@@ -138,7 +149,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
           SizedBox(height: 32.h),
           _buildTrophySection(),
           SizedBox(height: 24.h),
-          _buildStatsSection(),
+          _buildStatsSection(durationInSeconds),
         ],
       ),
     );
@@ -171,7 +182,9 @@ class WorkoutCompletionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsSection() {
+  Widget _buildStatsSection(int durationInSeconds) {
+    double burn = (durationInSeconds / 300) * 182;
+    String durationStr = _formatDuration(durationInSeconds);
     return SizedBox(
       height: 110.h,
       child: Stack(
@@ -191,8 +204,8 @@ class WorkoutCompletionScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildStatItem("Duration (min)", "5:00"),
-                _buildStatItem("Burn (Kcal)", "182"),
+                _buildStatItem("Duration (min)", durationStr),
+                _buildStatItem("Burn (Kcal)", burn.toStringAsFixed(0)),
               ],
             ),
           ),
