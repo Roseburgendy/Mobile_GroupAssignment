@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../box_ui.dart';
 import '../src/shared/styles.dart';
+import 'package:assignment1/database/db_helper_healthdata.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,60 +27,14 @@ class _HomePageState extends State<HomePage> {
   double _time = 0;
   double _calories = 0;
 
-  //编辑饮水量弹窗
-  void _showAddWaterDialog() async {
-    double tempIntake = 0;
-
-    double? newIntake = await showDialog<double>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Water Intake'),
-          content: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Amount',
-                    suffixText: 'mL',
-                  ),
-                  onChanged: (value) {
-                    tempIntake = double.tryParse(value) ?? 0;
-                  },
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(null),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(tempIntake),
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (newIntake != null && newIntake > 0) {
-      setState(() {
-        _waterIntake += newIntake;
-      });
-    }
-  }
-
-  //编辑体重弹窗
+  // 编辑体重弹窗
   void _toggleWeightPopup() async {
     double tempInitial = _initialWeight;
     double tempCurrent = _currentWeight;
     double tempGoal = _goalWeight;
 
     await showDialog<void>(
-      context: context,
+      context: this.context,
       builder: (context) {
         return AlertDialog(
           title: BoxText.Headline4('Edit Weights'),
@@ -139,12 +94,21 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   _initialWeight = tempInitial;
                   _currentWeight = tempCurrent;
                   _goalWeight = tempGoal;
                 });
+
+                // ！!同步更新到数据库（假设 userId 为 1）
+                await DBHelper.updateWeight(
+                  1,
+                  _currentWeight,
+                  _initialWeight,
+                  _goalWeight,
+                );
+
                 Navigator.of(context).pop();
               },
               child: const Text('OK'),
@@ -155,10 +119,59 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //编辑饮水量弹窗
+  void _showAddWaterDialog() async {
+    double tempIntake = 0;
+
+    double? newIntake = await showDialog<double>(
+      context: this.context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add Water Intake'),
+          content: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Amount',
+                    suffixText: 'mL',
+                  ),
+                  onChanged: (value) {
+                    tempIntake = double.tryParse(value) ?? 0;
+                  },
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(null),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(tempIntake),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (newIntake != null && newIntake > 0) {
+      setState(() {
+        _waterIntake += newIntake;
+      });
+
+      // !!这里同步到数据库，假设 userId 是 1
+      await DBHelper.updateWater(1, _waterIntake.toInt());
+    }
+  }
+
   //确认是否清除饮水记录弹窗
   void _showClearConfirmDialog() async {
     bool? confirm = await showDialog<bool>(
-      context: context,
+      context: this.context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Clear Water Intake?'),
@@ -184,6 +197,8 @@ class _HomePageState extends State<HomePage> {
         _waterIntake = 0;
       });
     }
+    // !!这里同步到数据库，假设 userId 是 1
+    await DBHelper.updateWater(1, _waterIntake.toInt());
   }
 
   @override
