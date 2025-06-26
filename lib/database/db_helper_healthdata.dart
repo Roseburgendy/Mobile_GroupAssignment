@@ -80,6 +80,24 @@ class DBHelper {
     }
   }
 
+  //获取某日数据
+  static Future<Map<String, dynamic>?> getDataForDate(
+    int userId,
+    String date,
+  ) async {
+    final db = await database;
+    final result = await db.query(
+      'healthdata',
+      where: 'userid = ? AND date = ?',
+      whereArgs: [userId, date],
+    );
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      return null;
+    }
+  }
+
   // 单独更新饮水量
   static Future<void> updateWater(int userId, int newWater) async {
     final db = await database;

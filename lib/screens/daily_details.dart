@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../../src/widgets/back_button.dart';
 import '../../src/widgets/details_block.dart';
 import '../../src/widgets/last_next_button.dart';
+import 'package:assignment1/database/db_helper_healthdata.dart';
 
 class DailyDetailsScreen extends StatefulWidget {
   final DateTime selectedDate;
@@ -30,29 +31,37 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
     _loadDataForDate(currentDate);
   }
 
-  void _loadDataForDate(DateTime date) {
+  void _loadDataForDate(DateTime date) async {
+    final String today = date.toIso8601String().substring(0, 10); // yyyy-MM-dd
+    final int userId = 1; // 先写1，可替换为登录用户的id
 
-    setState(() {
+    final data = await DBHelper.getDataForDate(userId, today);
 
-      currentWeight = '60.${date.day}kg';
-      weightLost = '${20 + date.day}kg';
-      caloriesBurned = '${1000 - date.day * 5}kcal';
-      waterIntake = '${1000 + date.day * 10}';
-      stepsCount = '${12000 + date.day * 3}';
-    });
+    if (data != null) {
+      setState(() {
+        double weight = data['currentWeight'] ?? 0.0;
+        double iniWeight = data['iniWeight'] ?? 0.0;
+        int cal = data['cal'] ?? 0;
+        int water = data['water'] ?? 0;
+        int step = data['step'] ?? 0;
+
+        currentWeight = '${weight.toStringAsFixed(1)}kg';
+        weightLost = '${(iniWeight - weight).toStringAsFixed(1)}kg';
+        caloriesBurned = '${cal}kcal';
+        waterIntake = '$water';
+        stepsCount = '$step';
+      });
+    } else {
+      // 如果没有数据，显示为空或默认值
+      setState(() {
+        currentWeight = '--';
+        weightLost = '--';
+        caloriesBurned = '--';
+        waterIntake = '--';
+        stepsCount = '--';
+      });
+    }
   }
-
-  /*void _loadDataForDate(DateTime date) async {
-  final data = await DatabaseService.getDailyStats(date); // 示例
-  setState(() {
-    currentWeight = data.weight;
-    weightLost = data.weightLost;
-    caloriesBurned = data.calories;
-    waterIntake = data.water;
-    stepsCount = data.steps;
-  });
-}*/
-
 
   void _goToPreviousDay() {
     setState(() {
@@ -78,172 +87,185 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.only(bottom: 10),
-            child: Column(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  decoration: ShapeDecoration(
-                    color: const Color(0x99009D0A),
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(width: 2),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(28),
-                        topRight: Radius.circular(28),
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      ),
+          child: Column(
+            //crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                decoration: ShapeDecoration(
+                  color: const Color(0x99009D0A),
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 2),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(28),
+                      topRight: Radius.circular(28),
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
                     ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0xFFA2D2FF),
-                        blurRadius: 0,
-                        offset: Offset(2, 4),
-                      ),
-                    ],
                   ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          AnalysisIconButton(
-                            imagePath: 'assets/icon/arrow-left.svg',
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0xFFA2D2FF),
+                      blurRadius: 0,
+                      offset: Offset(2, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        AnalysisIconButton(
+                          imagePath: 'assets/icon/arrow-left.svg',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
-                          const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: const Color(0xFF001428),
-                                width: 1.5,
-                              ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: const Color(0xFF001428),
+                              width: 1.5,
                             ),
-                            child: Text(
-                              formattedDate,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
                           ),
-                          const Spacer(flex: 2),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      Center(
-                        child: Container(
-                          width: 128,
-                          height: 120,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFFFEE99),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xFF001428),
-                                offset: Offset(2, 3),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              currentWeight,
-                              style: const TextStyle(
-                                color: Color(0xFF003D04),
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          child: Text(
+                            formattedDate,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                const Text('LOST',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF003D04),
-                                    )),
-                                const SizedBox(height: 8),
-                                Text(weightLost,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF006B07),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                const Text('BURNED',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF003D04),
-                                    )),
-                                const SizedBox(height: 8),
-                                Text(caloriesBurned,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF006B07),
-                                    )),
-                              ],
+                        const Spacer(flex: 2),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Center(
+                      child: Container(
+                        width: 128,
+                        height: 120,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFFFEE99),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFF001428),
+                              offset: Offset(2, 3),
                             ),
                           ],
                         ),
+                        child: Center(
+                          child: Text(
+                            currentWeight,
+                            style: const TextStyle(
+                              color: Color(0xFF003D04),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28),
-                  child: FitnessStatsContainer(
-                    activityCalories: caloriesBurned,
-                    activityHours: '2',
-                    waterIntake: waterIntake,
-                    stepsCount: stepsCount,
-                  ),
-                ),
-
-                const SizedBox(height: 50),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      NavigationButton(
-                        text: 'Last',
-                        isNextButton: false,
-                        onPressed: _goToPreviousDay, 
+                    ),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              const Text(
+                                'LOST',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF003D04),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                weightLost,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF006B07),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              const Text(
+                                'BURNED',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF003D04),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                caloriesBurned,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF006B07),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      NavigationButton(
-                        text: 'Next',
-                        isNextButton: true,
-                        onPressed: _goToNextDay,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
 
+              const SizedBox(height: 30),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                child: FitnessStatsContainer(
+                  activityCalories: caloriesBurned,
+                  activityHours: '2',
+                  waterIntake: waterIntake,
+                  stepsCount: stepsCount,
+                ),
+              ),
+
+              const SizedBox(height: 50),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    NavigationButton(
+                      text: 'Last',
+                      isNextButton: false,
+                      onPressed: _goToPreviousDay,
+                    ),
+                    NavigationButton(
+                      text: 'Next',
+                      isNextButton: true,
+                      onPressed: _goToNextDay,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,7 +5,8 @@ import '../src/widgets/weekday_hearder.dart';
 import '../src/widgets/calendar.dart';
 import '../src/widgets/weekly_bar_chart.dart';
 import '../src/widgets/custom_bottom_nav_bar.dart';
-import './daily_details.dart'; 
+import './daily_details.dart';
+import 'package:assignment1/database/db_helper_healthdata.dart';
 
 class MyLogScreen extends StatefulWidget {
   const MyLogScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class MyLogScreen extends StatefulWidget {
 }
 
 class _MyLogScreenState extends State<MyLogScreen> {
-  int _currentIndex = 1; 
+  int _currentIndex = 1;
   DateTime? _selectedDate;
 
   final List<List<double>> weeklyData = [
@@ -27,28 +28,21 @@ class _MyLogScreenState extends State<MyLogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "My Log",
-          style: Headline4Style,
-        ),
+        title: const Text("My Log", style: Headline4Style),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Calendar Section
-
               const SizedBox(height: 10),
-              
-              const CalendarTitle(
-                title: 'My Calendar',
-                width: 327,
-              ),
+
+              const CalendarTitle(title: 'My Calendar', width: 327),
               const SizedBox(height: 24),
-              
+
               const WeekdayHeaderRow(),
               const SizedBox(height: 24),
 
@@ -62,26 +56,23 @@ class _MyLogScreenState extends State<MyLogScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DailyDetailsScreen(
-                        selectedDate: selectedDate,
-                      ),
+                      builder:
+                          (context) =>
+                              DailyDetailsScreen(selectedDate: selectedDate),
                     ),
                   );
                 },
-                selectedDay: _selectedDate?.day 
+                selectedDay: _selectedDate?.day,
               ),
               const SizedBox(height: 32),
 
               // Weekly Chart Section
-              InteractiveWeeklyChart(
-                datasets: weeklyData,
-              ),
+              InteractiveWeeklyChart(datasets: weeklyData),
               const SizedBox(height: 40),
             ],
           ),
         ),
       ),
-
     );
   }
 }
