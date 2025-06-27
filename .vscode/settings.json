@@ -16,5 +16,6 @@
             "command": "extension.execute",
             "priority": 4
         }
-    ]
+    ],
+    "cmake.sourceDirectory": "D:/mobileProject/FlutterProject/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/example/linux/flutter"
 }

@@ -1,20 +1,25 @@
+import 'package:flutter/material.dart';
 import 'package:assignment1/routes/app_routes.dart';
 import 'package:assignment1/screens/login.dart';
-import 'package:flutter/material.dart';
+import 'package:assignment1/MainNavigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:assignment1/dbzzq/openLocalDatabase.dart';
+import 'package:assignment1/services/database_service.dart';
 
-
-import 'MainNavigation.dart';
+late Database db; 
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // 需要初始化绑定
+  WidgetsFlutterBinding.ensureInitialized();
+
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
+  db = await openLocalDatabase();
+
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }
-
 
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
@@ -34,6 +39,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
