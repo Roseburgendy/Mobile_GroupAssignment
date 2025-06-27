@@ -14,7 +14,8 @@ Future<Database> openLocalDatabase() async {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           username TEXT UNIQUE NOT NULL,
           passwordHash TEXT NOT NULL,
-          email TEXT
+          email TEXT,
+          point INTEGER DEFAULT 10
         );
       ''');
 
@@ -35,12 +36,16 @@ Future<Database> openLocalDatabase() async {
         );
       ''');
 
-        // petList
+      // 创建宠物列表表（petList），记录用户已经购买的宠物
       await db.execute('''
         CREATE TABLE petList (
           petID INTEGER PRIMARY KEY AUTOINCREMENT,
           petName TEXT NOT NULL,
+          picturePath TEXT,
+          level TEXT,
+          iconPath TEXT,
           price INTEGER NOT NULL,
+          description TEXT,
           availability INTEGER DEFAULT 1,
           userID INTEGER NOT NULL,
           FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
@@ -49,3 +54,5 @@ Future<Database> openLocalDatabase() async {
     },
   );
 }
+
+
