@@ -23,7 +23,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/', // MainPage 的路由名
-                            (route) => false,
+                        (route) => false,
                         arguments: {'initialIndex': 2}, // 激活 Workout tab
                       );
                     },
@@ -33,7 +33,10 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: appTheme.colorFFFFAA,
                         borderRadius: BorderRadius.circular(10.h),
-                        border: Border.all(color: appTheme.blackCustom, width: 2.h),
+                        border: Border.all(
+                          color: appTheme.blackCustom,
+                          width: 2.h,
+                        ),
                       ),
                       child: Center(
                         child: CustomImageView(
@@ -56,9 +59,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                       right: 12.h,
                       bottom: 40.h,
                     ),
-                    child: Center(
-                      child: _buildMainCard(context),
-                    ),
+                    child: Center(child: _buildMainCard(context)),
                   ),
                 ),
               ],
@@ -103,8 +104,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
           Text('Collected: 1/5', style: TextStyleHelper.instance.title16),
           SizedBox(height: 32.h),
           GestureDetector(
-            onTap: () {
-            },
+            onTap: () {},
             child: Container(
               width: 220.h,
               height: 61.h,
