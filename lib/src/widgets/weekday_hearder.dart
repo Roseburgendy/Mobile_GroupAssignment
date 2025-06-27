@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class WeekdayHeaderRow extends StatelessWidget {
   const WeekdayHeaderRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+    final loc = AppLocalizations.of(context)!;
+
+    final weekdays = [
+      loc.monShort,
+      loc.tueShort,
+      loc.wedShort,
+      loc.thuShort,
+      loc.friShort,
+      loc.satShort,
+      loc.sunShort,
+    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0), // 控制整体左右边距，适配日历

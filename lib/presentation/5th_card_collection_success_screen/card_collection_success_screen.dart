@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core4/app_export.dart';
 import '../../widgets4/custom_image_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CardCollectionSuccessScreen extends StatelessWidget {
   const CardCollectionSuccessScreen({Key? key}) : super(key: key);
@@ -81,7 +82,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 31.h),
-          Text('Awesome!', style: TextStyleHelper.instance.headline32Bold),
+          Text(AppLocalizations.of(context)!.cardSuccessTitle, style: TextStyleHelper.instance.headline32Bold),
           SizedBox(height: 14.h),
           CustomImageView(
             imagePath: ImageConstant.imgRectangle3041,
@@ -94,13 +95,13 @@ class CardCollectionSuccessScreen extends StatelessWidget {
           SizedBox(
             width: 263.h,
             child: Text(
-              'You got a brand new card!',
+              AppLocalizations.of(context)!.cardSuccessSubtitle,
               style: TextStyleHelper.instance.headline24Bold,
               textAlign: TextAlign.center,
             ),
           ),
           SizedBox(height: 10.h),
-          Text('Collected: 1/5', style: TextStyleHelper.instance.title16),
+          Text(AppLocalizations.of(context)!.cardCollectedStatus(1, 5), style: TextStyleHelper.instance.title16),
           SizedBox(height: 32.h),
           GestureDetector(
             onTap: () {
@@ -125,7 +126,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Back',
+                    AppLocalizations.of(context)!.back,
                     style: TextStyleHelper.instance.headline32Bold.copyWith(
                       color: appTheme.whiteCustom,
                     ),

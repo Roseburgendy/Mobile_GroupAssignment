@@ -8,6 +8,7 @@ import '../MainNavigation.dart';
 import '../src/widgets/box_button.dart';
 import '../screens/signup.dart';
 import '../screens/resetpassword.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -42,7 +43,7 @@ class LoginScreen extends StatelessWidget {
 
               // Email 输入框
               InputField(
-                hintText: 'Email/ID',
+                hintText: AppLocalizations.of(context)!.loginEmailHint,
                 width: double.infinity,
                 controller: emailController,
               ),
@@ -51,7 +52,7 @@ class LoginScreen extends StatelessWidget {
 
               // 密码输入框
               InputField(
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.loginPassword,
                 isPassword: true,
                 width: double.infinity,
                 controller: passwordController,
@@ -63,7 +64,7 @@ class LoginScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextLinkButton(
-                  text: 'FORGOT PASSWORD?',
+                    text: AppLocalizations.of(context)!.loginForgotPassword,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -76,7 +77,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 25),
 
               BoxButton(
-                title: 'LOG IN',
+                title: AppLocalizations.of(context)!.loginButton,
                 style: ButtonStyleType.primary,
                 iconRight: true,
                 onTap: () => _handleLogin(context),
@@ -89,9 +90,9 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('No Account? '),
+                  Text(AppLocalizations.of(context)!.loginNoAccountText),
                   TextLinkButton(
-                    text: 'SIGN UP',
+                    text: AppLocalizations.of(context)!.loginSignUp,
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -125,8 +126,8 @@ class LoginScreen extends StatelessWidget {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter both email and password'),
+         SnackBar(
+          content: Text(AppLocalizations.of(context)!.loginMissingFieldsMessage),
           duration: Duration(seconds: 2),
           backgroundColor: Colors.redAccent,
         ),

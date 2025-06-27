@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import '../../src/widgets/back_button.dart';
 import '../../src/widgets/details_block.dart';
 import '../../src/widgets/last_next_button.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DailyDetailsScreen extends StatefulWidget {
   final DateTime selectedDate;
 
@@ -170,12 +170,14 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                           children: [
                             Column(
                               children: [
-                                const Text('LOST',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF003D04),
-                                    )),
+                                Text(AppLocalizations.of(context)!.lostWeight,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF003D04),
+                                  ),
+                                ),
+
                                 const SizedBox(height: 8),
                                 Text(weightLost,
                                     style: const TextStyle(
@@ -187,12 +189,14 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                             ),
                             Column(
                               children: [
-                                const Text('BURNED',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF003D04),
-                                    )),
+                                Text(AppLocalizations.of(context)!.burnedCalories,  // 替换 'BURNED'
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF003D04),
+                                  ),
+                                ),
+
                                 const SizedBox(height: 8),
                                 Text(caloriesBurned,
                                     style: const TextStyle(
@@ -229,15 +233,17 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       NavigationButton(
-                        text: 'Last',
+                        text: AppLocalizations.of(context)!.previousDay,  // 替换 'Last'
                         isNextButton: false,
-                        onPressed: _goToPreviousDay, 
+                        onPressed: _goToPreviousDay,
                       ),
+
                       NavigationButton(
-                        text: 'Next',
+                        text: AppLocalizations.of(context)!.nextDay,  // 替换 'Next'
                         isNextButton: true,
                         onPressed: _goToNextDay,
                       ),
+
                     ],
                   ),
                 ),

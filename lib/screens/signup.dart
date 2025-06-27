@@ -5,6 +5,7 @@ import '../../src/widgets/text_link_button.dart';
 import '../../src/widgets/login_image.dart';
 import '../src/widgets/box_button.dart';
 import '../../src/widgets/back_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatelessWidget {
   final emailController = TextEditingController();
@@ -18,8 +19,8 @@ class SignUpScreen extends StatelessWidget {
     Navigator.pop(context); 
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Please enter both email and password'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.commonMissingFieldsAlert),
         duration: Duration(seconds: 2),
         backgroundColor: Colors.redAccent,
       ),
@@ -52,7 +53,7 @@ class SignUpScreen extends StatelessWidget {
                     const SizedBox(width: 20),
 
                     Text(
-                      'Create Account',
+                      AppLocalizations.of(context)!.signUpTitle,
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -66,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
 
               // Email 输入框
               InputField(
-                hintText: 'Email/ID',
+                hintText: AppLocalizations.of(context)!.loginEmailHint,
                 width: double.infinity,
                 controller: emailController,
               ),
@@ -75,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
 
               // 密码输入框
               InputField(
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.loginPassword,
                 isPassword: true,
                 width: double.infinity,
                 controller: passwordController,
@@ -84,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
               const SizedBox(height: 60),
 
               BoxButton(
-                title: 'Sign Up',
+                title: AppLocalizations.of(context)!.signUpButton,
                 style: ButtonStyleType.primary,
                 iconRight: true,
                 onTap: () => _handleSignUp(context),

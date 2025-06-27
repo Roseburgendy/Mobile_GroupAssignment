@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class InteractiveWeeklyChart extends StatefulWidget {
   final List<List<double>> datasets;
@@ -17,13 +18,23 @@ class InteractiveWeeklyChart extends StatefulWidget {
 class _InteractiveWeeklyChartState extends State<InteractiveWeeklyChart> {
   int selectedOption = 0;
 
-  final List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 
   @override
   Widget build(BuildContext context) {
     final data = widget.datasets[selectedOption];
     final maxData = (data.isNotEmpty ? data.reduce((a, b) => a > b ? a : b) : 1);
+    final loc = AppLocalizations.of(context)!;
 
+    final List<String> localizedDays = [
+      loc.mon,
+      loc.tue,
+      loc.wed,
+      loc.thu,
+      loc.fri,
+      loc.sat,
+      loc.sun,
+    ];
     return Container(
       width: double.infinity,
       child: Column(
@@ -31,7 +42,7 @@ class _InteractiveWeeklyChartState extends State<InteractiveWeeklyChart> {
         children: [
           // title
           Text(
-            'Recent Week',
+            loc.recentWeek,
             style: TextStyle(
               color: const Color(0xFF001428),
               fontSize: 20,
@@ -45,9 +56,9 @@ class _InteractiveWeeklyChartState extends State<InteractiveWeeklyChart> {
           // button
           Row(
             children: [
-              buildOptionButton(0, 'Cal'),
+              buildOptionButton(0, AppLocalizations.of(context)!.calories),
               const SizedBox(width: 13),
-              buildOptionButton(1, 'Water'),
+              buildOptionButton(1, AppLocalizations.of(context)!.water),
             ],
           ),
           const SizedBox(height: 34),
@@ -75,7 +86,7 @@ class _InteractiveWeeklyChartState extends State<InteractiveWeeklyChart> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      days[index],
+                      localizedDays[index],
                       style: TextStyle(
                         color: const Color(0xFF001428),
                         fontSize: 12,

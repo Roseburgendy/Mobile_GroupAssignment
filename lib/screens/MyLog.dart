@@ -5,8 +5,8 @@ import '../src/widgets/weekday_hearder.dart';
 import '../src/widgets/calendar.dart';
 import '../src/widgets/weekly_bar_chart.dart';
 import '../src/widgets/custom_bottom_nav_bar.dart';
-import './daily_details.dart'; 
-
+import './daily_details.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyLogScreen extends StatefulWidget {
   const MyLogScreen({Key? key}) : super(key: key);
 
@@ -27,10 +27,11 @@ class _MyLogScreenState extends State<MyLogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "My Log",
+        title: Text(
+          AppLocalizations.of(context)!.myLog,
           style: Headline4Style,
         ),
+
         centerTitle: true,
       ),
       body: Padding(
@@ -42,11 +43,12 @@ class _MyLogScreenState extends State<MyLogScreen> {
               // Calendar Section
 
               const SizedBox(height: 10),
-              
-              const CalendarTitle(
-                title: 'My Calendar',
+
+               CalendarTitle(
+                title: AppLocalizations.of(context)!.myCalendar,
                 width: 327,
               ),
+
               const SizedBox(height: 24),
               
               const WeekdayHeaderRow(),

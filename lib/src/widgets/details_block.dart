@@ -1,5 +1,6 @@
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'box_text.dart';
 
@@ -20,7 +21,7 @@ class FitnessStatsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         // Daily Exercise Container (full width)
@@ -48,7 +49,7 @@ class FitnessStatsContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Daily Exercise',
+                loc.dailyExerciseTitle,
                 style: const TextStyle(
                   color: Color(0xFF001428),
                   fontSize: 24,
@@ -61,7 +62,7 @@ class FitnessStatsContainer extends StatelessWidget {
 
 
               Text(
-                'Activity calories: $activityCalories kcal',
+                "${loc.activityCaloriesLabel}: $activityCalories ",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF4AA350),
@@ -74,7 +75,7 @@ class FitnessStatsContainer extends StatelessWidget {
 
               const SizedBox(height: 10),
               Text(
-                'Activity hours: $activityHours hours',
+                "${loc.activityHoursLabel}: $activityHours ${loc.hoursSuffix}",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF4AA350),
@@ -118,8 +119,8 @@ class FitnessStatsContainer extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        'Water Intake',
+                       Text(
+                        loc.waterIntake,
                         style: TextStyle(
                           color: Color(0xFF001428),
                           fontSize: 19.14,
@@ -142,8 +143,8 @@ class FitnessStatsContainer extends StatelessWidget {
                                 height: 1.7,
                               ),
                             ),
-                            const TextSpan(
-                              text: 'mL',
+                             TextSpan(
+                               text: loc.mlUnit,
                               style: TextStyle(
                                 color: Color(0xFF4AA350),
                                 fontSize: 14,
@@ -183,9 +184,9 @@ class FitnessStatsContainer extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        'Steps',
-                        style: TextStyle(
+                      Text(
+                        loc.stepsLabel,
+                        style: const TextStyle(
                           color: Color(0xFF001428),
                           fontSize: 19.14,
                           fontFamily: 'Montserrat',

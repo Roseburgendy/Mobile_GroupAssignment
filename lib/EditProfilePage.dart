@@ -4,7 +4,7 @@ import 'package:assignment1/src/widgets/box_button.dart';
 import "package:flutter/material.dart";
 import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditProfilePage extends StatefulWidget
 {
@@ -53,7 +53,7 @@ class _EditProfilePageState extends State<EditProfilePage>
         appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             //elevation: 1,
-            title: BoxText.Headline4("Edit Profile"),
+            title: BoxText.Headline4(AppLocalizations.of(context)!.editProfile),
             centerTitle: true,
             leading: IconButton(
                 icon: Icon(
@@ -107,8 +107,8 @@ class _EditProfilePageState extends State<EditProfilePage>
                           height: 35
                       ),
                       /// INPUT BOXES
-                      buildTextField("Full Name", _nameController, false),
-                      buildTextField("Bios", _bioController, false),
+                      buildTextField(AppLocalizations.of(context)!.fullName, _nameController, false),
+                      buildTextField(AppLocalizations.of(context)!.bio, _bioController, false),
                       // buildTextField("Date of Birth", "2008-5-23", false),
                       // buildTextField("Current Height", "180 cm", false),
                       // buildTextField("Current Weight", "70 kg", false),
@@ -127,7 +127,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                                 style: ButtonStyleType.secondary,
                                 iconRight: true,
                                 icon: Icon(Icons.cancel),
-                                title: "Cancel",
+                                title: AppLocalizations.of(context)!.cancel,
                                 onTap: ()
                                 {
                                   resetToOriginal();
@@ -137,7 +137,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                                 style: ButtonStyleType.primary,
                                 iconRight: true,
                                 icon: Icon(Icons.save_alt),
-                                title: "Save",
+                                title: AppLocalizations.of(context)!.save,
                                 onTap: ()
                                 {
                                   saveAndReturn();

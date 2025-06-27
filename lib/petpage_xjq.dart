@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:assignment1/model/petpage_xjq/pet_collected.dart';
 import 'package:assignment1/model/petpage_xjq/pet_uncollected.dart';
 import 'package:assignment1/pet_gridview_xjq.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetPage extends StatefulWidget
 {
@@ -22,7 +23,7 @@ class _PetPageState extends State<PetPage>
     late List<PetCardData> uncollectedPets;
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
         // 数据初始化
@@ -51,14 +52,15 @@ class _PetPageState extends State<PetPage>
             .toList();
     }
 
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return Scaffold(
             appBar: AppBar(
-                title: const Text(
-                    "Pet House",
+                title: Text(
+                    AppLocalizations.of(context)!.petHouse, // 替换 "Pet House"
                     style: Headline4Style
                 ),
+
                 centerTitle: true
             ),
             body: Column(
@@ -71,9 +73,9 @@ class _PetPageState extends State<PetPage>
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                            buildSwitchButton("COLLECTED", 0),
+                            buildSwitchButton(AppLocalizations.of(context)!.collected, 0),
                             const SizedBox(width: 12),
-                            buildSwitchButton("TO COLLECT", 1)
+                            buildSwitchButton(AppLocalizations.of(context)!.toCollect, 1)
                         ]
                     ),
 
@@ -94,7 +96,7 @@ class _PetPageState extends State<PetPage>
         );
     }
 
-    Widget buildSwitchButton(String label, int index) 
+    Widget buildSwitchButton(String label, int index)
     {
         final bool isSelected = selectedIndex == index;
         return Container(
@@ -147,7 +149,7 @@ class _PetProfile extends StatelessWidget
 {
     const _PetProfile();
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return Column(
             children: [
@@ -203,8 +205,8 @@ class _PetProfile extends StatelessWidget
                 const SizedBox(height: 13),
 
                 // Progress text
-                const Text(
-                    '3 / 5 collected',
+                Text(
+                    '${3} / ${5} ${AppLocalizations.of(context)!.collectedLabel}',
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w500,

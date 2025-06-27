@@ -3,9 +3,11 @@ import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
 import '../../box_ui.dart';
 import '../shared/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingsItem extends StatefulWidget
 {
+    final Icon itemIcon;
     final String text;
     final bgColor;
     final textColor;
@@ -14,6 +16,7 @@ class SettingsItem extends StatefulWidget
     const SettingsItem({
         Key? key,
         this.onTap,
+        required this.itemIcon,
         required this.text,
         required this.bgColor,
         required this.textColor
@@ -34,8 +37,8 @@ class _SettingItemState extends State<SettingsItem>
             onTap: widget.onTap,
             child:
             Container(
-                width: 350,
-                padding: const EdgeInsets.all(20),
+                width: 350.w,
+                padding: EdgeInsets.all(20.w),
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                     color: widget.bgColor,
@@ -44,14 +47,20 @@ class _SettingItemState extends State<SettingsItem>
                 ),
                 child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 40,
+                    crossAxisAlignment: CrossAxisAlignment.center, // 建议用 center 更自然
                     children: [
+                        Icon(widget.itemIcon.icon, color: widget.textColor, size: 24.w),
+
+                        SizedBox(width: 20.w),
+
                         BoxText.Subtitle(widget.text, color: widget.textColor),
-                        Icon(Icons.arrow_right_alt_rounded, color: widget.textColor)
-                    ]
-                )
+
+                        Spacer(),
+
+                        Icon(Icons.keyboard_arrow_right_sharp, color: widget.textColor, size: 24.w),
+                    ],
+                ),
+
             )
         );
     }

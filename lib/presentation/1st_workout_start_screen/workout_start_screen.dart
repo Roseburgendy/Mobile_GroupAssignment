@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_image_view.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NavItem {
   final String imagePath;
   NavItem({required this.imagePath});
@@ -110,9 +110,10 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
             children: [
               SizedBox(height: 23.h),
               Text(
-                'Start Workout',
+                AppLocalizations.of(context)!.startWorkout, // 替换硬编码文本
                 style: TextStyleHelper.instance.title20Bold,
               ),
+
               SizedBox(height: 64.h),
               CustomImageView(
                 imagePath: ImageConstant.imgDuolingo,
@@ -151,7 +152,11 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
           ],
         ),
         child: Center(
-          child: Text('GO', style: TextStyleHelper.instance.display48SemiBold),
+          child: Text(
+            AppLocalizations.of(context)!.go, // 替换硬编码文本
+            style: TextStyleHelper.instance.display48SemiBold,
+          ),
+
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import '../../core1/app_export.dart';
 import '../../widgets1/custom_control_button.dart';
 import '../../widgets1/custom_image_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkoutTimerScreen extends StatefulWidget {
   const WorkoutTimerScreen({super.key});
@@ -164,9 +165,10 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
         children: [
           SizedBox(height: 23.h),
           Text(
-            'Start Workout',
+            AppLocalizations.of(context)!.startWorkout,
             style: TextStyleHelper.instance.title20BoldMontserrat,
           ),
+
           SizedBox(height: 69.h),
           CustomImageView(
             imagePath: ImageConstant.imgDuolingo,

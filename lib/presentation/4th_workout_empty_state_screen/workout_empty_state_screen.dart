@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core3/app_export.dart';
 import '../../widgets3/custom_image_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkoutEmptyStateScreen extends StatelessWidget {
   const WorkoutEmptyStateScreen({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 12.h),
                       child: Column(
                         children: [
-                          _buildMainCard(),
+                          _buildMainCard(context),
                           SizedBox(height: 100.h), // 保证底部留白
                         ],
                       ),
@@ -71,7 +72,7 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMainCard() {
+  Widget _buildMainCard(BuildContext context) {
     return Container(
       width: 350.h,
       padding: EdgeInsets.symmetric(horizontal: 24.h, vertical: 32.h),
@@ -83,22 +84,22 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Oops!', style: TextStyleHelper.instance.headline32Bold),
+          Text(AppLocalizations.of(context)!.emptyOops, style: TextStyleHelper.instance.headline32Bold),
           SizedBox(height: 24.h),
           _buildStackedCards(),
           SizedBox(height: 24.h),
           Text(
-            'No new card this time.',
+    (AppLocalizations.of(context)!.emptyNoNewCard),
             textAlign: TextAlign.center,
             style: TextStyleHelper.instance.headline24Bold,
           ),
           SizedBox(height: 40.h),
           Text(
-            'Workout Today: 1 time • 5 min',
+            AppLocalizations.of(context)!.workoutTodayText("1", "5"),
             style: TextStyleHelper.instance.title16,
           ),
           SizedBox(height: 40.h),
-          _buildKeepGoingButton(),
+          _buildKeepGoingButton(context),
         ],
       ),
     );
@@ -138,7 +139,7 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildKeepGoingButton() {
+  Widget _buildKeepGoingButton(BuildContext context) {
     return Container(
       width: 300.h,
       height: 61.h,
@@ -156,7 +157,7 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          'Keep Going!',
+          AppLocalizations.of(context)!.keepGoing,
           style: TextStyleHelper.instance.display36Bold,
         ),
       ),
