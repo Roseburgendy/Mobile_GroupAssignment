@@ -36,13 +36,13 @@ class _BoxButtonState extends State<BoxButton> {
 
   void _handleTapDown(TapDownDetails details) {
     if (!widget.disabled) setState(() => _isPressed = true);
-  }
+}
 
-  void _handleTapUp(TapUpDetails details) {
-    if (!widget.disabled) setState(() => _isPressed = false);
-  }
+void _handleTapUp(TapUpDetails details) {
+  if (!widget.disabled) setState(() => _isPressed = false);
+}
 
-  void _handleTapCancel() {
+void _handleTapCancel() {
     if (!widget.disabled) setState(() => _isPressed = false);
   }
 

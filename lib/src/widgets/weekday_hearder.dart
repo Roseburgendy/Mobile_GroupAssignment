@@ -5,35 +5,33 @@ class WeekdayHeaderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        WeekdayItem(weekday: 'MON', width: 35.5),
-        WeekdayItem(weekday: 'TUE', width: 27.89),
-        WeekdayItem(weekday: 'WED', width: 35.5),
-        WeekdayItem(weekday: 'THU', width: 30.43),
-        WeekdayItem(weekday: 'FRI', width: 22.82),
-        WeekdayItem(weekday: 'SAT', width: 27.05),
-        WeekdayItem(weekday: 'SUN', width: 30.43),
-      ],
+    const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0), // 控制整体左右边距，适配日历
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: weekdays
+            .map((day) =>  Expanded(
+          child: WeekdayItem(weekday: day),
+        ))
+            .toList(),
+      ),
     );
   }
 }
 
 class WeekdayItem extends StatelessWidget {
   final String weekday;
-  final double width;
-  
+
   const WeekdayItem({
     Key? key,
     required this.weekday,
-    required this.width,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
+    return Center(
       child: Text(
         weekday,
         textAlign: TextAlign.center,

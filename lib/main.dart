@@ -1,52 +1,39 @@
+import 'package:assignment1/routes/app_routes.dart';
+import 'package:assignment1/screens/login.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:assignment1/homepage.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-=======
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'MainNavigation.dart';
-import 'package:sqflite/sqflite.dart';
-import 'dbzzq/openLocalDatabase.dart'; 
-import 'services/database_service.dart';
 
-late Database db; 
+
+import 'MainNavigation.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
+  WidgetsFlutterBinding.ensureInitialized(); // 需要初始化绑定
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-  db = await openLocalDatabase();
-
-
-  
-  //test
-  final dbService = DatabaseService(db);
-  final userId = await dbService.createZzqUser();
-  if (userId != null) {
-  await dbService.insertSampleHealthDataForZzq(userId);
-}
 
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
->>>>>>> Stashed changes
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget {
+  final bool isLoggedIn;
+
+  const MyApp({super.key, required this.isLoggedIn});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePage(),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: isLoggedIn ? MainNavigationBar() : LoginScreen(),
+          routes: AppRoutes.routes,
+        );
+      },
     );
   }
 }
+
+
+
