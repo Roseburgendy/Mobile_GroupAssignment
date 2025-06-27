@@ -42,18 +42,6 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
     });
   }
 
-  /*void _loadDataForDate(DateTime date) async {
-  final data = await DatabaseService.getDailyStats(date); // 示例
-  setState(() {
-    currentWeight = data.weight;
-    weightLost = data.weightLost;
-    caloriesBurned = data.calories;
-    waterIntake = data.water;
-    stepsCount = data.steps;
-  });
-}*/
-
-
   void _goToPreviousDay() {
     setState(() {
       currentDate = currentDate.subtract(const Duration(days: 1));
