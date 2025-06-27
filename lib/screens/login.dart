@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:assignment1/services/database_service.dart';
+import 'package:assignment1/main.dart';
 import '../../src/widgets/input_field.dart';
-import '../../src/widgets/login_button.dart';
 import '../../src/widgets/text_link_button.dart';
 import '../../src/widgets/login_image.dart';
 import '../MainNavigation.dart';
@@ -9,12 +10,11 @@ import '../src/widgets/box_button.dart';
 import '../screens/signup.dart';
 import '../screens/resetpassword.dart';
 
-
 class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
               // 顶部图片
               Center(
                 child: LoginImage(
-                  width: size.width * 0.8, // 自适应宽度
+                  width: size.width * 0.8,
                   height: 187,
                   imagePath: "assets/image/login_banner.png",
                 ),
@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                 style: ButtonStyleType.primary,
                 iconRight: true,
                 onTap: () => _handleLogin(context),
-                icon: Icon(Icons.arrow_forward, size: 20, color: Colors.black),
+                icon: const Icon(Icons.arrow_forward, size: 20, color: Colors.black),
               ),
 
               const SizedBox(height: 40),
@@ -112,26 +112,43 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _handleLogin(BuildContext context) async {
-    final email = emailController.text.trim();
+    final username = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (email.isNotEmpty && password.isNotEmpty) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
+    if (username.isNotEmpty && password.isNotEmpty) {
+      final dbService = DatabaseService(db);
+      final success = await dbService.validateLogin(username, password);
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainNavigationBar()),
-      );
+      if (success) {
+        debugPrint('登录成功: $username');
+
+        await dbService.insertDefaultHealthDataIfNeeded(username);
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('username', username);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainNavigationBar()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Wrong user name or password'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please enter both email and password'),
+          content: Text('Please enter user name or password'),
           duration: Duration(seconds: 2),
           backgroundColor: Colors.redAccent,
         ),
       );
     }
   }
-
 }
