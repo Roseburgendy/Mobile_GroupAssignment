@@ -27,13 +27,25 @@ class _MyLogScreenState extends State<MyLogScreen> {
   ];
 
   bool _isLoading = true;
-  String? _username; 
+  String? _username;
+
+  bool _checkedRefresh = false;
 
   @override
   void initState() {
     super.initState();
     _loadWeeklyData();
   }
+
+  Future<void> _checkForUpdates() async {
+    final prefs = await SharedPreferences.getInstance();
+    final shouldRefresh = prefs.getBool('shouldRefreshMyLog') ?? false;
+
+    if (shouldRefresh) {
+    await _loadWeeklyData();
+    await prefs.setBool('shouldRefreshMyLog', false);
+    }
+     }
 
   Future<void> _loadWeeklyData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -68,6 +80,11 @@ class _MyLogScreenState extends State<MyLogScreen> {
           ? DateTime(date.year, date.month + 1, 1)
           : DateTime(date.year + 1, 1, 1);
       return firstDayNextMonth.subtract(const Duration(days: 1)).day;
+
+      if (!_checkedRefresh) {
+        _checkedRefresh = true;
+        _checkForUpdates();
+      }
     }
 
     final now = DateTime.now();
