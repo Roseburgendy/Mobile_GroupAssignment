@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 import 'box_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AchievementItem extends StatelessWidget {
   final String imagePath;
   final String text;
@@ -137,7 +139,7 @@ class AchievementDialog extends StatelessWidget
                             mainAxisSize: MainAxisSize.min,
                             children: [
                                 SizedBox(height: 10),
-                                Text("Medals", style: SubtitleStyle),
+                                Text(AppLocalizations.of(context)!.medals, style: SubtitleStyle),
                                 SizedBox(height: 2),
                                 Text(title, style: Headline4Style),
                                 SizedBox(height: 8),

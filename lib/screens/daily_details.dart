@@ -1,9 +1,13 @@
+import 'package:assignment1/src/shared/app_colors.dart';
+import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../src/widgets/back_button.dart';
 import '../../src/widgets/details_block.dart';
 import '../../src/widgets/last_next_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../box_ui.dart';
 class DailyDetailsScreen extends StatefulWidget {
   final DateTime selectedDate;
 
@@ -84,7 +88,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   decoration: ShapeDecoration(
-                    color: const Color(0x99009D0A),
+                    color: AppColors.primarySolid60,
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(width: 2),
                       borderRadius: const BorderRadius.only(
@@ -116,7 +120,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
+                              color: AppColors.secondarySolid50,
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
                                 color: const Color(0xFF001428),
@@ -125,17 +129,13 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                             ),
                             child: Text(
                               formattedDate,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: TitleStyle,
                             ),
                           ),
                           const Spacer(flex: 2),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 40),
                       Center(
                         child: Container(
                           width: 128,
@@ -153,11 +153,7 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                           child: Center(
                             child: Text(
                               currentWeight,
-                              style: const TextStyle(
-                                color: Color(0xFF003D04),
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: TitleStyle
                             ),
                           ),
                         ),
@@ -170,40 +166,24 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
                           children: [
                             Column(
                               children: [
-                                Text(AppLocalizations.of(context)!.lostWeight,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF003D04),
-                                  ),
+                                BoxText.Title(AppLocalizations.of(context)!.lostWeight,
+                                  color: AppColors.white100,
                                 ),
 
                                 const SizedBox(height: 8),
-                                Text(weightLost,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF006B07),
-                                    )),
+
+                                BoxText.Body(weightLost,color: AppColors.white100,)
                               ],
                             ),
                             Column(
                               children: [
-                                Text(AppLocalizations.of(context)!.burnedCalories,  // 替换 'BURNED'
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF003D04),
-                                  ),
+                                BoxText.Title(AppLocalizations.of(context)!.burnedCalories,
+                                  color: AppColors.white100,
                                 ),
 
                                 const SizedBox(height: 8),
-                                Text(caloriesBurned,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF006B07),
-                                    )),
+                                BoxText.Body(caloriesBurned,color: AppColors.white100,)
+
                               ],
                             ),
                           ],

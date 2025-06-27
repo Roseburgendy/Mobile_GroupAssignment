@@ -1,4 +1,6 @@
 import 'package:assignment1/src/shared/app_colors.dart';
+import 'package:assignment1/src/shared/app_effects.dart';
+import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -30,18 +32,14 @@ class FitnessStatsContainer extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFFF8CB),
+            color: AppColors.secondarySolid10,
             borderRadius: BorderRadius.circular(19.14),
             border: Border.all(
               color: const Color(0xFF001428),
               width: 1.59,
             ),
             boxShadow: const [
-              BoxShadow(
-                color: Color(0xFF001428),
-                blurRadius: 0,
-                offset: Offset(1.59, 3.19),
-              ),
+             AppEffectStyles.cardShadowEffect
             ],
           ),
           child: Column(
@@ -103,31 +101,21 @@ class FitnessStatsContainer extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12.76),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFF8CB),
+                    color: AppColors.secondarySolid10,
                     borderRadius: BorderRadius.circular(19.14),
                     border: Border.all(
                       color: const Color(0xFF001428),
                       width: 1.59,
                     ),
                     boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xFF001428),
-                        blurRadius: 0,
-                        offset: Offset(1.59, 3.19),
-                      ),
+                      AppEffectStyles.cardShadowEffect
                     ],
                   ),
                   child: Column(
                     children: [
                        Text(
                         loc.waterIntake,
-                        style: TextStyle(
-                          color: Color(0xFF001428),
-                          fontSize: 19.14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w700,
-                          height: 1.33,
-                        ),
+                        style: SubtitleStyle
                       ),
                       const SizedBox(height: 10),
                       Text.rich(
@@ -175,24 +163,14 @@ class FitnessStatsContainer extends StatelessWidget {
                       width: 1.59,
                     ),
                     boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xFF001428),
-                        blurRadius: 0,
-                        offset: Offset(1.59, 3.19),
-                      ),
+                      AppEffectStyles.cardShadowEffect
                     ],
                   ),
                   child: Column(
                     children: [
                       Text(
                         loc.stepsLabel,
-                        style: const TextStyle(
-                          color: Color(0xFF001428),
-                          fontSize: 19.14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w700,
-                          height: 1.33,
-                        ),
+                          style: SubtitleStyle
                       ),
                       const SizedBox(height: 10),
                       Text(

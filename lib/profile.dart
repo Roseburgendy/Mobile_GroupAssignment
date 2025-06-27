@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:assignment1/EditProfilePage.dart';
+import 'package:assignment1/helpscreen.dart';
+import 'package:assignment1/password_settings.dart';
+
 import 'package:assignment1/screens/login.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/shared/styles.dart';
@@ -62,74 +65,81 @@ class MedalsHorizontalList extends StatefulWidget
     _MedalsHorizontalListState createState() => _MedalsHorizontalListState();
 }
 
-class _MedalsHorizontalListState extends State<MedalsHorizontalList> {
-  final PageController _pageController = PageController(viewportFraction: 0.8);
-  Timer? _timer;
-  int _currentPage = 0;
+class _MedalsHorizontalListState extends State<MedalsHorizontalList>
+{
+    final PageController _pageController = PageController(viewportFraction: 0.8);
+    Timer? _timer;
+    int _currentPage = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(Duration(seconds: 3), (_) {
-      if (_pageController.hasClients) {
-        _currentPage = (_currentPage + 1) % 4;
-        _pageController.animateToPage(
-          _currentPage,
-          duration: Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
+    @override
+    void initState() 
+    {
+        super.initState();
+        _timer = Timer.periodic(Duration(seconds: 3), (_)
+            {
+                if (_pageController.hasClients) 
+                {
+                    _currentPage = (_currentPage + 1) % 4;
+                    _pageController.animateToPage(
+                        _currentPage,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeInOut
+                    );
+                }
+            }
         );
-      }
-    });
-  }
+    }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _pageController.dispose();
-    super.dispose();
-  }
+    @override
+    void dispose() 
+    {
+        _timer?.cancel();
+        _pageController.dispose();
+        super.dispose();
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    final items = [
-      AchievementItem(
-        imagePath: 'assets/image/Achievement_Page/Achievement_Animal Lover.png',
-        text: AppLocalizations.of(context)!.animalLover,
-        description: AppLocalizations.of(context)!.animalLoverDesc,
-      ),
-      AchievementItem(
-        imagePath: 'assets/image/Achievement_Page/Achievement_Drinker.png',
-        text: AppLocalizations.of(context)!.drinker,
-        description: AppLocalizations.of(context)!.drinkerDesc,
-      ),
-      AchievementItem(
-        imagePath: 'assets/image/Achievement_Page/Achievement_Energetic.png',
-        text: AppLocalizations.of(context)!.energetic,
-        description: AppLocalizations.of(context)!.energeticDesc,
-      ),
-      AchievementItem(
-        imagePath: 'assets/image/Achievement_Page/Achievement_New Start.png',
-        text: AppLocalizations.of(context)!.newStart,
-        description: AppLocalizations.of(context)!.newStartDesc,
-      ),
-    ];
+    @override
+    Widget build(BuildContext context) 
+    {
+        final items = [
+            AchievementItem(
+                imagePath: 'assets/image/Achievement_Page/Achievement_Animal Lover.png',
+                text: AppLocalizations.of(context)!.animalLover,
+                description: AppLocalizations.of(context)!.animalLoverDesc
+            ),
+            AchievementItem(
+                imagePath: 'assets/image/Achievement_Page/Achievement_Drinker.png',
+                text: AppLocalizations.of(context)!.drinker,
+                description: AppLocalizations.of(context)!.drinkerDesc
+            ),
+            AchievementItem(
+                imagePath: 'assets/image/Achievement_Page/Achievement_Energetic.png',
+                text: AppLocalizations.of(context)!.energetic,
+                description: AppLocalizations.of(context)!.energeticDesc
+            ),
+            AchievementItem(
+                imagePath: 'assets/image/Achievement_Page/Achievement_New Start.png',
+                text: AppLocalizations.of(context)!.newStart,
+                description: AppLocalizations.of(context)!.newStartDesc
+            )
+        ];
 
-    return SizedBox(
-      height: 200.h,
-      child: PageView.builder(
-        controller: _pageController,
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: items[index],
-          );
-        },
-      ),
-    );
-  }
+        return SizedBox(
+            height: 200.h,
+            child: PageView.builder(
+                controller: _pageController,
+                itemCount: items.length,
+                itemBuilder: (context, index)
+                {
+                    return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: items[index]
+                    );
+                }
+            )
+        );
+    }
 }
-
 
 class Info extends StatefulWidget
 {
@@ -143,6 +153,9 @@ class _InfoState extends State<Info>
 {
     String profileName = "MIMI";
     String profileBio = "I love exercise!";
+    String currentWeight = "80kg";
+    String targetWeight = "50kg";
+
     final ImagePicker _picker = ImagePicker();
     XFile? _imageFile;
 
@@ -208,7 +221,10 @@ class _InfoState extends State<Info>
                                 MaterialPageRoute(
                                     builder: (context) => EditProfilePage(
                                         name: profileName,
-                                        bio: profileBio
+                                        bio: profileBio,
+                                      avatar: _imageFile?.path,
+                                      currentWeight: currentWeight,
+                                      targetWeight: targetWeight,
                                     )
                                 )
                             );
@@ -219,9 +235,17 @@ class _InfoState extends State<Info>
                                     {
                                         profileName = result['name'] ?? profileName;
                                         profileBio = result['bio'] ?? profileBio;
+                                        currentWeight = result['currentWeight'] ?? currentWeight;
+                                        targetWeight = result['targetWeight'] ?? targetWeight;
+
+                                        if (result['avatar'] != null) 
+                                        {
+                                            _imageFile = XFile(result['avatar']);
+                                        }
                                     }
                                 );
                             }
+
                         }
 
                     )
@@ -305,32 +329,7 @@ class _InfoState extends State<Info>
                             : AssetImage('assets/image/profile.png') as ImageProvider
                     )
                 ),
-                Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: InkWell(
-                        onTap: ()
-                        {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) => bottomSheet()
-                            );
-                        },
-                        child: Container(
-                            padding: EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.secondarySolid60,
-                                border: Border.all(color: Colors.white, width: 2)
-                            ),
-                            child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: 24.0
-                            )
-                        )
-                    )
-                )
+
             ]
         );
     }
@@ -373,56 +372,58 @@ class MedalsPage extends StatelessWidget
         );
     }
 }
-class LanguageBottomSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Locale current = Localizations.localeOf(context);
+class LanguageBottomSheet extends StatelessWidget
+{
+    @override
+    Widget build(BuildContext context) 
+    {
+        Locale current = Localizations.localeOf(context);
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: Container(
-        constraints: BoxConstraints(maxWidth: 500.w),
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch, // 让按钮宽度撑满
-          children: [
-            Center(
-              child: Text(
-                AppLocalizations.of(context)!.languageSettings,
-                style: Headline4Style,
-              ),
-            ),
-            SizedBox(height: 20.h),
-            BoxButton(
-              title: "English",
-              style: ButtonStyleType.secondary,
-              onTap: () {
-                MyApp.setLocale(context, Locale('en'));
-                Navigator.pop(context);
-              },
-            ),
-            SizedBox(height: 10.h),
-            BoxButton(
-              title: "简体中文",
-              style: ButtonStyleType.secondary,
-              onTap: () {
-                MyApp.setLocale(context, Locale('zh'));
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+        return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+            child: Container(
+                constraints: BoxConstraints(maxWidth: 500.w),
+                padding: EdgeInsets.all(20.w),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))
+                ),
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch, // 让按钮宽度撑满
+                    children: [
+                        Center(
+                            child: Text(
+                                AppLocalizations.of(context)!.languageSettings,
+                                style: Headline4Style
+                            )
+                        ),
+                        SizedBox(height: 20.h),
+                        BoxButton(
+                            title: "English",
+                            style: ButtonStyleType.secondary,
+                            onTap: ()
+                            {
+                                MyApp.setLocale(context, Locale('en'));
+                                Navigator.pop(context);
+                            }
+                        ),
+                        SizedBox(height: 10.h),
+                        BoxButton(
+                            title: "简体中文",
+                            style: ButtonStyleType.secondary,
+                            onTap: ()
+                            {
+                                MyApp.setLocale(context, Locale('zh'));
+                                Navigator.pop(context);
+                            }
+                        )
+                    ]
+                )
+            )
+        );
+    }
 }
-
-
 
 class SettingsPage extends StatelessWidget
 {
@@ -434,13 +435,23 @@ class SettingsPage extends StatelessWidget
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                     SettingsItem(
                         itemIcon: Icon(Icons.password_sharp),
-                        text: AppLocalizations.of(context)!.passwordSettings,
+                        text: AppLocalizations.of(context)!.changePassword,
                         bgColor: AppColors.secondarySolid50,
-                        textColor: AppColors.black100
+                        textColor: AppColors.black100,
+                        onTap: ()
+                        {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ResetPasswordPage())
+                          );
+                        }
                     ),
+
                     SizedBox(height: 20.h),
+                  /*
                     SettingsItem(
                         itemIcon: Icon(Icons.notifications),
                         text: AppLocalizations.of(context)!.notification,
@@ -448,9 +459,11 @@ class SettingsPage extends StatelessWidget
                         textColor: AppColors.black100
                     ),
                     SizedBox(height: 20.h),
+
+                   */
                     SettingsItem(
-                        itemIcon: Icon(Icons.privacy_tip),
-                        text:  AppLocalizations.of(context)!.languageSettings,
+                        itemIcon: Icon(Icons.language),
+                        text: AppLocalizations.of(context)!.languageSettings,
                         bgColor: AppColors.secondarySolid50,
                         textColor: AppColors.black100,
                         onTap: ()
@@ -475,7 +488,7 @@ class SettingsPage extends StatelessWidget
                         {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => LoginScreen())
+                                MaterialPageRoute(builder: (context) => HelpSupportScreen())
                             );
                         }
                     ),

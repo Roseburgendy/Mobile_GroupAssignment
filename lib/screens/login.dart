@@ -9,12 +9,12 @@ import '../src/widgets/box_button.dart';
 import '../screens/signup.dart';
 import '../screens/resetpassword.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  int userId = 5;
 
 
   @override
@@ -22,6 +22,7 @@ class LoginScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 36),
@@ -119,6 +120,8 @@ class LoginScreen extends StatelessWidget {
     if (email.isNotEmpty && password.isNotEmpty) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
+      // 登录验证成功后
+      saveUserIdToPrefs(userId); // 保存 ID
 
       Navigator.pushReplacement(
         context,
@@ -134,5 +137,8 @@ class LoginScreen extends StatelessWidget {
       );
     }
   }
-
+  void saveUserIdToPrefs(int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userId', userId);
+  }
 }

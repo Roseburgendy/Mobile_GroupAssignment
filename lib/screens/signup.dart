@@ -3,6 +3,7 @@ import '../../src/widgets/input_field.dart';
 import '../../src/widgets/login_button.dart';
 import '../../src/widgets/text_link_button.dart';
 import '../../src/widgets/login_image.dart';
+import '../src/shared/styles.dart';
 import '../src/widgets/box_button.dart';
 import '../../src/widgets/back_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,36 +34,16 @@ class SignUpScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.signUpTitle, style: Headline4Style),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 10),
-
-              Row(
-                  children: [
-                    AnalysisIconButton(
-                      imagePath: 'assets/icon/arrow-left.svg',
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-
-                    const SizedBox(width: 20),
-
-                    Text(
-                      AppLocalizations.of(context)!.signUpTitle,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ]
-              ),
-
               const SizedBox(height: 150),
 
               // Email 输入框
