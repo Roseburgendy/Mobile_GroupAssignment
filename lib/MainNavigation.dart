@@ -10,7 +10,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'homepage.dart';
 
-
 class MainNavigationBar extends StatefulWidget {
   const MainNavigationBar({super.key});
 
@@ -19,7 +18,6 @@ class MainNavigationBar extends StatefulWidget {
 }
 
 class _MainNavigationBarState extends State<MainNavigationBar> {
-
   final List<String> screenRoutes = [
     AppRoutes.home,
     AppRoutes.myLog,
@@ -38,15 +36,15 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
     if (_hasInitialized) {
       return;
     }
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     if (args != null && args.containsKey('initialIndex')) {
-     setState(() {
-       _page = args['initialIndex'];
-     });
+      setState(() {
+        _page = args['initialIndex'];
+      });
     }
     _hasInitialized = true;
-
   }
 
   @override
@@ -61,15 +59,17 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
     return Scaffold(
       body: IndexedStack(
         index: _page,
-        children: screenRoutes
-            .map((route) => AppRoutes.routes[route]!(context))
-            .toList(),
-
+        children:
+            screenRoutes
+                .map((route) => AppRoutes.routes[route]!(context))
+                .toList(),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         index: _page,
+
         /// bg color
         backgroundColor: Colors.transparent,
+
         /// app bar color
         color: CustomBottomNavBar.greenBg,
         height: 70,
@@ -79,30 +79,33 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
         animationDuration: Duration(milliseconds: 300),
 
         /// list of icon widgets
-        items: navItems.map((item) {
-          int index = navItems.indexOf(item);
-          final isActive = index == _page ;
+        items:
+            navItems.map((item) {
+              int index = navItems.indexOf(item);
+              final isActive = index == _page;
 
-          return Container(
-            padding: const EdgeInsets.all(15),
-            decoration: isActive
-                ? BoxDecoration(
-              shape: BoxShape.circle,
-              color: CustomBottomNavBar.activeBgCircle,
-              border: Border.all(color: Colors.black, width: 2),
-            ) : null,
+              return Container(
+                padding: const EdgeInsets.all(15),
+                decoration:
+                    isActive
+                        ? BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: CustomBottomNavBar.activeBgCircle,
+                          border: Border.all(color: Colors.black, width: 2),
+                        )
+                        : null,
 
-            child: SvgPicture.asset(
-              item.iconPath,
-              color: isActive
-                  ? CustomBottomNavBar.activeColor
-                  : CustomBottomNavBar.inactiveColor,
-              // Active icon is slightly larger
-              height: isActive ? 35 : 30,
-            ),
-          );
-        }).toList(),
-
+                child: SvgPicture.asset(
+                  item.iconPath,
+                  color:
+                      isActive
+                          ? CustomBottomNavBar.activeColor
+                          : CustomBottomNavBar.inactiveColor,
+                  // Active icon is slightly larger
+                  height: isActive ? 35 : 30,
+                ),
+              );
+            }).toList(),
 
         /// Handle tap event
         onTap: (index) {

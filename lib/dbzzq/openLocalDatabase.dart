@@ -54,5 +54,3 @@ Future<Database> openLocalDatabase() async {
     },
   );
 }
-
-

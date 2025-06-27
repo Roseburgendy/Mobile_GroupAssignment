@@ -7,11 +7,15 @@ import 'package:sizer/sizer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:assignment1/services/database_service.dart';
+import 'package:path/path.dart'; // 为 deleteOldDatabase 加上 join
 
-late Database db; 
+late Database db;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //清除旧数据库的function，如果需要就运行一下
+  //await deleteOldDatabase();
 
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
@@ -38,4 +42,12 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+// ✅ 删除旧数据库（建议只调用一次，之后注释掉即可）
+Future<void> deleteOldDatabase() async {
+  final dbPath = await getDatabasesPath();
+  final path = join(dbPath, 'healthapp.db');
+  await deleteDatabase(path);
+  print('旧数据库已删除');
 }
