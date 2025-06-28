@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
 class CalendarDateButtons extends StatelessWidget {
+
+  final int year;
+  final int month;
   final int daysInMonth;
-  final int firstDayOffset;
   final ValueChanged<DateTime> onDayPressed;
   final int? selectedDay; 
   
   const CalendarDateButtons({
     Key? key,
+    required this.year,
+    required this.month,
     required this.daysInMonth,
-    this.firstDayOffset = 0,
     required this.onDayPressed,
     this.selectedDay,
   }) : super(key: key);
+
+  int get firstDayOffset {
+    // DateTime.weekday returns 1 (Mon) - 7 (Sun), we want 0 (Sun) - 6 (Sat)
+    return (DateTime(year, month, 1).weekday +6) % 7;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +49,15 @@ class CalendarDateButtons extends StatelessWidget {
 
   Widget _buildDayButton(int day) {
     final now = DateTime.now();
-    final isToday = day == now.day && DateTime.now().month == now.month;
+    final isToday = day == now.day &&
+        month == now.month &&
+        year == now.year;
     final isSelected = day == selectedDay;
     
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        final currentDate = DateTime(now.year, now.month, day);
+        final currentDate = DateTime(year, month, day);
         onDayPressed(currentDate);
       },
       child: Container(

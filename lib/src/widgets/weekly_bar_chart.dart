@@ -18,6 +18,13 @@ class _InteractiveWeeklyChartState extends State<InteractiveWeeklyChart> {
   int selectedOption = 0;
 
   final List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  @override
+  void didUpdateWidget(InteractiveWeeklyChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.datasets != widget.datasets) {
+      print('检测到 datasets 已更新，重建柱状图');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

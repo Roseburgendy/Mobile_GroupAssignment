@@ -131,62 +131,6 @@ Future<List<List<double>>> getWeeklyHealthData(int userId) async {
   return [calories, water];
 }
 
-
-///test data
- Future<int> createZzqUser() async {
-    final res = await db.query(
-      'users',
-      where: 'username = ?',
-      whereArgs: ['zzq'],
-      limit: 1,
-    );
-
-    if (res.isNotEmpty) {
-      print('用户 zzq 已存在，ID: ${res.first['id']}');
-      return res.first['id'] as int;
-    }
-
-    final id = await db.insert('users', {
-      'username': 'zzq',
-      'passwordHash': 'qzz',
-    });
-    print('创建 zzq 用户成功，ID: $id');
-    return id;
-  }
-
-  Future<void> insertSampleHealthDataForZzq(int userId) async {
-    final now = DateTime.now();
-
-    for (int i = 0; i < 7; i++) {
-      final date = now.subtract(Duration(days: 6 - i));
-      final dateStr = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
-
-      try {
-        await db.insert(
-          'healthdata',
-          {
-            'date': dateStr,
-            'currentWeight': 65 + i * 0.1,
-            'iniWeight': 65.0,
-            'goalweight': 60.0,
-            'cal': 1200 + i * 50,
-            'water': 1800 - i * 50,
-            'step': 3000 + i * 500,
-            'exerciseTime': 30 + i * 5,
-            'userid': userId,
-          },
-          conflictAlgorithm: ConflictAlgorithm.ignore,
-        );
-        print('插入 zzq 的 $dateStr 数据成功');
-      } catch (e) {
-        print('插入 zzq 的 $dateStr 数据失败: $e');
-      }
-    }
-  }
-
-
-
-
   // 打印所有用户
   Future<void> printAllUsers() async {
     final users = await db.query('users');

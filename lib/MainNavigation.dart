@@ -32,6 +32,8 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
 
   @override
   void didChangeDependencies() {
+
+
     super.didChangeDependencies();
     if (_hasInitialized) {
       return;
