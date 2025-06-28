@@ -15,8 +15,8 @@ class WorkoutTimerScreen extends StatefulWidget {
 
 class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
   Timer? _timer;
-  Duration _duration = const Duration(minutes: 5);
-  Duration _remaining = const Duration(minutes: 5);
+  Duration _duration = const Duration(minutes: 1);
+  Duration _remaining = const Duration(minutes: 1);
   bool _isRunning = false;
   AudioPlayer audioPlayer = AudioPlayer();
 
