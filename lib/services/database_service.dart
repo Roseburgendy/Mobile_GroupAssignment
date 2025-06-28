@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
@@ -36,11 +37,25 @@ class DatabaseService {
   }
 
   // 登录验证
+  // 在这里尝试插入保存userID的逻辑
   Future<bool> validateLogin(String username, String password) async {
   final user = await getUserByUsername(username);
   if (user == null) return false;
-  return user['passwordHash'] == password;
-}
+  
+  if(user['passwordHash'] == password)
+    {
+      final prefs = await SharedPreferences.getInstance();
+      final userID = user['id'] as int;
+      
+      await prefs.setString('username', username);
+      await prefs.setInt('userID', userID);
+      print('登录成功，记录 SharedPreferences: username=$username, userID=$userID');
+
+      return true;
+    }
+
+  return false;
+  }
 
 Future<int?> getUserIdByUsername(String username) async {
   final res = await db.query(

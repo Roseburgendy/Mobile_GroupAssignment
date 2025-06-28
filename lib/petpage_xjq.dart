@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:assignment1/pet_gridview_xjq.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:assignment1/dbxjq/pet_database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class PetPage extends StatefulWidget {
   const PetPage({Key? key}) : super(key: key);
@@ -20,8 +22,8 @@ class _PetPageState extends State<PetPage> {
   late List<PetCardData> collectedPets = [];
   late List<PetCardData> uncollectedPets = [];
 
-  //这里需要之后再决定用户的ID，需要别的function
-  final int userID = 1; // 临时固定用户 ID
+  //尝试动态读取userid
+  int? userID;
   final PetDatabaseHelper dbHelper = PetDatabaseHelper();
 
   @override
@@ -32,33 +34,18 @@ class _PetPageState extends State<PetPage> {
 
   //初始化插入动物数据
   Future<void> _initializeUserData() async {
-    final db = await openLocalDatabase();
+    final prefs = await SharedPreferences.getInstance();
+    userID = prefs.getInt('userID');
 
-    // 检查并插入用户
-    final existingUsers = await db.query(
-      'users',
-      where: 'id = ?',
-      whereArgs: [userID],
-    );
-
-    if (existingUsers.isEmpty) {
-      await db.insert('users', {
-        //'id': userID,
-        'username': 'Mogegegege114',
-        'passwordHash': '123456', // 可以是任意占位字符串
-        'email': 'test@example.com',
-        'point': 10,
-      });
-      print('插入默认用户数据：id=$userID, point=10');
+    if (userID == null) {
+      print("无法获取 userID，可能未登录");
+      return;
     }
 
-    // 插入宠物（需要确保用户已经存在）
-    await dbHelper.insertInitialPets(userID);
+    await dbHelper.insertInitialPets(userID!);
+    final allPets = await dbHelper.getPetsByUserId(userID!);
 
-    // 获取宠物数据
-    final allPets = await dbHelper.getPetsByUserId(userID);
-
-    // 查询点数
+    final db = await openLocalDatabase();
     final pointsResult = await db.query(
       'users',
       where: 'id = ?',
@@ -66,12 +53,8 @@ class _PetPageState extends State<PetPage> {
       limit: 1,
     );
 
-    print("查询到的用户点数数据：$pointsResult");
+    final points = pointsResult.isNotEmpty ? (pointsResult.first['point'] ?? 0) as int : 0;
 
-    final points =
-    pointsResult.isNotEmpty ? (pointsResult.first['point'] ?? 0) as int : 0;
-
-    // 更新状态
     setState(() {
       userPoints = points;
       collectedPets = allPets.where((p) => p.availability == 1).toList();
@@ -83,25 +66,13 @@ class _PetPageState extends State<PetPage> {
   //更新users表里的point值
   Future<void> _updateUserPoints(int newPoints) async {
     final db = await openLocalDatabase();
-
-    final existing = await db.query(
+    await db.update(
       'users',
+      {'point': newPoints},
       where: 'id = ?',
       whereArgs: [userID],
     );
-
-    if (existing.isEmpty) {
-      await db.insert('users', {'id': userID, 'point': newPoints}); // 👈 字段名一致
-    } else {
-      await db.update(
-        'users',
-        {'point': newPoints},
-        where: 'id = ?',
-        whereArgs: [userID],
-      );
-    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +102,16 @@ class _PetPageState extends State<PetPage> {
             child: IndexedStack(
               index: selectedIndex,
               children: [
-                PetGridView(
+                userID == null
+                    ? const Center(child: Text('Please log in to view your pets.'))
+                    : PetGridView(
                   pets: collectedPets,
                   userPoints: userPoints,
                   isCollected: true,
                 ),
-                PetGridView(
+                userID == null
+                    ? const Center(child: Text('Please log in to view your pets.'))
+                    : PetGridView(
                   pets: uncollectedPets,
                   userPoints: userPoints,
                   isCollected: false,
@@ -165,7 +140,8 @@ class _PetPageState extends State<PetPage> {
                 ),
               ],
             ),
-          ),
+          )
+
         ],
       ),
     );
