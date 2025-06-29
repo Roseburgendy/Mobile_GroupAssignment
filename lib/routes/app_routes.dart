@@ -32,17 +32,17 @@ class AppRoutes {
 
   // 🔵 所有页面的路由表
   static Map<String, WidgetBuilder> get routes => {
-    workoutStartScreen: (context) => const WorkoutStartScreen(),
-    workoutTimerScreen: (context) => const WorkoutTimerScreen(),
-    workoutCompletionScreen: (context) => const WorkoutCompletionScreen(),
-    workoutEmptyStateScreen: (context) => const WorkoutEmptyStateScreen(),
-    cardCollectionSuccessScreen: (context) => const CardCollectionSuccessScreen(),
-    mainNavigation: (context) => const MainNavigationBar(),
+    workoutStartScreen: (context) =>  WorkoutStartScreen(),
+    workoutTimerScreen: (context) =>  WorkoutTimerScreen(),
+    workoutCompletionScreen: (context) =>  WorkoutCompletionScreen(),
+    workoutEmptyStateScreen: (context) =>  WorkoutEmptyStateScreen(),
+    cardCollectionSuccessScreen: (context) =>  CardCollectionSuccessScreen(),
+    mainNavigation: (context) =>  MainNavigationBar(),
 
-    home: (context) => const HomePage(),
-    myLog: (context) => const MyLogScreen(),
-    workout: (context) => const WorkoutStartScreen(),
-    pet: (context) => const PetPage(),
-    profile: (context) => const Profile(),
+    home: (context) =>  HomePage(),
+    myLog: (context) =>  MyLogScreen(),
+    workout: (context) =>  WorkoutStartScreen(),
+    pet: (context) =>  PetPage(),
+    profile: (context) =>  Profile(),
   };
 }
