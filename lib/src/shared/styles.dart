@@ -1,3 +1,4 @@
+import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -92,4 +93,21 @@ TextStyle OverlineStyle = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400
 );
-
+InputDecoration buildInputDecoration(String label, String suffix) {
+ return InputDecoration(
+  labelText: label,
+  suffixText: suffix,
+  labelStyle: OverlineStyle,
+  suffixStyle: OverlineStyle,
+  enabledBorder: OutlineInputBorder(
+   borderRadius: BorderRadius.circular(12),
+   borderSide: const BorderSide(color: AppColors.primarySolid60,width: 1),
+  ),
+  focusedBorder: OutlineInputBorder(
+   borderRadius: BorderRadius.circular(12),
+   borderSide: const BorderSide(color: AppColors.primarySolid90, width: 2),
+  ),
+  filled: true,
+  fillColor: AppColors.primarySolid10,
+ );
+}

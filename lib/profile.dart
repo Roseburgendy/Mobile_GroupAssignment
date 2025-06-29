@@ -32,6 +32,7 @@ class _ProfileState extends State<Profile>
     {
         return Scaffold(
             appBar: AppBar(
+                automaticallyImplyLeading: false,
                 title: Text(
                     AppLocalizations.of(context)!.myProfile,
                     style: Headline4Style

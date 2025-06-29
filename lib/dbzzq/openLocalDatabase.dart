@@ -46,6 +46,7 @@ Future<Database> openLocalDatabase() async {
           iconPath TEXT,
           price INTEGER NOT NULL,
           description TEXT,
+          descriptionKey TEXT,
           availability INTEGER DEFAULT 1,
           userID INTEGER NOT NULL,
           FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE

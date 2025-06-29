@@ -49,8 +49,8 @@
   "activityCalories": "Activity calories: {value} kcal",
   "activityHours": "Activity hours: {value} hour(s)",
   "start": "Start",
-  "todayWaterTitle": "Today's\nWater Intake",
-  "todayStepsTitle": "Today's\nSteps",
+  "todayWaterTitle": "Daily Water Intake",
+  "todayStepsTitle": "Daily Steps",
   "lostWeight": "LOST",
   "burnedCalories": "BURNED",
   "previousDay": "Last",
@@ -137,5 +137,27 @@
   "confirmed": "Confirmed",
   "resetPrompt": "Enter your email/ID and we will send you a password reset link.",
   "changePassword": "Change Password",
-  "frequentlyAsked": "Frequently Asked Questions"
+  "frequentlyAsked": "Frequently Asked Questions",
+  "yearMonthLabel": "{year}/{month}",
+  "@yearMonthLabel": {
+    "description": "Displays the current year and month in English order",
+    "placeholders": {
+      "year": {},
+      "month": {}
+    }
+  },
+  "petBobaDesc": "Stay chill, bro",
+  "petEbiDesc": "Never mention sashimi in front of him",
+  "petDjDesc": "Maybe he is also an idol?",
+  "petNewHumanDesc": "Definitely doing good on rhythm games",
+  "petRorrrrrrDesc": "Enjoy death metal!",
+  "petMsBeckyDesc": "Melt into the night",
+  "petGuiDesc": "Solid as a rock",
+  "petBananaDesc": "Bro really think bro is a banana",
+  "petNaruhodoDesc": "Objection!",
+  "petGodfatherDesc": "You never even think to call me Godfather",
+  "pointNeeded": "Point needed",
+  "purchase": "Purchase",
+  "notEnoughPoints": "Not enough points"
+
 }

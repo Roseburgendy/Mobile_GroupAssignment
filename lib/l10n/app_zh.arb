@@ -134,6 +134,21 @@
   "confirmed": "确认",
   "resetPrompt": "请输入您的邮箱，我们将为您发送密码重置链接。",
   "changePassword": "修改密码",
-  "frequentlyAsked": "常见问题"
+  "frequentlyAsked": "常见问题",
+  "yearMonthLabel": "{year}年 {month}月",
+  "yearMonthLabel@args": ["year", "month"],
+  "petBobaDesc": "保持冷静，兄弟",
+  "petEbiDesc": "千万别在他面前提生鱼片",
+  "petDjDesc": "他可能也是偶像？",
+  "petNewHumanDesc": "音游应该很强",
+  "petRorrrrrrDesc": "喜欢死亡金属！",
+  "petMsBeckyDesc": "沉入夜色",
+  "petGuiDesc": "像石头一样坚硬",
+  "petBananaDesc": "他真的觉得自己是香蕉",
+  "petNaruhodoDesc": "异议！",
+  "petGodfatherDesc": "你甚至不叫我教父一声",
+  "pointNeeded": "所需点数",
+  "purchase": "购买",
+  "notEnoughPoints": "点数不足"
 
 }

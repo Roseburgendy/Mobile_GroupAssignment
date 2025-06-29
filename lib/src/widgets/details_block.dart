@@ -99,7 +99,8 @@ class FitnessStatsContainer extends StatelessWidget {
               // Water
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(12.76),
+                  height: 100,
+                  padding: const EdgeInsets.all(11),
                   decoration: BoxDecoration(
                     color: AppColors.secondarySolid10,
                     borderRadius: BorderRadius.circular(19.14),
@@ -154,6 +155,7 @@ class FitnessStatsContainer extends StatelessWidget {
               // Steps
               Expanded(
                 child: Container(
+                  height: 100,
                   padding: const EdgeInsets.all(12.76),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFF8CB),

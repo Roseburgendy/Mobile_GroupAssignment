@@ -82,25 +82,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  AnalysisIconButton(
-                    imagePath: 'assets/icon/arrow-left.svg',
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(width: 20),
-                  const Text(
-                    'Create Account',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
               const SizedBox(height: 150),
               InputField(
                 hintText: AppLocalizations.of(context)!.loginEmailHint,

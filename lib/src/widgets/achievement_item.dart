@@ -130,7 +130,7 @@ class AchievementDialog extends StatelessWidget
                         margin: EdgeInsets.only(top: 60),
                         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                         decoration: BoxDecoration(
-                            color: AppColors.secondarySolid50,
+                            color: AppColors.secondarySolid10,
                             borderRadius: BorderRadius.circular(28),
                             border: Border.all(width: 2, color: Colors.black),
                             boxShadow: [AppEffectStyles.itemShadowEffect]

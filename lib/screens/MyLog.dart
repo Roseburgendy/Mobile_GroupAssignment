@@ -11,7 +11,6 @@ import '../src/widgets/custom_bottom_nav_bar.dart';
 import './daily_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment1/database/db_helper_healthdata.dart';
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyLogScreen extends StatefulWidget {
   const MyLogScreen({Key? key}) : super(key: key);
@@ -144,7 +143,8 @@ class _MyLogScreenState extends State<MyLogScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Log', style: Headline4Style),
+        automaticallyImplyLeading: false,
+        title:Text(AppLocalizations.of(context)!.myLog, style: Headline4Style),
         centerTitle: true,
       ),
       body: Padding(
@@ -155,7 +155,9 @@ class _MyLogScreenState extends State<MyLogScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
+
+                    /*
                     if (_username != null)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12.0),
@@ -163,12 +165,15 @@ class _MyLogScreenState extends State<MyLogScreen> {
                             style: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold)),
                       ),
-                    const CalendarTitle(title: 'My Calendar', width: 327),
                     const SizedBox(height: 24),
+                     */
                     // 新增：当前年月标题
                     Center(
                       child: Text(
-                        '${_currentMonth.year}年 ${_currentMonth.month}月',
+                        AppLocalizations.of(context)!.yearMonthLabel(
+                          _currentMonth.year,
+                          _currentMonth.month,
+                        ),
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -179,8 +184,6 @@ class _MyLogScreenState extends State<MyLogScreen> {
 
                     const WeekdayHeaderRow(),
                     const SizedBox(height: 24),
-
-                    // 新增：包裹手势识别器
                     GestureDetector(
                       onVerticalDragEnd: _handleVerticalSwipe,
                       child: CalendarDateButtons(
@@ -207,12 +210,11 @@ class _MyLogScreenState extends State<MyLogScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 35),
                     InteractiveWeeklyChart(
                       key: ValueKey(_weeklyData.map((list) => list.join(',')).join('|')),
                       datasets: _weeklyData,
                     ),
-                    const SizedBox(height: 40),
                   ],
                 ),
               ),

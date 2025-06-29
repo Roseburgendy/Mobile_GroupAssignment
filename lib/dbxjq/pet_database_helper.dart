@@ -9,6 +9,7 @@ class PetDatabaseHelper {
 
   Database? _db;
 
+
   Future<Database> get database async {
     if (_db != null) return _db!;
     _db = await _initDB();
@@ -18,8 +19,10 @@ class PetDatabaseHelper {
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'healthapp.db');
-    return await openDatabase(path);
+    return await openDatabase(
+      path);
   }
+
 
   // 获取用户的宠物列表
   Future<List<PetCardData>> getPetsByUserId(
@@ -56,6 +59,7 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 6,
         description: 'Stay chill, bro',
+        descriptionKey: 'petBobaDesc',
       ),
       PetCardData(
         petID: null,
@@ -65,6 +69,8 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 3,
         description: 'Never mention sashimi in front of him',
+        descriptionKey: 'petEbiDesc',
+
       ),
       PetCardData(
         petID: null,
@@ -74,6 +80,8 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 3,
         description: 'Maybe he is also an idol?',
+        descriptionKey: 'petDjDesc',
+
       ),
       PetCardData(
         petID: null,
@@ -82,7 +90,8 @@ class PetDatabaseHelper {
         level: 'Lv.3',
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 9,
-        description: 'Definitly doing good on rhythm games',
+        description: 'Definitely doing good on rhythm games',
+          descriptionKey: 'petNewHumanDesc'
       ),
       PetCardData(
         petID: null,
@@ -92,6 +101,8 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 5,
         description: 'Enjoy death metal!',
+        descriptionKey: 'petRorrrrrrDesc',
+
       ),
       PetCardData(
         petID: null,
@@ -101,6 +112,8 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 5,
         description: 'Melt into the night',
+        descriptionKey: 'petMsBeckyDesc',
+
       ),
       PetCardData(
         petID: null,
@@ -110,6 +123,7 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 3,
         description: 'Solid as a rock',
+        descriptionKey: 'petGuiDesc',
       ),
       PetCardData(
         petID: null,
@@ -119,6 +133,8 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 3,
         description: 'bro really think bro is a banana',
+        descriptionKey: 'petBananaDesc',
+
       ),
       PetCardData(
         petID: null,
@@ -128,6 +144,7 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 2,
         description: 'Objection!',
+        descriptionKey: 'petNaruhodoDesc',
       ),
       PetCardData(
         petID: null,
@@ -137,6 +154,8 @@ class PetDatabaseHelper {
         iconPath: 'assets/icons_xjq/locked_icon.svg',
         price: 5,
         description: 'You never even think to call me Godfather',
+        descriptionKey: 'petGodfatherDesc',
+
       ),
 
       // 你可以继续添加更多默认宠物
@@ -152,6 +171,7 @@ class PetDatabaseHelper {
         'iconPath': pet.iconPath,
         'level': pet.level,
         'description': pet.description,
+        'descriptionKey': pet.descriptionKey,
       });
     }
   }

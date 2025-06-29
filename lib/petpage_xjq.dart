@@ -1,13 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
 import 'package:assignment1/src/shared/styles.dart';
-import 'package:flutter/material.dart';
 import 'package:assignment1/pet_gridview_xjq.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:assignment1/dbxjq/pet_database_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class PetPage extends StatefulWidget {
   const PetPage({Key? key}) : super(key: key);
@@ -17,31 +16,14 @@ class PetPage extends StatefulWidget {
 }
 
 class _PetPageState extends State<PetPage> {
-  int selectedIndex = 1; // 默认先看 to collect 页面
+  int selectedIndex = 1; // 默认显示“未收集”
   int userPoints = 0;
-
-  late List<PetCardData> collectedPets = [];
-  late List<PetCardData> uncollectedPets = [];
-
-  //尝试动态读取userid
   int? userID;
+
+  List<PetCardData> collectedPets = [];
+  List<PetCardData> uncollectedPets = [];
+
   final PetDatabaseHelper dbHelper = PetDatabaseHelper();
-    @override
-    void initState()
-    {
-        super.initState();
-        // 数据初始化
-        collectedPets =
-        CollectedPetModel.getCollectedPets()
-            .map(
-                (pet) => PetCardData(
-                    name: pet.name,
-                    picturePath: pet.picturePath,
-                    level: pet.level,
-                    iconPath: pet.iconPath
-                )
-            )
-            .toList();
 
   @override
   void initState() {
@@ -49,52 +31,25 @@ class _PetPageState extends State<PetPage> {
     _initializeUserData();
   }
 
-  //初始化插入动物数据
   Future<void> _initializeUserData() async {
     final prefs = await SharedPreferences.getInstance();
     userID = prefs.getInt('userID');
 
     if (userID == null) {
-      print("无法获取 userID，可能未登录");
+      debugPrint("未获取到 userID");
       return;
     }
 
     await dbHelper.insertInitialPets(userID!);
     final allPets = await dbHelper.getPetsByUserId(userID!);
-
     final db = await openLocalDatabase();
+
     final pointsResult = await db.query(
       'users',
       where: 'id = ?',
       whereArgs: [userID],
       limit: 1,
     );
-    Widget build(BuildContext context)
-    {
-        return Scaffold(
-            appBar: AppBar(
-                title: Text(
-                    AppLocalizations.of(context)!.petHouse, // 替换 "Pet House"
-                    style: Headline4Style
-                ),
-
-                centerTitle: true
-            ),
-            body: Column(
-                children: [
-                    // 上半部分头像区域
-                    const SizedBox(height: 20),
-                    const _PetProfile(),
-
-                    // 切换按钮区域
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            buildSwitchButton(AppLocalizations.of(context)!.collected, 0),
-                            const SizedBox(width: 12),
-                            buildSwitchButton(AppLocalizations.of(context)!.toCollect, 1)
-                        ]
-                    ),
 
     final points = pointsResult.isNotEmpty ? (pointsResult.first['point'] ?? 0) as int : 0;
 
@@ -105,8 +60,6 @@ class _PetPageState extends State<PetPage> {
     });
   }
 
-
-  //更新users表里的point值
   Future<void> _updateUserPoints(int newPoints) async {
     final db = await openLocalDatabase();
     await db.update(
@@ -117,11 +70,49 @@ class _PetPageState extends State<PetPage> {
     );
   }
 
+  Widget _buildSwitchButton(String label, int index) {
+    final bool isSelected = selectedIndex == index;
+    return Container(
+      decoration: isSelected
+          ? BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [AppEffectStyles.buttonShadowEffect],
+      )
+          : null,
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isSelected ? AppColors.primarySolid50 : Colors.transparent,
+          foregroundColor: isSelected ? Colors.white : AppColors.primarySolid90,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: isSelected ? const BorderSide(color: Colors.black, width: 1) : BorderSide.none,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          elevation: 0,
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pet House", style: Headline4Style),
+        automaticallyImplyLeading: false,
+        title: Text(AppLocalizations.of(context)!.petHouse, style: Headline4Style),
         centerTitle: true,
       ),
       body: Column(
@@ -134,66 +125,10 @@ class _PetPageState extends State<PetPage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-    Widget buildSwitchButton(String label, int index)
-    {
-        final bool isSelected = selectedIndex == index;
-        return Container(
-            decoration:
-            isSelected
-                ? BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                        AppEffectStyles.buttonShadowEffect
-                    ]
-                )
-                : null,
-            child: ElevatedButton(
-                onPressed: ()
-                {
-                    setState(()
-                        {
-                            selectedIndex = index;
-                        }
-                    );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: isSelected ? AppColors.primarySolid50 : Colors.transparent,
-                    foregroundColor:
-                    isSelected ? Colors.white : AppColors.primarySolid90,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side:
-                        isSelected
-                            ? BorderSide(color: Colors.black, width: 1)
-                            : BorderSide.none
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    elevation: 0 // 关闭默认阴影
-                ),
-                child: Text(
-                    label,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700
-                    )
-                )
-            )
-        );
-    }
-}
-
-class _PetProfile extends StatelessWidget
-{
-    const _PetProfile();
-    @override
-    Widget build(BuildContext context)
-    {
-        return Column(
             children: [
-              buildSwitchButton("COLLECTED", 0),
+              _buildSwitchButton(AppLocalizations.of(context)!.collected, 0),
               const SizedBox(width: 12),
-              buildSwitchButton("TO COLLECT", 1),
+              _buildSwitchButton(AppLocalizations.of(context)!.toCollect, 1),
             ],
           ),
           const SizedBox(height: 20),
@@ -222,7 +157,8 @@ class _PetProfile extends StatelessWidget
                       level: 'Collected',
                       iconPath: 'assets/icons_xjq/collected_icon.svg',
                       price: pet.price,
-                      description: pet.description,
+                      description:pet.description,
+                      descriptionKey: pet.descriptionKey,
                       availability: 1,
                     );
 
@@ -236,63 +172,11 @@ class _PetProfile extends StatelessWidget
                       userPoints = newPoints;
                     });
                   },
-                // Progress text
-                Text(
-                    '${3} / ${5} ${AppLocalizations.of(context)!.collectedLabel}',
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 85, 85, 85)
-                    )
                 ),
               ],
             ),
-          )
-
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget buildSwitchButton(String label, int index) {
-    final bool isSelected = selectedIndex == index;
-    return Container(
-      decoration:
-          isSelected
-              ? BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [AppEffectStyles.buttonShadowEffect],
-              )
-              : null,
-      child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor:
-              isSelected ? AppColors.primarySolid50 : Colors.transparent,
-          foregroundColor: isSelected ? Colors.white : AppColors.primarySolid90,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side:
-                isSelected
-                    ? const BorderSide(color: Colors.black, width: 1)
-                    : BorderSide.none,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          elevation: 0,
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
       ),
     );
   }
@@ -344,7 +228,7 @@ class _PetProfile extends StatelessWidget {
         ),
         const SizedBox(height: 13),
         Text(
-          '$collectedCount / $total collected',
+          '$collectedCount / $total ${AppLocalizations.of(context)!.collectedLabel}',
           style: const TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w500,
