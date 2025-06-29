@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../core2/app_export.dart';
 import '../../widgets2/custom_image_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:assignment1/dbzzq/openLocalDatabase.dart';
+import 'package:sqflite/sqflite.dart';
+
 
 class WorkoutCompletionScreen extends StatelessWidget {
 
@@ -10,6 +14,10 @@ class WorkoutCompletionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as Map?;
     final int durationInSeconds = args?['duration'] ?? 300;
+
+    //这里插入加分逻辑
+    _addPointToUser();
+
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
@@ -46,6 +54,25 @@ class WorkoutCompletionScreen extends StatelessWidget {
       },
     );
   }
+
+  //加分函数
+  void _addPointToUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userID');
+
+    if (userId == null) {
+      debugPrint('未登录，无法增加积分');
+      return;
+    }
+
+    final db = await openLocalDatabase();
+    await db.rawUpdate(
+      'UPDATE users SET point = point + 1 WHERE id = ?',
+      [userId],
+    );
+    debugPrint('已为用户 $userId 增加 1 个积分');
+  }
+
 
   String _formatDuration(int seconds) {
     final duration = Duration(seconds: seconds);

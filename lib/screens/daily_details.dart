@@ -4,6 +4,7 @@ import '../../src/widgets/back_button.dart';
 import '../../src/widgets/details_block.dart';
 import '../../src/widgets/last_next_button.dart';
 import 'package:assignment1/database/db_helper_healthdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DailyDetailsScreen extends StatefulWidget {
   final DateTime selectedDate;
@@ -32,9 +33,12 @@ class _DailyDetailsScreenState extends State<DailyDetailsScreen> {
   }
 
   void _loadDataForDate(DateTime date) async {
-    final String today = date.toIso8601String().substring(0, 10); // yyyy-MM-dd
-    final int userId = 1; // 先写1，可替换为登录用户的id
+    final prefs = await SharedPreferences.getInstance();
+    final int? userId = prefs.getInt('userID');
 
+    if (userId == null) return;
+
+    final String today = date.toIso8601String().substring(0, 10); // yyyy-MM-dd
     final data = await DBHelper.getDataForDate(userId, today);
 
     if (data != null) {

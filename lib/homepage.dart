@@ -11,6 +11,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../box_ui.dart';
 import '../src/shared/styles.dart';
 import 'package:assignment1/database/db_helper_healthdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +28,38 @@ class _HomePageState extends State<HomePage> {
   double _waterIntake = 0;
   double _time = 0;
   double _calories = 0;
+
+  int? _userId;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userId = prefs.getInt('userID');
+    });
+  }
+
+  ///print water
+  Future<void> _printCurrentWaterIntake() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userID');
+
+    if (userId == null) {
+      debugPrint('未登录，无法打印饮水记录');
+      return;
+    }
+
+    final todayData = await DBHelper.getTodayHealthData(userId);
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final water = todayData?['water'] ?? 0;
+
+    debugPrint('【饮水更新日志】$today | 用户ID: $userId | 当前饮水量: ${water}mL');
+  }
 
   // 编辑体重弹窗
   void _toggleWeightPopup() async {
@@ -109,6 +143,15 @@ class _HomePageState extends State<HomePage> {
                   _goalWeight,
                 );
 
+                if (_userId != null) {
+                  await DBHelper.updateWeight(
+                    _userId!,
+                    _currentWeight,
+                    _initialWeight,
+                    _goalWeight,
+                  );
+                }
+
                 Navigator.of(context).pop();
               },
               child: const Text('OK'),
@@ -163,8 +206,14 @@ class _HomePageState extends State<HomePage> {
         _waterIntake += newIntake;
       });
 
-      // !!这里同步到数据库，假设 userId 是 1
-      await DBHelper.updateWater(1, _waterIntake.toInt());
+      if (_userId != null) {
+        await DBHelper.updateWater(_userId!, _waterIntake.toInt());
+      }
+
+      await _printCurrentWaterIntake();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('shouldRefreshMyLog', true);
     }
   }
 
@@ -197,8 +246,15 @@ class _HomePageState extends State<HomePage> {
         _waterIntake = 0;
       });
     }
-    // !!这里同步到数据库，假设 userId 是 1
-    await DBHelper.updateWater(1, _waterIntake.toInt());
+
+    if (_userId != null) {
+      await DBHelper.updateWater(_userId!, _waterIntake.toInt());
+    }
+
+    await _printCurrentWaterIntake();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('shouldRefreshMyLog', true);
   }
 
   @override
