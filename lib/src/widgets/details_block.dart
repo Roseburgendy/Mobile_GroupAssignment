@@ -1,5 +1,8 @@
 import 'package:assignment1/src/shared/app_colors.dart';
+import 'package:assignment1/src/shared/app_effects.dart';
+import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'box_text.dart';
 
@@ -20,7 +23,7 @@ class FitnessStatsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         // Daily Exercise Container (full width)
@@ -29,18 +32,14 @@ class FitnessStatsContainer extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFFF8CB),
+            color: AppColors.secondarySolid10,
             borderRadius: BorderRadius.circular(19.14),
             border: Border.all(
               color: const Color(0xFF001428),
               width: 1.59,
             ),
             boxShadow: const [
-              BoxShadow(
-                color: Color(0xFF001428),
-                blurRadius: 0,
-                offset: Offset(1.59, 3.19),
-              ),
+             AppEffectStyles.cardShadowEffect
             ],
           ),
           child: Column(
@@ -48,7 +47,7 @@ class FitnessStatsContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Daily Exercise',
+                loc.dailyExerciseTitle,
                 style: const TextStyle(
                   color: Color(0xFF001428),
                   fontSize: 24,
@@ -61,7 +60,7 @@ class FitnessStatsContainer extends StatelessWidget {
 
 
               Text(
-                'Activity calories: $activityCalories kcal',
+                "${loc.activityCaloriesLabel}: $activityCalories ",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF4AA350),
@@ -74,7 +73,7 @@ class FitnessStatsContainer extends StatelessWidget {
 
               const SizedBox(height: 10),
               Text(
-                'Activity hours: $activityHours hours',
+                "${loc.activityHoursLabel}: $activityHours ${loc.hoursSuffix}",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF4AA350),
@@ -102,31 +101,21 @@ class FitnessStatsContainer extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12.76),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFF8CB),
+                    color: AppColors.secondarySolid10,
                     borderRadius: BorderRadius.circular(19.14),
                     border: Border.all(
                       color: const Color(0xFF001428),
                       width: 1.59,
                     ),
                     boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xFF001428),
-                        blurRadius: 0,
-                        offset: Offset(1.59, 3.19),
-                      ),
+                      AppEffectStyles.cardShadowEffect
                     ],
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        'Water Intake',
-                        style: TextStyle(
-                          color: Color(0xFF001428),
-                          fontSize: 19.14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w700,
-                          height: 1.33,
-                        ),
+                       Text(
+                        loc.waterIntake,
+                        style: SubtitleStyle
                       ),
                       const SizedBox(height: 10),
                       Text.rich(
@@ -142,8 +131,8 @@ class FitnessStatsContainer extends StatelessWidget {
                                 height: 1.7,
                               ),
                             ),
-                            const TextSpan(
-                              text: 'mL',
+                             TextSpan(
+                               text: loc.mlUnit,
                               style: TextStyle(
                                 color: Color(0xFF4AA350),
                                 fontSize: 14,
@@ -174,24 +163,14 @@ class FitnessStatsContainer extends StatelessWidget {
                       width: 1.59,
                     ),
                     boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xFF001428),
-                        blurRadius: 0,
-                        offset: Offset(1.59, 3.19),
-                      ),
+                      AppEffectStyles.cardShadowEffect
                     ],
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        'Steps',
-                        style: TextStyle(
-                          color: Color(0xFF001428),
-                          fontSize: 19.14,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w700,
-                          height: 1.33,
-                        ),
+                      Text(
+                        loc.stepsLabel,
+                          style: SubtitleStyle
                       ),
                       const SizedBox(height: 10),
                       Text(

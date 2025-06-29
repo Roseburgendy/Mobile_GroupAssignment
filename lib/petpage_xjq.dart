@@ -6,6 +6,7 @@ import 'package:assignment1/pet_gridview_xjq.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:assignment1/dbxjq/pet_database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class PetPage extends StatefulWidget {
@@ -25,6 +26,22 @@ class _PetPageState extends State<PetPage> {
   //尝试动态读取userid
   int? userID;
   final PetDatabaseHelper dbHelper = PetDatabaseHelper();
+    @override
+    void initState()
+    {
+        super.initState();
+        // 数据初始化
+        collectedPets =
+        CollectedPetModel.getCollectedPets()
+            .map(
+                (pet) => PetCardData(
+                    name: pet.name,
+                    picturePath: pet.picturePath,
+                    level: pet.level,
+                    iconPath: pet.iconPath
+                )
+            )
+            .toList();
 
   @override
   void initState() {
@@ -52,6 +69,32 @@ class _PetPageState extends State<PetPage> {
       whereArgs: [userID],
       limit: 1,
     );
+    Widget build(BuildContext context)
+    {
+        return Scaffold(
+            appBar: AppBar(
+                title: Text(
+                    AppLocalizations.of(context)!.petHouse, // 替换 "Pet House"
+                    style: Headline4Style
+                ),
+
+                centerTitle: true
+            ),
+            body: Column(
+                children: [
+                    // 上半部分头像区域
+                    const SizedBox(height: 20),
+                    const _PetProfile(),
+
+                    // 切换按钮区域
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            buildSwitchButton(AppLocalizations.of(context)!.collected, 0),
+                            const SizedBox(width: 12),
+                            buildSwitchButton(AppLocalizations.of(context)!.toCollect, 1)
+                        ]
+                    ),
 
     final points = pointsResult.isNotEmpty ? (pointsResult.first['point'] ?? 0) as int : 0;
 
@@ -91,6 +134,62 @@ class _PetPageState extends State<PetPage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+    Widget buildSwitchButton(String label, int index)
+    {
+        final bool isSelected = selectedIndex == index;
+        return Container(
+            decoration:
+            isSelected
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                        AppEffectStyles.buttonShadowEffect
+                    ]
+                )
+                : null,
+            child: ElevatedButton(
+                onPressed: ()
+                {
+                    setState(()
+                        {
+                            selectedIndex = index;
+                        }
+                    );
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: isSelected ? AppColors.primarySolid50 : Colors.transparent,
+                    foregroundColor:
+                    isSelected ? Colors.white : AppColors.primarySolid90,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side:
+                        isSelected
+                            ? BorderSide(color: Colors.black, width: 1)
+                            : BorderSide.none
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    elevation: 0 // 关闭默认阴影
+                ),
+                child: Text(
+                    label,
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700
+                    )
+                )
+            )
+        );
+    }
+}
+
+class _PetProfile extends StatelessWidget
+{
+    const _PetProfile();
+    @override
+    Widget build(BuildContext context)
+    {
+        return Column(
             children: [
               buildSwitchButton("COLLECTED", 0),
               const SizedBox(width: 12),
@@ -137,6 +236,15 @@ class _PetPageState extends State<PetPage> {
                       userPoints = newPoints;
                     });
                   },
+                // Progress text
+                Text(
+                    '${3} / ${5} ${AppLocalizations.of(context)!.collectedLabel}',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 85, 85, 85)
+                    )
                 ),
               ],
             ),

@@ -3,6 +3,8 @@ import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 import 'box_button.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AchievementItem extends StatelessWidget {
   final String imagePath;
@@ -47,27 +49,27 @@ class AchievementItem extends StatelessWidget {
       },
 
       child: SizedBox(
-        width: 160,
-        height: 180,
+        width: 160.w,
+        height: 100.h,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             Positioned(
-              top: 70,
+              top: 60.h,
               child: Container(
-                width: 160,
-                height: 110,
+                width: 160.w,
+                height: 110.h,
                 decoration: BoxDecoration(
                   color: AppColors.secondarySolid50,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(width: 2, color: Colors.black),
+                  borderRadius: BorderRadius.circular(24.r),
+                  border: Border.all(width: 2.w, color: Colors.black),
                   boxShadow: [AppEffectStyles.itemShadowEffect],
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
                       child: Text(
                         '"$text"',
                         textAlign: TextAlign.center,
@@ -80,12 +82,12 @@ class AchievementItem extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 20,
+              top: 20.h,
               child: Container(
-                width: 110,
-                height: 110,
+                width: 110.w,
+                height: 110.w,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   image: DecorationImage(
                     image: AssetImage(imagePath),
                     fit: BoxFit.contain,
@@ -99,6 +101,7 @@ class AchievementItem extends StatelessWidget {
     );
   }
 }
+
 
 class AchievementDialog extends StatelessWidget
 {
@@ -136,7 +139,7 @@ class AchievementDialog extends StatelessWidget
                             mainAxisSize: MainAxisSize.min,
                             children: [
                                 SizedBox(height: 10),
-                                Text("Medals", style: SubtitleStyle),
+                                Text(AppLocalizations.of(context)!.medals, style: SubtitleStyle),
                                 SizedBox(height: 2),
                                 Text(title, style: Headline4Style),
                                 SizedBox(height: 8),

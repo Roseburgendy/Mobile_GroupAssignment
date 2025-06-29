@@ -12,6 +12,7 @@ import './daily_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment1/database/db_helper_healthdata.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyLogScreen extends StatefulWidget {
   const MyLogScreen({Key? key}) : super(key: key);
 

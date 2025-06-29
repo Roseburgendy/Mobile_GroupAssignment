@@ -3,7 +3,13 @@ import 'package:assignment1/services/database_service.dart';
 import 'package:assignment1/main.dart';
 import '../../src/widgets/input_field.dart';
 import '../../src/widgets/box_button.dart';
+import '../../src/widgets/login_button.dart';
+import '../../src/widgets/text_link_button.dart';
+import '../../src/widgets/login_image.dart';
+import '../src/shared/styles.dart';
+import '../src/widgets/box_button.dart';
 import '../../src/widgets/back_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -66,6 +72,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.signUpTitle, style: Headline4Style),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 36),
@@ -93,20 +103,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 150),
               InputField(
-                hintText: 'Email',
+                hintText: AppLocalizations.of(context)!.loginEmailHint,
                 width: double.infinity,
                 controller: emailController,
               ),
               const SizedBox(height: 30),
               InputField(
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.loginPassword,
                 isPassword: true,
                 width: double.infinity,
                 controller: passwordController,
               ),
               const SizedBox(height: 60),
               BoxButton(
-                title: 'Sign Up',
+                title: AppLocalizations.of(context)!.signUpButton,
                 style: ButtonStyleType.primary,
                 iconRight: true,
                 onTap: () => _handleSignUp(context),

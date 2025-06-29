@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkoutCompletionScreen extends StatelessWidget {
 
@@ -38,8 +40,8 @@ class WorkoutCompletionScreen extends StatelessWidget {
                       Column(
                         children: [
                           SizedBox(height: 140.h),
-                          _buildMainCard(durationInSeconds),
-                          SizedBox(height: 140.h), // 👈 卡片底部留白
+                          _buildMainCard(context,durationInSeconds),
+                          SizedBox(height: 140.h),
                         ],
                       ),
                       _buildAvatarCircle(),
@@ -154,7 +156,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMainCard(int durationInSeconds) {
+  Widget _buildMainCard(BuildContext context,int durationInSeconds) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 24.h),
       decoration: BoxDecoration(
@@ -167,16 +169,17 @@ class WorkoutCompletionScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'FANTASTIC！\nYou just finished another great workout.',
+            AppLocalizations.of(context)!.workoutCompleteMessage,
             textAlign: TextAlign.center,
             style: TextStyleHelper.instance.title20BoldMontserrat.copyWith(
               height: 1.7,
             ),
           ),
+
           SizedBox(height: 32.h),
           _buildTrophySection(),
           SizedBox(height: 24.h),
-          _buildStatsSection(durationInSeconds),
+          _buildStatsSection(context,durationInSeconds),
         ],
       ),
     );
@@ -209,7 +212,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsSection(int durationInSeconds) {
+  Widget _buildStatsSection(BuildContext context,int durationInSeconds) {
     double burn = (durationInSeconds / 300) * 182;
     String durationStr = _formatDuration(durationInSeconds);
     return SizedBox(
@@ -231,8 +234,9 @@ class WorkoutCompletionScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildStatItem("Duration (min)", durationStr),
-                _buildStatItem("Burn (Kcal)", burn.toStringAsFixed(0)),
+                _buildStatItem(AppLocalizations.of(context)!.durationLabel, durationStr),
+                _buildStatItem(AppLocalizations.of(context)!.burnLabel, burn.toStringAsFixed(0)),
+
               ],
             ),
           ),
