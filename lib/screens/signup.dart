@@ -9,7 +9,7 @@ import '../../src/widgets/login_image.dart';
 import '../src/shared/styles.dart';
 import '../src/widgets/box_button.dart';
 import '../../src/widgets/back_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override

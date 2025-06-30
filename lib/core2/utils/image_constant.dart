@@ -15,4 +15,5 @@ class ImageConstant {
   static String imgIcon = '${_basePath}img_icon.svg';
   static String imgLashes = '${_basePath}img_lashes.svg';
   static String imgMountains = '${_basePath}img_mountains.svg';
+  static String imgCrown = '${_basePath}crown.png';
 }

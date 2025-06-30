@@ -5,7 +5,7 @@ import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
 import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class HelpSupportScreen extends StatelessWidget {
   const HelpSupportScreen({super.key});

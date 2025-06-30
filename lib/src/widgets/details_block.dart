@@ -2,7 +2,7 @@ import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
 import 'package:assignment1/src/shared/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 import 'box_text.dart';
 

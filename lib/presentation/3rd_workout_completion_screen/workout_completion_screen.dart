@@ -5,12 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:assignment1/src/widgets/box_button.dart';
 
 class WorkoutCompletionScreen extends StatelessWidget {
 
-  const WorkoutCompletionScreen({Key? key}) : super(key: key);
+  const WorkoutCompletionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,6 @@ class WorkoutCompletionScreen extends StatelessWidget {
                 child: Container(
                   width: 375.h,
                   margin: EdgeInsets.symmetric(vertical: 20.h),
-                  decoration: BoxDecoration(
-                    color: appTheme.colorFFFEFD,
-                  ),
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -88,8 +85,10 @@ class WorkoutCompletionScreen extends StatelessWidget {
     return Positioned(
       right: 24.h,
       top: 24.h,
-      child: GestureDetector(
-        onTap: () {
+      child: BoxButton(
+              style: ButtonStyleType.secondary,
+              icon: const Icon(Icons.close, size: 20),
+              onTap: () {
           Navigator.pushNamedAndRemoveUntil(
             context,
             AppRoutes.workoutStartScreen,
@@ -97,38 +96,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
             arguments: {'fromCompletion': true},
           );
         },
-        child: Container(
-          width: 30.h,
-          height: 30.h,
-          decoration: BoxDecoration(
-            color: appTheme.colorFFFFDD,
-            borderRadius: BorderRadius.circular(16.h),
-            border: Border.all(color: appTheme.colorFF0014, width: 2.h),
-            boxShadow: [
-              BoxShadow(
-                color: appTheme.colorFF0014,
-                offset: Offset(1, 2),
-              ),
-            ],
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              CustomImageView(
-                imagePath: ImageConstant.imgIcon,
-                height: 8.h,
-                width: 8.h,
-              ),
-              CustomImageView(
-                imagePath: ImageConstant.imgIcon,
-                height: 8.h,
-                width: 8.h,
-                color: appTheme.colorFF0014,
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -147,7 +115,8 @@ class WorkoutCompletionScreen extends StatelessWidget {
         ),
         child: Center(
           child: CustomImageView(
-            imagePath: ImageConstant.imgDuolingo,
+            imagePath: ImageConstant.imgCrown,
+            radius: BorderRadius.circular(70),
             height: 143.h,
             width: 143.h,
           ),
@@ -168,6 +137,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          SizedBox(height: 20,),
           Text(
             AppLocalizations.of(context)!.workoutCompleteMessage,
             textAlign: TextAlign.center,
@@ -229,7 +199,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 0.h, vertical: 16.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,7 +242,7 @@ class WorkoutCompletionScreen extends StatelessWidget {
           child: Center(
             child: Text(
               value,
-              style: TextStyleHelper.instance.display38SemiBoldMontserrat.copyWith(height: 0.8),
+              style: TextStyleHelper.instance.display38SemiBoldMontserrat.copyWith(height: 0.8,fontSize: 20),
             ),
           ),
         ),

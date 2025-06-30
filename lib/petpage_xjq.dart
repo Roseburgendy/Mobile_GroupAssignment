@@ -6,7 +6,7 @@ import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/pet_gridview_xjq.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:assignment1/dbxjq/pet_database_helper.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class PetPage extends StatefulWidget {
   const PetPage({Key? key}) : super(key: key);

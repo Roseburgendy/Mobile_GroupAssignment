@@ -15,7 +15,7 @@ import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 import 'main.dart';
 class Profile extends StatefulWidget

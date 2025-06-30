@@ -6,7 +6,7 @@ import 'package:assignment1/src/widgets/box_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 import 'box_ui.dart';
 

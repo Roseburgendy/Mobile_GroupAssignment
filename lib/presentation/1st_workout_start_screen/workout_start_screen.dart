@@ -1,8 +1,13 @@
 import 'dart:math';
+import 'package:assignment1/src/shared/styles.dart';
+import 'package:assignment1/src/widgets/box_text.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_image_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
+import '/presentation/5th_card_collection_success_screen/card_collection_success_screen.dart';
+import '/presentation/4th_workout_empty_state_screen/workout_empty_state_screen.dart';
+
 class NavItem {
   final String imagePath;
   NavItem({required this.imagePath});
@@ -31,6 +36,7 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
     NavItem(imagePath: ImageConstant.imgHiking),
     NavItem(imagePath: ImageConstant.imgSoccerBall),
   ];
+  final Random _random = Random();
 
   @override
   void initState() {
@@ -59,12 +65,24 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
   }
 
   void _triggerRandomRedirect() {
-    final isA = Random().nextBool();
-    Navigator.pushNamed(
-      context,
-      isA
-          ? AppRoutes.cardCollectionSuccessScreen
-          : AppRoutes.workoutEmptyStateScreen,
+    final isA = _random.nextBool();
+
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Random Result',
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (_, __, ___) => Center(
+        child: isA
+            ? const CardCollectionSuccessScreen()
+            : const WorkoutEmptyStateScreen(),
+      ),
+      transitionBuilder: (_, animation, __, child) {
+        return ScaleTransition(
+          scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+          child: child,
+        );
+      },
     );
   }
 
@@ -73,7 +91,6 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
     return Sizer(
       builder: (context, ori, _) {
         return Scaffold(
-          backgroundColor: appTheme.colorFFFEFD,
           body: SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(vertical: 20.h),
@@ -109,10 +126,8 @@ class _WorkoutStartScreenState extends State<WorkoutStartScreen> {
           child: Column(
             children: [
               SizedBox(height: 23.h),
-              Text(
-                AppLocalizations.of(context)!.startWorkout, // 替换硬编码文本
-                style: TextStyleHelper.instance.title20Bold,
-              ),
+              Text(AppLocalizations.of(context)!.startWorkout,style: ExtraBigHeadlineStyle.copyWith(fontSize: 30),),
+              //BoxText.ExtraBigHeadline(AppLocalizations.of(context)!.startWorkout,),
 
               SizedBox(height: 64.h),
               CustomImageView(

@@ -4,7 +4,7 @@ import 'package:assignment1/src/shared/app_effects.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});

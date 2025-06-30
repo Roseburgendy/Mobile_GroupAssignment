@@ -15,7 +15,7 @@ class _DemoPetState extends State<DemoPet>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:BoxText.ExtraBigHeadline("PetHouse")
+        body:BoxText.ExtraBigHeadline("PetHouse"),
     );
   }
 }

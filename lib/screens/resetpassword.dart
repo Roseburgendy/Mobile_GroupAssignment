@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../src/widgets/input_field.dart';
 import '../src/shared/styles.dart';
 import '../src/widgets/box_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 import 'package:assignment1/screens/login.dart';
 
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core3/app_export.dart';
 import '../../widgets3/custom_image_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class WorkoutEmptyStateScreen extends StatelessWidget {
   const WorkoutEmptyStateScreen({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
-          backgroundColor: appTheme.colorFF6B77,
+          backgroundColor: Colors.transparent,
           body: SafeArea(
             child: SizedBox(
               width: double.infinity,
@@ -48,9 +48,9 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
         onTap: () {
           Navigator.pushNamedAndRemoveUntil(
           context,
-            '/', // ⬅️ 回到 MainPage
+            '/', // 回到 MainPage
             (route) => false,
-          arguments: {'initialIndex': 2}, // ⬅️ 回到 WorkoutStartScreen
+          arguments: {'initialIndex': 2}, // 回到 WorkoutStartScreen
         );
       },
       child: Container(
@@ -84,60 +84,55 @@ class WorkoutEmptyStateScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(AppLocalizations.of(context)!.emptyOops, style: TextStyleHelper.instance.headline32Bold),
+          Text(AppLocalizations.of(context)!.emptyYeah, style: TextStyleHelper.instance.headline32Bold),
           SizedBox(height: 24.h),
           _buildStackedCards(),
-          SizedBox(height: 24.h),
+          SizedBox(height: 44.h),
           Text(
-    (AppLocalizations.of(context)!.emptyNoNewCard),
+    (AppLocalizations.of(context)!.emptyGotPoints),
             textAlign: TextAlign.center,
             style: TextStyleHelper.instance.headline24Bold,
           ),
           SizedBox(height: 40.h),
-          Text(
-            AppLocalizations.of(context)!.workoutTodayText("1", "5"),
-            style: TextStyleHelper.instance.title16,
-          ),
-          SizedBox(height: 40.h),
-          _buildKeepGoingButton(context),
         ],
       ),
     );
   }
 
-  Widget _buildStackedCards() {
-    return SizedBox(
-      width: 133.h,
-      height: 104.h,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: CustomImageView(
-              imagePath: ImageConstant.imgRectangle3081,
-              width: 133.h,
-              height: 104.h,
-            ),
+Widget _buildStackedCards() {
+  return SizedBox(
+    width: 133.h * 1.5,  // 变为 199.5.h
+    height: 104.h * 1.5, // 变为 156.h
+    child: Stack(
+      children: [
+        Positioned.fill(
+          child: CustomImageView(
+            imagePath: ImageConstant.imgRectangle3081,
+            width: 133.h * 1.5,
+            height: 104.h * 1.5,
           ),
-          Positioned.fill(
-            child: CustomImageView(
-              imagePath: ImageConstant.imgRectangle3080,
-              width: 133.h,
-              height: 104.h,
-            ),
+        ),
+        Positioned.fill(
+          child: CustomImageView(
+            imagePath: ImageConstant.imgRectangle3080,
+            width: 133.h * 1.5,
+            height: 104.h * 1.5,
           ),
-          Positioned(
-            top: 20.h,
-            left: 6.h,
-            child: CustomImageView(
-              imagePath: ImageConstant.imgDuolingo,
-              width: 92.h,
-              height: 92.h,
-            ),
+        ),
+        Positioned(
+          top: 20.h * 1.5,  // 30.h
+          left: 6.h * 1.5,  // 9.h
+          child: CustomImageView(
+            imagePath: ImageConstant.imgDuolingo,
+            width: 92.h * 1.5,  // 138.h
+            height: 92.h * 1.5, // 138.h
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildKeepGoingButton(BuildContext context) {
     return Container(

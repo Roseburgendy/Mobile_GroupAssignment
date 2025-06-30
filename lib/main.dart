@@ -1,3 +1,4 @@
+import 'package:assignment1/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment1/routes/app_routes.dart';
 import 'package:assignment1/screens/login.dart';
@@ -10,7 +11,7 @@ import 'package:assignment1/services/database_service.dart';
 import 'package:path/path.dart'; // for deleteOldDatabase
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 import 'l10n/l10n.dart';
 
 late Database db;
@@ -18,7 +19,7 @@ late Database db;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
- await deleteOldDatabase(); // <- 需要时取消注释
+ //await deleteOldDatabase(); // <- 需要时取消注释
 
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;

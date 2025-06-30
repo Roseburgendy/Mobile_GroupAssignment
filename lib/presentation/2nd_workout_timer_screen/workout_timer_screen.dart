@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import '../../core1/app_export.dart';
 import '../../widgets1/custom_control_button.dart';
 import '../../widgets1/custom_image_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class WorkoutTimerScreen extends StatefulWidget {
   const WorkoutTimerScreen({super.key});
@@ -116,7 +116,6 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
-          backgroundColor: appTheme.colorFFFEFD,
           body: SafeArea(
             child: SingleChildScrollView(
               child: Center(
@@ -124,7 +123,6 @@ class _WorkoutTimerScreenState extends State<WorkoutTimerScreen> {
                   width: 375.h,
                   padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
                   decoration: BoxDecoration(
-                    color: appTheme.colorFFFEFD,
                   ),
                   child: Column(
                     children: [

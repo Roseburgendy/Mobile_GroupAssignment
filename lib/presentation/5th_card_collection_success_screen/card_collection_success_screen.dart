@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core4/app_export.dart';
 import '../../widgets4/custom_image_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/src/widgets/box_button.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 
 class CardCollectionSuccessScreen extends StatelessWidget {
   const CardCollectionSuccessScreen({Key? key}) : super(key: key);
@@ -11,11 +12,11 @@ class CardCollectionSuccessScreen extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
-          backgroundColor: appTheme.colorFF6B72,
+          backgroundColor: Colors.transparent,
           body: SafeArea(
             child: Stack(
               children: [
-                // ✅ 顶部返回按钮（跳转回 MainPage 并激活 WorkoutStartScreen）
+                // 顶部返回按钮（跳转回 MainPage 并激活 WorkoutStartScreen）
                 Positioned(
                   top: 6.h,
                   left: 4.h,
@@ -60,7 +61,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                       right: 12.h,
                       bottom: 40.h,
                     ),
-                    child: Center(child: _buildMainCard(context)),
+                    child: Center(child: buildMainCard(context)),
                   ),
                 ),
               ],
@@ -70,8 +71,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
       },
     );
   }
-
-  Widget _buildMainCard(BuildContext context) {
+  Widget buildMainCard(BuildContext context) {
     return Container(
       width: 350.h,
       padding: EdgeInsets.symmetric(horizontal: 4.h, vertical: 6.h),
@@ -84,27 +84,24 @@ class CardCollectionSuccessScreen extends StatelessWidget {
         children: [
           SizedBox(height: 31.h),
           Text(AppLocalizations.of(context)!.cardSuccessTitle, style: TextStyleHelper.instance.headline32Bold),
-          SizedBox(height: 14.h),
           CustomImageView(
             imagePath: ImageConstant.imgRectangle3041,
-            height: 122.h,
+            height: 200.h,
             width: 143.h,
             radius: BorderRadius.circular(24.h),
             fit: BoxFit.cover,
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 10.h),
           SizedBox(
             width: 263.h,
             child: Text(
-              AppLocalizations.of(context)!.cardSuccessSubtitle,
+              AppLocalizations.of(context)!.emptyGotPoints,
               style: TextStyleHelper.instance.headline24Bold,
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: 10.h),
-          Text(AppLocalizations.of(context)!.cardCollectedStatus(1, 5), style: TextStyleHelper.instance.title16),
           SizedBox(height: 32.h),
-          GestureDetector(
+          /*GestureDetector(
             onTap: () {},
             child: Container(
               width: 220.h,
@@ -121,7 +118,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                     blurRadius: 0,
                   ),
                 ],
-              ),
+              ),8/
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -139,7 +136,7 @@ class CardCollectionSuccessScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+          ),*/
           SizedBox(height: 20.h),
         ],
       ),

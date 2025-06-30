@@ -6,7 +6,7 @@ import 'package:assignment1/database/db_helper_healthdata.dart';
 import 'package:assignment1/screens/daily_details.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:assignment1/l10n/app_localizations.dart';
 import '../box_ui.dart';
 import '../src/shared/styles.dart';
 
