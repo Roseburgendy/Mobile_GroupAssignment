@@ -6,9 +6,7 @@ import 'package:assignment1/src/shared/styles.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
 import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
-import 'package:assignment1/l10n/app_localizations.dart';
-import 'package:assignment1/database/db_helper_healthdata.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditProfilePage extends StatefulWidget
 {
@@ -19,17 +17,15 @@ class EditProfilePage extends StatefulWidget
     //int? userId;
     final String? avatar;
 
-
     EditProfilePage({
-      super.key,
-      required this.name,
-      required this.bio,
-      required this.currentWeight,
-      required this.targetWeight,
-      this.avatar,
+        super.key,
+        required this.name,
+        required this.bio,
+        required this.currentWeight,
+        required this.targetWeight,
+        this.avatar
 
     });
-
 
     @override
     _EditProfilePageState createState() => _EditProfilePageState();
@@ -49,69 +45,63 @@ class _EditProfilePageState extends State<EditProfilePage>
     //int? userId;
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
-       // _loadUserId();
+        // _loadUserId();
 
         _nameController = TextEditingController(text: widget.name);
         _bioController = TextEditingController(text: widget.bio);
         _currentWeightController = TextEditingController(text: widget.currentWeight);
         _targetWeightController = TextEditingController(text: widget.targetWeight);
 
-        if (widget.avatar != null && widget.avatar!.isNotEmpty) {
-          _imageFile = XFile(widget.avatar!);
+        if (widget.avatar != null && widget.avatar!.isNotEmpty) 
+        {
+            _imageFile = XFile(widget.avatar!);
         }
     }
 
-   /* void _loadUserId() async {
-      final prefs = await SharedPreferences.getInstance();
-      setState(() {
-        userId = prefs.getInt('userId');
-      });
-    }*/
 
-    void resetToOriginal() 
+    /// Restores all profile fields (name, bio, weights) to their original values
+    /// as passed from the parent widget. Also resets the profile photo to null,
+    /// effectively removing any unsaved avatar image the user selected during editing.
+    void resetToOriginal()
     {
         _nameController.text = widget.name;
         _bioController.text = widget.bio;
         _targetWeightController.text = widget.targetWeight;
         _currentWeightController.text = widget.currentWeight;
 
-        setState(() => _imageFile = null); // 重置头像
+        setState(() => _imageFile = null);// reset the profile photo
     }
 
-    void saveAndReturn() {
-      String currentWeightText = _currentWeightController.text.trim();
-      String targetWeightText = _targetWeightController.text.trim();
-
-      // 判断是否输入了体重
-      double? current;
-      double? goal;
-
-
-      // 允许保存，即使体重为空
-      Navigator.pop(context, {
-        'name': _nameController.text,
-        'bio': _bioController.text,
-        'currentWeight': _currentWeightController.text,
-        'targetWeight': _targetWeightController.text,
-        'avatar': _imageFile?.path,
-      });
+    /// Collects all current values from input fields (name, bio, weights, avatar),
+    /// then uses Navigator.pop to return them to the previous screen as a map.
+    /// This allows the previous page to update the user profile with the new values
+    void saveAndReturn() 
+    {
+       Navigator.pop(context,
+            {
+                'name': _nameController.text,
+                'bio': _bioController.text,
+                'currentWeight': _currentWeightController.text,
+                'targetWeight': _targetWeightController.text,
+                'avatar': _imageFile?.path
+            }
+        );
     }
-
 
     Future<void> pickImage(ImageSource source) async
     {
         final picked = await _picker.pickImage(source: source);
-        if (picked != null) 
+        if (picked != null)
         {
             setState(() => _imageFile = picked);
             Navigator.pop(context);
         }
     }
 
-    Widget bottomSheet(BuildContext context) 
+    Widget bottomSheet(BuildContext context)
     {
         return Container(
             padding: EdgeInsets.all(20),
@@ -143,7 +133,7 @@ class _EditProfilePageState extends State<EditProfilePage>
     }
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return Scaffold(
             appBar: AppBar(
@@ -197,8 +187,8 @@ class _EditProfilePageState extends State<EditProfilePage>
                         const SizedBox(height: 35),
                         buildTextField(AppLocalizations.of(context)!.fullName, _nameController, false),
                         buildTextField(AppLocalizations.of(context)!.bio, _bioController, false),
-                     // buildTextField(AppLocalizations.of(context)!.currentWeight, _currentWeightController, false),
-                    //  buildTextField(AppLocalizations.of(context)!.targetWeight, _targetWeightController, false),
+                        // buildTextField(AppLocalizations.of(context)!.currentWeight, _currentWeightController, false),
+                        //  buildTextField(AppLocalizations.of(context)!.targetWeight, _targetWeightController, false),
 
                         const SizedBox(height: 15),
                         Row(
@@ -226,7 +216,7 @@ class _EditProfilePageState extends State<EditProfilePage>
         );
     }
 
-    Widget buildTextField(String labelText, TextEditingController controller, bool isPasswordTextField) 
+    Widget buildTextField(String labelText, TextEditingController controller, bool isPasswordTextField)
     {
         return Padding(
             padding: const EdgeInsets.only(bottom: 30.0),

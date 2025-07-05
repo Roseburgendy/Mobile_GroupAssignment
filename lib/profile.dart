@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:assignment1/EditProfilePage.dart';
 import 'package:assignment1/helpscreen.dart';
 import 'package:assignment1/password_settings.dart';
-
+import 'package:assignment1/services/database_service.dart';
 import 'package:assignment1/screens/login.dart';
 import 'package:assignment1/src/shared/app_colors.dart';
 import 'package:assignment1/src/shared/styles.dart';
@@ -15,8 +15,10 @@ import 'package:assignment1/box_ui.dart';
 import 'package:assignment1/src/shared/app_effects.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dbzzq/openLocalDatabase.dart';
 import 'main.dart';
 class Profile extends StatefulWidget
 {
@@ -27,6 +29,14 @@ class Profile extends StatefulWidget
 }
 class _ProfileState extends State<Profile>
 {
+
+  int? _userId;
+  Future<void> _loadUserInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userId = prefs.getInt('userId');
+    });
+  }
 
     Widget build(BuildContext context)
     {
@@ -73,12 +83,12 @@ class _MedalsHorizontalListState extends State<MedalsHorizontalList>
     int _currentPage = 0;
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
         _timer = Timer.periodic(Duration(seconds: 3), (_)
             {
-                if (_pageController.hasClients) 
+                if (_pageController.hasClients)
                 {
                     _currentPage = (_currentPage + 1) % 4;
                     _pageController.animateToPage(
@@ -92,7 +102,7 @@ class _MedalsHorizontalListState extends State<MedalsHorizontalList>
     }
 
     @override
-    void dispose() 
+    void dispose()
     {
         _timer?.cancel();
         _pageController.dispose();
@@ -100,7 +110,7 @@ class _MedalsHorizontalListState extends State<MedalsHorizontalList>
     }
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         final items = [
             AchievementItem(
@@ -239,7 +249,7 @@ class _InfoState extends State<Info>
                                         currentWeight = result['currentWeight'] ?? currentWeight;
                                         targetWeight = result['targetWeight'] ?? targetWeight;
 
-                                        if (result['avatar'] != null) 
+                                        if (result['avatar'] != null)
                                         {
                                             _imageFile = XFile(result['avatar']);
                                         }
@@ -376,7 +386,7 @@ class MedalsPage extends StatelessWidget
 class LanguageBottomSheet extends StatelessWidget
 {
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         Locale current = Localizations.localeOf(context);
 
@@ -391,7 +401,7 @@ class LanguageBottomSheet extends StatelessWidget
                 ),
                 child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch, // 让按钮宽度撑满
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                         Center(
                             child: Text(
@@ -425,6 +435,101 @@ class LanguageBottomSheet extends StatelessWidget
         );
     }
 }
+
+class DeleteAccountBottomSheet extends StatelessWidget {
+  final int userId;
+
+  DeleteAccountBottomSheet({required this.userId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.zero,
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 500.w),
+        padding: EdgeInsets.all(10.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Text(
+                AppLocalizations.of(context)!.deleteAccountContent,
+                style: Headline4Style,
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Center(
+              child: Text(
+                AppLocalizations.of(context)!.deleteAccountWarning,
+                style: SubtitleStyle,
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BoxButton(
+                  style: ButtonStyleType.secondary,
+                  iconRight: true,
+                  icon: Icon(Icons.cancel),
+                  title: AppLocalizations.of(context)!.cancel,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(width: 10,),
+                BoxButton(
+                  style: ButtonStyleType.primary,
+                  iconRight: true,
+                  icon: Icon(Icons.delete),
+                  title: AppLocalizations.of(context)!.confirmed,
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final userId = prefs.getInt('userId');
+
+                    if (userId != null) {
+                      final dbService = DatabaseService(db);
+                      await dbService.deleteUserById(userId);
+                      await prefs.clear();
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                            (route) => false,
+                      );
+                    }
+
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+Future<void> deleteUserAccount(int userId) async {
+  final db = await openLocalDatabase();
+  await db.delete('users', where: 'id = ?', whereArgs: [userId]);
+}
+
+Future<void> logoutAndResetApp(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (_) => LoginScreen()),
+        (route) => false,
+  );
+}
+
 
 class SettingsPage extends StatelessWidget
 {
@@ -506,7 +611,32 @@ class SettingsPage extends StatelessWidget
                                 MaterialPageRoute(builder: (context) => LoginScreen())
                             );
                         }
-                    )
+                    ),
+                  SizedBox(height: 20.h),
+                  SettingsItem(
+                      itemIcon: Icon(Icons.delete_forever),
+                      text: AppLocalizations.of(context)!.deleteAccount,
+                      bgColor: AppColors.communicationSolidPending,
+                      textColor: AppColors.white100,
+                      onTap: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        final int? userId = prefs.getInt('userId');
+
+                        if (userId != null) {
+                          showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            ),
+                            builder: (context) => DeleteAccountBottomSheet(userId: userId),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(AppLocalizations.of(context)!.deleteAccountContent)),
+                          );
+                        }
+                      }
+                  )
                 ]
             )
         );

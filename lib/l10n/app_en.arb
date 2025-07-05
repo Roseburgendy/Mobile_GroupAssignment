@@ -160,6 +160,10 @@
   "petGodfatherDesc": "You never even think to call me Godfather",
   "pointNeeded": "Point needed",
   "purchase": "Purchase",
-  "notEnoughPoints": "Not enough points"
+  "notEnoughPoints": "Not enough points",
+  "deleteAccount": "Delete Account",
+  "deleteAccountContent": "Are you sure you want to delete your account?",
+  "deleteAccountWarning": "This Action cannot be recovered",
 
+  "wrongPassword": "Wrong password"
 }

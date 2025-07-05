@@ -2,33 +2,68 @@ import 'package:flutter/material.dart';
 import '../../src/widgets/input_field.dart';
 import '../src/shared/styles.dart';
 import '../src/widgets/box_button.dart';
-import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:assignment1/screens/login.dart';
+import 'package:assignment1/main.dart'; // 全局 db
+import 'package:assignment1/services/database_service.dart';
+import 'package:sqflite/sqflite.dart';
 
 
 class ResetScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _handleReset(BuildContext context) {
-  final email = emailController.text.trim();
-  final password = passwordController.text.trim();
+  void _handleReset(BuildContext context) async {
+    final email = emailController.text.trim();
+    final newPassword = passwordController.text.trim();
 
-  if (email.isNotEmpty && password.isNotEmpty) {
-    Navigator.push(
+    if (email.isEmpty || newPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter both email and new password'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
+    final dbService = DatabaseService(db);
+    final user = await dbService.getUserByUsername(email);
+
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No user found with this email.'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
+    final success = await dbService.updatePassword(email, newPassword);
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password reset successful.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen())
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Please enter both email and password'),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.redAccent,
-      ),
-    );
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to reset password.'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
-}
+
 
   @override
   Widget build(BuildContext context) {

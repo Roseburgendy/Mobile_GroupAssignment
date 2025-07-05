@@ -1,4 +1,5 @@
-import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 extension AppLocalizationsExtension on AppLocalizations {
   String getString(String key) {

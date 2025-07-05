@@ -151,6 +151,9 @@
   "petGodfatherDesc": "你甚至不叫我教父一声",
   "pointNeeded": "所需点数",
   "purchase": "购买",
-  "notEnoughPoints": "点数不足"
-
+  "notEnoughPoints": "点数不足",
+  "deleteAccount": "注销账号",
+  "deleteAccountContent": "您确定要注销账号吗？",
+  "deleteAccountWarning": "这个操作不可恢复",
+  "wrongPassword": "密码错误"
 }

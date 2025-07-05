@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assignment1/dbzzq/openLocalDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:assignment1/src/widgets/box_button.dart';
 
 class WorkoutCompletionScreen extends StatelessWidget {

@@ -23,6 +23,28 @@ class DatabaseService {
     }
   }
 
+  Future<Map<String, dynamic>?> getUserByUsername(String username) async {
+    final res = await db.query(
+      'users',
+      where: 'username = ?',
+      whereArgs: [username],
+      limit: 1,
+    );
+    return res.isNotEmpty ? res.first : null;
+  }
+
+
+  Future<bool> updatePassword(String username, String newPassword) async {
+    final count = await db.update(
+      'users',
+      {'passwordHash': newPassword},
+      where: 'username = ?',
+      whereArgs: [username],
+    );
+    return count > 0;
+  }
+
+
   Future<Map<String, dynamic>?> getUserByEmail(String email) async {
     final res = await db.query(
       'users',

@@ -36,8 +36,7 @@ class DatabaseService {
     return res.isNotEmpty ? res.first : null;
   }
 
-  // 登录验证
-  // 在这里尝试插入保存userID的逻辑
+
   Future<bool> validateLogin(String username, String password) async {
   final user = await getUserByUsername(username);
   if (user == null) return false;
@@ -71,7 +70,15 @@ Future<int?> getUserIdByUsername(String username) async {
   return null;
 }
 
-
+  Future<bool> updatePassword(String username, String newPassword) async {
+    final count = await db.update(
+      'users',
+      {'passwordHash': newPassword},
+      where: 'username = ?',
+      whereArgs: [username],
+    );
+    return count > 0;
+  }
   Future<void> insertDefaultHealthDataIfNeeded(String username) async {
   final userId = await getUserIdByUsername(username);
   if (userId == null) {
@@ -144,5 +151,10 @@ Future<List<List<double>>> getWeeklyHealthData(int userId) async {
         print('ID: $id | Username: $username');
       }
     }
+  }
+
+  Future<void> deleteUserById(int userId) async {
+    await db.delete('users', where: 'id = ?', whereArgs: [userId]);
+    print('用户 $userId 已从数据库删除');
   }
 }

@@ -4,7 +4,7 @@ import 'package:assignment1/src/widgets/box_text.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_image_view.dart';
-import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '/presentation/5th_card_collection_success_screen/card_collection_success_screen.dart';
 import '/presentation/4th_workout_empty_state_screen/workout_empty_state_screen.dart';
 

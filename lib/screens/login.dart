@@ -9,15 +9,14 @@ import '../MainNavigation.dart';
 import '../src/widgets/box_button.dart';
 import '../screens/signup.dart';
 import '../screens/resetpassword.dart';
-import 'package:assignment1/l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   LoginScreen({super.key});
-  int userId = 5;
 
 
   @override
@@ -127,16 +126,29 @@ class LoginScreen extends StatelessWidget {
       if (success) {
         debugPrint('登录成功: $username');
 
-        await dbService.insertDefaultHealthDataIfNeeded(username);
-
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('isLoggedIn', true);
-        await prefs.setString('username', username);
+        final userId = await dbService.getUserIdByUsername(username); // 获取真实 userId
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MainNavigationBar()),
-        );
+        if (userId != null) {
+          await dbService.insertDefaultHealthDataIfNeeded(username);
+
+          await prefs.setBool('isLoggedIn', true);
+          await prefs.setString('username', username);
+          await prefs.setInt('userId', userId); // 存储真实 ID
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainNavigationBar()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('User ID not found.'),
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -148,7 +160,7 @@ class LoginScreen extends StatelessWidget {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           content: Text(AppLocalizations.of(context)!.loginMissingFieldsMessage),
           duration: Duration(seconds: 2),
           backgroundColor: Colors.redAccent,
@@ -156,4 +168,5 @@ class LoginScreen extends StatelessWidget {
       );
     }
   }
+
 }

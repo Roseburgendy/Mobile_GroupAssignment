@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core4/app_export.dart';
 import '../../widgets4/custom_image_view.dart';
 import 'package:assignment1/src/widgets/box_button.dart';
-import 'package:assignment1/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CardCollectionSuccessScreen extends StatelessWidget {
   const CardCollectionSuccessScreen({Key? key}) : super(key: key);
